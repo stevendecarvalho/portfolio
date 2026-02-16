@@ -34,7 +34,12 @@ body {
 }
 
 .h-8 {
-    height: 3rem;
+  height: 3rem;
+}
+
+.section-shell {
+  width: min(1250px, calc(100% - 60px));
+  margin-inline: auto;
 }
 
 @layer components {
@@ -66,24 +71,50 @@ body {
   transform: translateY(0);
 }
 
+.relative.reveal-on-scroll.is-visible {
+  border: none !important;
+}
+
+.laser-reveal {
+  transform: translateX(-36px);
+  transition: transform 0.8s ease;
+}
+
+.laser-reveal.is-visible {
+  transform: translateX(0);
+}
+
 .laser-title {
   position: relative;
   overflow: hidden;
   display: inline-block;
   letter-spacing: 0.06em;
-  animation: titleReveal 1.2s linear forwards;
+  clip-path: inset(0 100% 0 0);
+}
+
+.laser-reveal.is-visible .laser-title {
+  animation: titleReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .laser-title::before {
   content: "";
   position: absolute;
   top: 0;
-  left: -20%;
+  left: -26%;
   width: 24%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.9), transparent);
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.95), transparent);
   filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.9));
-  animation: laserSweep 1.4s linear forwards;
+  opacity: 0;
+}
+
+.laser-reveal.is-visible .laser-title::before {
+  opacity: 1;
+  animation: laserSweep 1.2s linear forwards;
+}
+
+.about-slide-image {
+  animation: aboutSlideReveal 0.65s ease;
 }
 
 @keyframes laserSweep {
@@ -96,12 +127,21 @@ body {
 }
 
 @keyframes titleReveal {
-  0% {
+  from {
     clip-path: inset(0 100% 0 0);
-    opacity: 0;
   }
-  100% {
+  to {
     clip-path: inset(0 0 0 0);
+    }
+}
+
+@keyframes aboutSlideReveal {
+  from {
+    transform: translateX(24px);
+    opacity: 0.25;
+  }
+  to {
+    transform: translateX(0);
     opacity: 1;
   }
 }

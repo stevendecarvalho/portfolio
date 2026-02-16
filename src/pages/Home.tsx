@@ -117,10 +117,10 @@ export default function Home() {
       </section>
 
       {/* ABOUT UNIVERSE */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-cosmic-dark-blue relative overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <div className="reveal-on-scroll flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4" data-reveal>
-            <h2 className="laser-title text-3xl md:text-5xl font-bold text-cyan-400 uppercase font-orbitron">
+      <section className="py-20 bg-cosmic-dark-blue relative overflow-hidden">
+        <div className="section-shell">
+          <div className="laser-reveal flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4" data-reveal>
+            <h2 className="laser-title text-[1em] font-bold text-cyan-400 uppercase font-orbitron">
               À LA FRONTIÈRE DU RÉEL ET DE L&apos;IMAGINAIRE
             </h2>
             <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap">
@@ -130,15 +130,15 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 reveal-on-scroll" data-reveal>
-              <p className="text-white text-xl leading-relaxed">
+              <p className="text-white text-[16px] leading-relaxed text-justify">
                 <strong>Steven DE CARVALHO</strong> est un jeune créateur visuel à l’univers hybride.
               </p>
-              <p className="text-white/90 text-lg leading-relaxed">
+              <p className="text-white/90 text-[16px] leading-relaxed text-justify">
                 Depuis plus de 10 ans, je navigue entre les arts, la technologie et la performance.
                 Mon univers ? Un croisement entre cinéma, design graphique, interfaces numériques,
                 corps en mouvement et narration visuelle.
               </p>
-              <p className="text-white/90 text-lg leading-relaxed">
+              <p className="text-white/90 text-[16px] leading-relaxed text-justify">
                 Mon approche est <strong>pluridisciplinaire</strong> : je puise dans la danse pour la
                 fluidité du mouvement, le cinéma pour la narration, le code pour la structure,
                 le sport pour l’endurance, et l’art pour la liberté.
@@ -149,11 +149,12 @@ export default function Home() {
             </div>
 
             <div className="relative reveal-on-scroll" data-reveal>
-              <div className="relative overflow-hidden border border-cyan-400/30 bg-cosmic-deep-blue/40 p-2">
+              <div className="relative overflow-hidden bg-cosmic-deep-blue/40 p-2">
                 <img
                   src={aboutSlides[aboutIndex]}
                   alt="Steven De Carvalho"
-                  className="w-full h-[420px] md:h-[620px] object-cover transition-all duration-700"
+                  key={aboutSlides[aboutIndex]}
+                  className="about-slide-image w-full h-[420px] md:h-[620px] object-cover"
                 />
                 <button
                   type="button"
@@ -189,8 +190,8 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-cosmic-dark-blue relative">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 bg-cosmic-dark-blue relative">
+        <div className="section-shell">
           <div className="text-center mb-16 reveal-on-scroll" data-reveal>
             <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
               Services
@@ -229,8 +230,8 @@ export default function Home() {
       </section>
 
       {/* PROJECTS */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 cosmic-bg">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 cosmic-bg">
+        <div className="section-shell">
           <div className="text-center mb-16 reveal-on-scroll" data-reveal>
             <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
               Projets Récents
@@ -290,8 +291,8 @@ export default function Home() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-cosmic-dark-blue">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 bg-cosmic-dark-blue">
+        <div className="section-shell">
           <div className="text-center mb-16 reveal-on-scroll" data-reveal>
             <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
               Témoignages
@@ -328,12 +329,13 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 cosmic-bg relative overflow-hidden">
+      <section className="py-20 cosmic-bg relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
         </div>
 
-       <div className="relative max-w-4xl mx-auto text-center reveal-on-scroll" data-reveal>
+       <div className="section-shell">
+         <div className="relative max-w-4xl mx-auto text-center reveal-on-scroll" data-reveal>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-orbitron">
             Prêt à lancer votre projet ?
           </h2>
@@ -344,6 +346,7 @@ export default function Home() {
             Commencer maintenant <Rocket className="w-6 h-6" />
           </Link>
         </div>
+       </div>
       </section>
     </div>
   );
