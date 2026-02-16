@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { CSSProperties } from "react";
+import type { NavItem, Social } from "../data/navLinks";
 import {
   Facebook,
   Instagram,
@@ -8,9 +9,9 @@ import {
   Music2,
   ExternalLink,
 } from "lucide-react";
+import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa6";
 
 type Btn = { label: string; href: string; variant?: "primary" | "ghost" };
-type Social = { label: string; href: string; icon: "facebook" | "x" | "instagram" | "tiktok" | "youtube" };
 type CardItem = { title: string; href: string; img: string; desc?: string };
 
 type Block =
@@ -31,7 +32,7 @@ type MegaLayout = {
   frameClass?: string;
 };
 
-export default function MegaMenu({ item }: { item: any }) {
+export default function MegaMenu({ item }: { item: NavItem }) {
   const mega = item?.mega;
   if (!mega) return null;
 
@@ -126,8 +127,8 @@ function BlockRenderer({ block }: { block: Block }) {
             <a
               key={s.href}
               href={s.href}
-              target="_blank"
-              rel="noreferrer"
+              target={s.target ?? "_blank"}
+              rel={s.rel ?? (s.target === "_blank" ? "noopener noreferrer" : undefined)}
               className="h-10 w-10 grid place-items-center rounded-full bg-white/10 hover:bg-cyan-400/20 transition-all"
               aria-label={s.label}
               title={s.label}
@@ -229,8 +230,11 @@ function socialIcon(icon: Social["icon"]) {
     case "youtube":
       return <Youtube className={cls} />;
     case "tiktok":
-      // pas d’icône native lucide, on met un fallback stylé
       return <Music2 className={cls} />;
+    case "linkedin":
+      return <FaLinkedinIn className={cls} />;
+    case "whatsapp":
+      return <FaWhatsapp className={cls} />;
     default:
       return <ExternalLink className={cls} />;
   }
