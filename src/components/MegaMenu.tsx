@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ComponentType } from "react";
 import type { NavItem, Social } from "../data/navLinks";
 import {
   Facebook,
@@ -30,6 +30,18 @@ type MegaLayout = {
   paddingClass?: string;
   outerClass?: string;
   frameClass?: string;
+};
+
+const ICON_CLASS = "w-5 h-5 text-white/90";
+
+const SOCIAL_ICON_COMPONENTS: Record<Social["icon"], ComponentType<{ className?: string }>> = {
+  facebook: Facebook,
+  instagram: Instagram,
+  x: Twitter,
+  youtube: Youtube,
+  tiktok: Music2,
+  linkedin: FaLinkedinIn,
+  whatsapp: FaWhatsapp,
 };
 
 export default function MegaMenu({ item }: { item: NavItem }) {
@@ -219,23 +231,6 @@ function BlockRenderer({ block }: { block: Block }) {
 }
 
 function socialIcon(icon: Social["icon"]) {
-  const cls = "w-5 h-5 text-white/90";
-  switch (icon) {
-    case "facebook":
-      return <Facebook className={cls} />;
-    case "instagram":
-      return <Instagram className={cls} />;
-    case "x":
-      return <Twitter className={cls} />;
-    case "youtube":
-      return <Youtube className={cls} />;
-    case "tiktok":
-      return <Music2 className={cls} />;
-    case "linkedin":
-      return <FaLinkedinIn className={cls} />;
-    case "whatsapp":
-      return <FaWhatsapp className={cls} />;
-    default:
-      return <ExternalLink className={cls} />;
-  }
+  const Icon = SOCIAL_ICON_COMPONENTS[icon] ?? ExternalLink;
+  return <Icon className={ICON_CLASS} />;
 }
