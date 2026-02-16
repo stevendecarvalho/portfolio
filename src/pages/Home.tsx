@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Rocket, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, Rocket, Sparkles, Star } from "lucide-react";
 import { heroImages, projects, services, testimonials } from "../data/mockData";
+import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
+import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
 
 export default function Home() {
   const images = useMemo(() => heroImages, []);
+  const aboutSlides = useMemo(() => [aboutFutureImage, biographyImage], []);
   const [index, setIndex] = useState(0);
+  const [aboutIndex, setAboutIndex] = useState(0);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -13,6 +17,34 @@ export default function Home() {
     }, 4500);
     return () => window.clearInterval(id);
   }, [images.length]);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setAboutIndex((i) => (i + 1) % aboutSlides.length);
+    }, 5500);
+    return () => window.clearInterval(id);
+  }, [aboutSlides.length]);
+
+  useEffect(() => {
+    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -84,10 +116,82 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ABOUT UNIVERSE */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-cosmic-dark-blue relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="reveal-on-scroll flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4" data-reveal>
+            <h2 className="laser-title text-3xl md:text-5xl font-bold text-cyan-400 uppercase font-orbitron">
+              À LA FRONTIÈRE DU RÉEL ET DE L&apos;IMAGINAIRE
+            </h2>
+            <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap">
+              Mon univers <Rocket className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8 reveal-on-scroll" data-reveal>
+              <p className="text-white text-xl leading-relaxed">
+                <strong>Steven DE CARVALHO</strong> est un jeune créateur visuel à l’univers hybride.
+              </p>
+              <p className="text-white/90 text-lg leading-relaxed">
+                Depuis plus de 10 ans, je navigue entre les arts, la technologie et la performance.
+                Mon univers ? Un croisement entre cinéma, design graphique, interfaces numériques,
+                corps en mouvement et narration visuelle.
+              </p>
+              <p className="text-white/90 text-lg leading-relaxed">
+                Mon approche est <strong>pluridisciplinaire</strong> : je puise dans la danse pour la
+                fluidité du mouvement, le cinéma pour la narration, le code pour la structure,
+                le sport pour l’endurance, et l’art pour la liberté.
+              </p>
+              <Link to="/about" className="btn-cosmic inline-flex">
+                Qui suis-je ? <Rocket className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="relative reveal-on-scroll" data-reveal>
+              <div className="relative overflow-hidden border border-cyan-400/30 bg-cosmic-deep-blue/40 p-2">
+                <img
+                  src={aboutSlides[aboutIndex]}
+                  alt="Steven De Carvalho"
+                  className="w-full h-[420px] md:h-[620px] object-cover transition-all duration-700"
+                />
+                <button
+                  type="button"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center hover:border-cyan-400"
+                  onClick={() => setAboutIndex((aboutIndex - 1 + aboutSlides.length) % aboutSlides.length)}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center hover:border-cyan-400"
+                  onClick={() => setAboutIndex((aboutIndex + 1) % aboutSlides.length)}
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="flex justify-center gap-3 mt-4">
+                {aboutSlides.map((slide, i) => (
+                  <button
+                    key={slide}
+                    type="button"
+                    className={`w-3 h-3 rounded-full transition-all ${
+                      i === aboutIndex ? "bg-cyan-400" : "bg-white/60"
+                    }`}
+                    onClick={() => setAboutIndex(i)}
+                    aria-label={`Voir le slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SERVICES */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-cosmic-dark-blue relative">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal-on-scroll" data-reveal>
             <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
               Services
             </h2>
@@ -97,11 +201,12 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((s, idx) => (
+            {services.map((s) => (
               <Link
                 key={s.title}
                 to={s.href}
-                className="cosmic-card group cursor-pointer"
+                className="cosmic-card group cursor-pointer reveal-on-scroll"
+                data-reveal
                 style={{ animation: "fadeInUp 0.8s ease 0s 1 normal forwards" }}
               >
                 <div className="flex flex-col items-center text-center space-y-4">
@@ -115,7 +220,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 reveal-on-scroll" data-reveal>
             <Link to="/services" className="btn-cosmic inline-flex items-center">
               Voir tous les services <ArrowRight className="w-5 h-5" />
             </Link>
@@ -126,7 +231,7 @@ export default function Home() {
       {/* PROJECTS */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 cosmic-bg">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal-on-scroll" data-reveal>
             <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
               Projets Récents
             </h2>
@@ -139,8 +244,8 @@ export default function Home() {
             {projects.map((p) => (
               <div
                 key={p.title}
-                className="cosmic-card p-0 overflow-hidden group cursor-pointer"
-                style={{ animation: "fadeInUp 0.8s ease 0s 1 normal forwards" }}
+                className="cosmic-card p-0 overflow-hidden group cursor-pointer reveal-on-scroll"
+                data-reveal
               >
                 <div className="relative overflow-hidden h-64">
                   <img
@@ -176,7 +281,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 reveal-on-scroll" data-reveal>
             <Link to="/portfolio" className="btn-cosmic inline-flex items-center">
               Voir tout le portfolio <ArrowRight className="w-5 h-5" />
             </Link>
@@ -187,7 +292,7 @@ export default function Home() {
       {/* TESTIMONIALS */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-cosmic-dark-blue">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal-on-scroll" data-reveal>
             <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
               Témoignages
             </h2>
@@ -198,11 +303,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="cosmic-card"
-                style={{ animation: "fadeInUp 0.8s ease 0s 1 normal forwards" }}
-              >
+              <div key={t.name} className="cosmic-card reveal-on-scroll" data-reveal>
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-12 bg-cyan-400/20 rounded-full flex items-center justify-center border-2 border-cyan-400">
                     <span className="text-cyan-400 font-bold font-orbitron">{t.initials}</span>
@@ -232,7 +333,7 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
         </div>
 
-        <div className="relative max-w-4xl mx-auto text-center">
+       <div className="relative max-w-4xl mx-auto text-center reveal-on-scroll" data-reveal>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-orbitron">
             Prêt à lancer votre projet ?
           </h2>

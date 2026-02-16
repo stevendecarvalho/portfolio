@@ -1,9 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Google font */
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap");
 
 html, body {
   height: 100%;
@@ -53,5 +52,56 @@ body {
   .btn-cosmic-outline {
     @apply bg-transparent text-white border border-cyan-400/40
            hover:bg-cyan-400/15;
+  }
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.laser-title {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  letter-spacing: 0.06em;
+  animation: titleReveal 1.2s linear forwards;
+}
+
+.laser-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -20%;
+  width: 24%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.9), transparent);
+  filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.9));
+  animation: laserSweep 1.4s linear forwards;
+}
+
+@keyframes laserSweep {
+  from {
+    left: -26%;
+  }
+  to {
+    left: 110%;
+  }
+}
+
+@keyframes titleReveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
   }
 }

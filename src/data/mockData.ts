@@ -8,11 +8,14 @@ import {
   Camera,
   Video,
 } from "lucide-react";
+import heroSlide001 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
+import heroSlide002 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-002.jpg";
+import heroSlide003 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-003.jpg";
 
 export const heroImages = [
-  "https://customer-assets.emergentagent.com/job_pixel-galaxy-1/artifacts/xd8gu54w_504099052_18000820796790514_849239878460782463_n.jpg",
-  "https://customer-assets.emergentagent.com/job_pixel-galaxy-1/artifacts/aob829hx_514008502_18001930499790514_1596792544829634459_n.jpg",
-  "https://customer-assets.emergentagent.com/job_pixel-galaxy-1/artifacts/gatfexb6_515692707_18002824946790514_2353099579527782585_n.jpg",
+  heroSlide001,
+  heroSlide002,
+  heroSlide003,
 ];
 
 export const services = [
