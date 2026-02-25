@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Rocket, Sparkles, Star } from "lucide-react";
 import { heroImages, projects, services, testimonials } from "../data/mockData";
+import "../styles/home.css";
 import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
 import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
+import universeBannerVideo from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
 
 export default function Home() {
   const images = useMemo(() => heroImages, []);
@@ -24,6 +26,13 @@ export default function Home() {
     }, 5500);
     return () => window.clearInterval(id);
   }, [aboutSlides.length]);
+
+  useEffect(() => {
+    aboutSlides.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [aboutSlides]);
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -49,7 +58,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden cosmic-bg">
+      <section className="home-hero relative min-h-screen flex items-center justify-center overflow-hidden cosmic-bg">
         <div className="absolute inset-0">
           {images.map((url, i) => (
             <div
@@ -86,16 +95,14 @@ export default function Home() {
               </span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight font-orbitron">
+            <h1 className="title-hero-home">
               Explorez l&apos;Univers
               <br />
               <span className="text-cyan-400 glow-text">Digital</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Développement web, cybersécurité, SEO, graphisme, marketing, photographie et vidéo.
-              <br />
-              Transformez vos idées en réalité avec des solutions innovantes.
+            <p className="desc-hero-home">
+              Développement web, cybersécurité, SEO, graphisme, marketing, photographie et vidéo. Transformez vos idées en réalité avec des solutions innovantes.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -109,7 +116,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="homeScroll absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-cyan-400/50 rounded-full p-1">
             <div className="w-1.5 h-3 bg-cyan-400 rounded-full mx-auto animate-pulse" />
           </div>
@@ -117,55 +124,66 @@ export default function Home() {
       </section>
 
       {/* ABOUT UNIVERSE */}
-      <section className="py-20 bg-cosmic-dark-blue relative overflow-hidden">
+      <section className="sectionIntroUniverse py-20 bg-cosmic-dark-blue relative overflow-hidden">
         <div className="section-shell">
           <div className="laser-reveal flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4" data-reveal>
-            <h2 className="laser-title text-[1em] font-bold text-cyan-400 uppercase font-orbitron">
-              À LA FRONTIÈRE DU RÉEL ET DE L&apos;IMAGINAIRE
+            <h2 className="laser-title title-section">
+              🌀 À LA FRONTIÈRE DU RÉEL ET DE L&apos;IMAGINAIRE
             </h2>
-            <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap">
+            <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
               Mon univers <Rocket className="w-4 h-4" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 reveal-on-scroll" data-reveal>
+            <div className="sectionIntroUniverse-text space-y-8 reveal-on-scroll" data-reveal>
               <p className="text-white text-[16px] leading-relaxed text-justify">
                 <strong>Steven DE CARVALHO</strong> est un jeune créateur visuel à l’univers hybride.
               </p>
               <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                Depuis plus de 10 ans, je navigue entre les arts, la technologie et la performance.
-                Mon univers ? Un croisement entre cinéma, design graphique, interfaces numériques,
-                corps en mouvement et narration visuelle.
+                Depuis plus de 10 ans, je navigue entre <strong>les arts, la technologie et la performance</strong>. Mon univers ? Un croisement entre cinéma, design graphique, interfaces numériques, corps en mouvement et narration visuelle. <strong>Chaque projet est pour moi un portail créatif</strong> : une passerelle entre esthétique et sens, innovation et émotion, technologie et humanité.
               </p>
               <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                Mon approche est <strong>pluridisciplinaire</strong> : je puise dans la danse pour la
-                fluidité du mouvement, le cinéma pour la narration, le code pour la structure,
-                le sport pour l’endurance, et l’art pour la liberté.
+                Mon approche est <strong>pluridisciplinaire</strong> : je puise dans la danse pour la fluidité du mouvement, le cinéma pour la narration, le code pour la structure, le sport pour l’endurance, et l’art pour la liberté. Ce mélange me permet d’apporter une vision globale, engagée et contemporaine à chaque projet.
               </p>
-              <Link to="/about" className="btn-cosmic inline-flex">
-                Qui suis-je ? <Rocket className="w-4 h-4" />
-              </Link>
+              <p className="text-white/90 text-[16px] leading-relaxed text-justify">
+                Au fil des années, j’ai collaboré avec des <strong>entreprises, artistes, festivals et institutions</strong>. Aujourd’hui, je poursuis cette exploration créative en accompagnant ceux qui veulent raconter une histoire forte à travers leur image.
+              </p>
+              <div className="divLinkUniverse flex flex-col sm:flex-row items-center gap-4">
+                <Link to="/about" className="btn-cosmic inline-flex">
+                  Qui suis-je ? <Rocket className="w-4 h-4" />
+                </Link>
+                <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
+                  Mon univers <Rocket className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
 
-            <div className="relative reveal-on-scroll" data-reveal>
-              <div className="relative overflow-hidden bg-cosmic-deep-blue/40 p-2">
-                <img
-                  src={aboutSlides[aboutIndex]}
-                  alt="Steven De Carvalho"
-                  key={aboutSlides[aboutIndex]}
-                  className="about-slide-image w-full h-[420px] md:h-[620px] object-cover"
-                />
+            <div className="sectionIntroUniverse-slide relative reveal-on-scroll" data-reveal>
+              <div className="relative w-full max-w-[400px] mx-auto overflow-hidden bg-cosmic-deep-blue/40">
+                <div className="relative w-full h-[420px] md:h-[620px]">
+                  {aboutSlides.map((slide, i) => (
+                    <img
+                      key={slide}
+                      src={slide}
+                      alt="Steven De Carvalho"
+                      className={`about-slide-image absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+                        i === aboutIndex ? "opacity-100" : "opacity-0"
+                      }`}
+                      aria-hidden={i !== aboutIndex}
+                    />
+                  ))}
+                </div>
                 <button
                   type="button"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center hover:border-cyan-400"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-400 hover:text-cosmic-black"
                   onClick={() => setAboutIndex((aboutIndex - 1 + aboutSlides.length) % aboutSlides.length)}
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </button>
                 <button
                   type="button"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center hover:border-cyan-400"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-400 hover:text-cosmic-black"
                   onClick={() => setAboutIndex((aboutIndex + 1) % aboutSlides.length)}
                 >
                   <ArrowRight className="w-4 h-4" />
@@ -189,6 +207,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* UNIVERSE VIDEO BANNER */}
+      <section className="relative w-full h-[260px] sm:h-[320px] md:h-[420px] overflow-hidden">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src={universeBannerVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-cosmic-deep-blue/55" />
+
+        <blockquote className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center text-white">
+          <p className="max-w-5xl text-lg sm:text-2xl md:text-4xl font-semibold italic leading-snug">
+            « À force de scruter les étoiles, j&apos;ai appris à mieux voir l&apos;intérieur de l&apos;humain.
+            L&apos;art est un vaisseau spatial capable de traverser le temps. »
+          </p>
+          <cite className="mt-4 text-xl sm:text-3xl md:text-5xl font-bold not-italic font-orbitron">
+            — Steven DE CARVALHO
+          </cite>
+        </blockquote>
+      </section>
+
       {/* SERVICES */}
       <section className="py-20 bg-cosmic-dark-blue relative">
         <div className="section-shell">
@@ -201,7 +243,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid lg:grid-cols-3 gap-6">
             {services.map((s) => (
               <Link
                 key={s.title}
@@ -212,7 +254,7 @@ export default function Home() {
               >
                 <div className="flex flex-col items-center text-center space-y-4">
                   <div className="p-4 bg-cyan-400/10 rounded-none border border-cyan-400/30 group-hover:bg-cyan-400/20 transition-all duration-300">
-                    <s.Icon className="w-8 h-8 text-cyan-400" />
+                    <img src={s.src} alt={s.title} className="object-contain" />
                   </div>
                   <h3 className="text-xl font-semibold text-white font-orbitron">{s.title}</h3>
                   <p className="text-white/60 text-sm leading-relaxed">{s.desc}</p>

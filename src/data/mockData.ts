@@ -1,5 +1,4 @@
 import {
-  Code,
   TrendingUp,
   Shield,
   Palette,
@@ -11,6 +10,7 @@ import {
 import heroSlide001 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
 import heroSlide002 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-002.jpg";
 import heroSlide003 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-003.jpg";
+import serviceDevWeb from "../assets/images/home/realisations-sites-internet-webdesign.jpg";
 
 export const heroImages = [
   heroSlide001,
@@ -20,10 +20,10 @@ export const heroImages = [
 
 export const services = [
   {
+    src: serviceDevWeb,
     title: "Développement Web",
     desc: "Sites web modernes et performants avec les dernières technologies",
-    href: "/services/developpement-web",
-    Icon: Code,
+    href: "/services/developpement-web"
   },
   {
     title: "Référencement SEO",

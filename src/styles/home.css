@@ -1,0 +1,158 @@
+h1.title-hero-home {
+    font-family: Orbitron, Arial, sans-serif;
+    color: white;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 56px;
+    margin-bottom: 1.5rem;
+}
+
+p.desc-hero-home {
+    font-size: 24px;
+    line-height: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+    max-width: 48rem;
+}
+
+h2.title-section {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 25px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    color: #198fd9;
+    text-shadow: 1px 1px 13px rgba(25, 143, 217, 0.45);
+    text-transform: uppercase;
+}
+
+div.sectionIntroUniverse-text a.btnTitleUniverseHome {
+    display: none;
+}
+
+@media (min-width: 650px) {
+    section.sectionIntroUniverse .lg\:grid-cols-2 {
+        grid-template-columns: 3fr 2fr;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 800px) {
+    section.sectionIntroUniverse .lg\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1000px) {
+    div.sectionIntroUniverse-text p,
+    div.sectionIntroUniverse-text a {
+        font-size: 15px;
+        line-height: 23px;
+    }
+}
+
+@media (max-width: 900px) {
+    div.sectionIntroUniverse-text p,
+    div.sectionIntroUniverse-text a {
+        font-size: 14px;
+        line-height: 22px;
+    }
+}
+
+@media (max-width: 850px) {
+    section.home-hero div.homeScroll {
+        left: calc(50% - 15px);
+    }
+
+    a.btnTitleUniverseHome {
+        display: none;
+    }
+
+    div.sectionIntroUniverse-text a.btnTitleUniverseHome {
+        display: flex;
+    }
+}
+
+@media (max-width: 800px) {
+    p.desc-hero-home {
+        font-size: 18px;
+        line-height: 26px;
+    }
+}
+
+@media (max-width: 770px) {
+    div.sectionIntroUniverse-text p,
+    div.sectionIntroUniverse-text a {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    div.sectionIntroUniverse-text p,
+    div.sectionIntroUniverse-text div.divLinkUniverse {
+        margin-top: 15px !important;
+    }
+}
+
+@media (max-width: 700px) {
+    h1.title-hero-home {
+        font-size: 40px;
+        line-height: 40px;
+    }
+}
+
+@media (max-width: 650px) {
+    section.sectionIntroUniverse div.laser-reveal {
+        margin-bottom: 25px;
+    }
+
+    section.sectionIntroUniverse .lg\:grid-cols-2 {
+        gap: 20px;
+    }
+
+    section.sectionIntroUniverse div.sectionIntroUniverse-slide {
+        order: 1;
+    }
+
+    section.sectionIntroUniverse div.sectionIntroUniverse-text {
+        order: 2;
+    }
+
+    section.sectionIntroUniverse div.sectionIntroUniverse-slide div.relative {
+        max-width: 400px;
+        height: auto;
+        min-height: 600px;
+    }
+
+    div.sectionIntroUniverse-text p,
+    div.sectionIntroUniverse-text a {
+        font-size: 13px;
+        line-height: 21px;
+    }
+
+    div.sectionIntroUniverse-text div.divLinkUniverse {
+        margin-top: 30px !important;
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 500px) {
+    h1.title-hero-home {
+        font-size: 30px;
+        line-height: 30px;
+    }
+    
+    p.desc-hero-home {
+        font-size: 15px;
+        line-height: 23px;
+    }
+
+    section.home-hero a.btn-cosmic {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    div.sectionIntroUniverse-text div.divLinkUniverse {
+        flex-direction: column;
+        align-items: baseline;
+    }
+}
