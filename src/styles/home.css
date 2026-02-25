@@ -29,6 +29,28 @@ div.sectionIntroUniverse-text a.btnTitleUniverseHome {
     display: none;
 }
 
+p.homeVideoBannerText,
+cite.homeVideoBannerCite {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    line-height: 33px;
+}
+
+cite.homeVideoBannerCite {
+    margin-top: 7px;
+}
+
+span.vaisseau-spatial {
+    position: absolute;
+    top: -100px;
+    left: 60px;
+}
+
+span.vaisseau-spatial img {
+    width: 250px;
+    height: auto;
+}
+
 @media (min-width: 650px) {
     section.sectionIntroUniverse .lg\:grid-cols-2 {
         grid-template-columns: 3fr 2fr;
@@ -76,6 +98,12 @@ div.sectionIntroUniverse-text a.btnTitleUniverseHome {
     p.desc-hero-home {
         font-size: 18px;
         line-height: 26px;
+    }
+
+    p.homeVideoBannerText,
+    cite.homeVideoBannerCite {
+        font-size: 20px;
+        line-height: 28px;
     }
 }
 
@@ -132,6 +160,22 @@ div.sectionIntroUniverse-text a.btnTitleUniverseHome {
         margin-top: 30px !important;
         flex-direction: row;
     }
+
+    p.homeVideoBannerText,
+    cite.homeVideoBannerCite {
+        font-size: 17px;
+        line-height: 25px;
+    }
+}
+
+@media (max-width: 550px) {
+    p.homeVideoBannerText br.mobile-break {
+        display: none;
+    }
+
+    p.homeVideoBannerText span {
+        margin-left: 5px;
+    }
 }
 
 @media (max-width: 500px) {
@@ -154,5 +198,170 @@ div.sectionIntroUniverse-text a.btnTitleUniverseHome {
     div.sectionIntroUniverse-text div.divLinkUniverse {
         flex-direction: column;
         align-items: baseline;
+    }
+}
+
+.shooting-stars {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.25;
+}
+
+.shooting-stars span {
+    --star-size: 3px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--star-size);
+    height: var(--star-size);
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08), 0 0 0 8px rgba(255, 255, 255, 0.06), 0 0 16px rgba(255, 255, 255, 0.35);
+    opacity: 0;
+    animation: shooting-star 6s linear infinite;
+}
+
+.shooting-stars span::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 190px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), transparent);
+}
+
+@keyframes shooting-star {
+    0% {
+        transform: rotate(315deg) translateX(0);
+        opacity: 0;
+    }
+
+    8%,
+    24% {
+        opacity: 0.75;
+    }
+
+    100% {
+        transform: rotate(315deg) translateX(-900px);
+        opacity: 0;
+    }
+}
+
+.shooting-stars span:nth-child(1) {
+    top: 8%;
+    right: 4%;
+    left: auto;
+    animation-delay: 0s;
+    animation-duration: 5s;
+}
+
+.shooting-stars span:nth-child(2) {
+    top: 14%;
+    right: 15%;
+    left: auto;
+    animation-delay: 1s;
+    animation-duration: 6.5s;
+}
+
+.shooting-stars span:nth-child(3) {
+    top: 22%;
+    right: 1%;
+    left: auto;
+    animation-delay: 1.8s;
+    animation-duration: 5.4s;
+}
+
+.shooting-stars span:nth-child(4) {
+    top: 4%;
+    right: 28%;
+    left: auto;
+    animation-delay: 2.4s;
+    animation-duration: 7s;
+}
+
+.shooting-stars span:nth-child(5) {
+    top: 16%;
+    right: 42%;
+    left: auto;
+    animation-delay: 3.5s;
+    animation-duration: 6.2s;
+}
+
+.shooting-stars span:nth-child(6) {
+    top: 30%;
+    right: 8%;
+    left: auto;
+    animation-delay: 4.2s;
+    animation-duration: 6.8s;
+}
+
+.shooting-stars span:nth-child(7) {
+    top: 42%;
+    right: 18%;
+    left: auto;
+    animation-delay: 0.9s;
+    animation-duration: 7.4s;
+}
+
+.shooting-stars span:nth-child(8) {
+    top: 56%;
+    right: 7%;
+    left: auto;
+    animation-delay: 2.6s;
+    animation-duration: 8s;
+}
+
+.shooting-stars span:nth-child(9) {
+    top: 68%;
+    right: 25%;
+    left: auto;
+    animation-delay: 4.8s;
+    animation-duration: 6.7s;
+}
+
+.shooting-stars span:nth-child(10) {
+    top: 78%;
+    right: 10%;
+    left: auto;
+    animation-delay: 5.5s;
+    animation-duration: 8.3s;
+}
+
+.universe-video-banner {
+    min-height: 100vh;
+    min-height: 100svh;
+}
+
+.universe-video-banner__media {
+    opacity: 1;
+    filter: brightness(1);
+}
+
+.universe-video-banner__overlay {
+    background: rgba(0, 7, 23, 0.55);
+    opacity: 1;
+}
+
+.universe-video-banner__content {
+    min-height: inherit;
+    padding: 120px 30px;
+}
+
+@media (max-width: 650px) {
+    .universe-video-banner {
+        min-height: unset;
+    }
+
+    .universe-video-banner__content {
+        min-height: auto;
+        padding: 100px 30px;
+    }
+
+    .shooting-stars span::before {
+        width: 130px;
     }
 }
