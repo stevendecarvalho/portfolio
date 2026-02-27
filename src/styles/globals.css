@@ -9,7 +9,16 @@ html, body {
 }
 
 body {
+  @apply transition-colors duration-300;
+}
+
+html[data-theme="dark"] body {
   @apply bg-cosmic-black text-white;
+}
+
+html[data-theme="light"] body {
+  background-color: #f6f8ff;
+  color: #0d1b2a;
 }
 
 .bg-cosmic-dark-blue {
@@ -44,6 +53,30 @@ body {
 .section-shell {
   width: min(1250px, calc(100% - 60px));
   margin-inline: auto;
+}
+
+html[data-theme="light"] .clair-color {
+  color: var(--light-color, currentColor);
+}
+
+html[data-theme="dark"] .clair-color {
+  color: inherit;
+}
+
+html[data-theme="dark"] .sombre-color {
+  color: var(--dark-color, currentColor);
+}
+
+html[data-theme="light"] .sombre-color {
+  color: inherit;
+}
+
+.theme-toggle-icon {
+  transition: transform 0.4s ease;
+}
+
+button:hover .theme-toggle-icon {
+  transform: rotate(25deg);
 }
 
 @layer components {

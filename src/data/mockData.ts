@@ -11,6 +11,9 @@ import serviceIntelligenceArtificielle from "../assets/images/home/realisations-
 import servicePhotographie from "../assets/images/home/realisations-photographies.jpg";
 import serviceCinema from "../assets/images/home/realisations-creation-contenus-videos.jpg";
 
+import alexandre_izzi from "../assets/testimonials/temoignages-alexandre-izzi.jpg";
+import sebastien_vaugeois from "../assets/testimonials/sebastien-vaugeois.jpeg";
+import laurie_lesseigne from "../assets/testimonials/Laurie-Lesseigne.jpg";
 export const heroImages = [
   heroSlide001,
   heroSlide002,
@@ -140,23 +143,26 @@ export const clientLogos = [
 export const testimonials = [
   {
     initials: "AI",
+    avatar: alexandre_izzi,
     name: "Alexandre IZZI",
-    role: "CEO, IZZI FIT ACADEMY",
-    text: "Steven a su traduire avec une précision exceptionnelle l’essence de la IZZI FIT ACADEMY. Il ne s’est pas contenté de créer un simple site : il a bâti une véritable identité de marque, puissante, élégante et alignée avec les valeurs de notre accompagnement haut de gamme.",
+    role: "CEO - IZZI FIT ACADEMY",
+    text: "Steven a su traduire avec une précision exceptionnelle l’essence de la IZZI FIT ACADEMY. Il ne s’est pas contenté de créer un simple site : il a bâti une véritable identité de marque, puissante, élégante et alignée avec les valeurs de notre accompagnement haut de gamme. \n Sa vision stratégique et son sens du détail ont été déterminants pour renforcer notre positionnement premium. Chaque élément – de notre nom d’entreprise au logo en passant par l’arborescence du site – tout a été pensé pour offrir une expérience fluide, cohérente et inspirante à nos prospects.<br/>Steven est bien plus qu’un créatif : c’est un partenaire de confiance, capable de capter l’ADN d’un projet et de le sublimer. Je recommande son travail les yeux fermés.",
     rating: 5,
   },
   {
-    initials: "MD",
-    name: "Marc Dubois",
-    role: "Directeur Marketing, InnovCorp",
-    text: "Excellent travail sur notre stratégie SEO. Notre trafic a augmenté de 200% en 3 mois !",
+    initials: "SV",
+    avatar: sebastien_vaugeois,
+    name: "Sébastien Vaugeois",
+    role: "CEO - Evasion 2000",
+    text: "Nous avons fait appel à Steven pour moderniser entièrement le design de notre site Evasion 2000, et le résultat a largement dépassé nos attentes ! Il a su capter l’esprit de notre entreprise et créer un univers visuel jeune, dynamique et plein de couleurs, parfaitement en phase avec notre image. \n Le nouveau site est à la fois attrayant, fluide et agréable à parcourir. Steven a également réalisé des flyers dans la même ligne graphique, ce qui apporte une vraie cohérence à notre communication. \n Sérieux, réactif et à l’écoute, il a su transformer nos idées en un design percutant et moderne.",
     rating: 5,
   },
   {
-    initials: "JL",
-    name: "Julie Lefebvre",
-    role: "Fondatrice, DesignLab",
-    text: "Créativité impressionnante ! Nos visuels sont magnifiques et parfaitement alignés avec notre identité.",
+    initials: "LL",
+    avatar: laurie_lesseigne,
+    name: "Laurie LESSEIGNE",
+    role: "Assistante DA - Agence RJS",
+    text: "Steven est quelqu’un de déterminé, toujours prêt à relever les défis qui lui sont confiés. Il est particulièrement minutieux et veille toujours aux moindres détails. \n S’il est avant tout autonome, il fait également preuve d’un très grand esprit d’équipe. Sa présence est précieuse, tant par sa personnalité que par sa motivation. Je suis heureuse d’avoir pu collaborer avec Steven au sein de l’agence RJS. Je le recommande vivement !",
     rating: 5,
   },
 ];

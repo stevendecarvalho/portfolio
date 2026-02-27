@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Rocket, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, Rocket, Sparkles, Star, X } from "lucide-react";
 import { clientLogos, heroImages, projects, services, testimonials } from "../data/mockData";
 import "../styles/home.css";
 import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
@@ -10,11 +10,30 @@ import earthBannerVideo from "../assets/videos/steven-de-carvalho-earth-galaxy-b
 import vaisseauSpatial from "../assets/images/home/vaisseau-spatial-creation-steven.png";
 import potCrayons from "../assets/images/home/pot-crayon.png";
 
+const TESTIMONIALS_PER_VIEW = 3;
+const TESTIMONIAL_PREVIEW_LENGTH = 180;
+
+function getPreview(text: string) {
+  if (text.length <= TESTIMONIAL_PREVIEW_LENGTH) return text;
+  return `${text.slice(0, TESTIMONIAL_PREVIEW_LENGTH).trim()}…`;
+}
+
 export default function Home() {
   const images = useMemo(() => heroImages, []);
   const aboutSlides = useMemo(() => [aboutFutureImage, biographyImage], []);
   const [index, setIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [activeTestimonialTab, setActiveTestimonialTab] = useState<number | null>(null);
+
+  const displayedTestimonials = useMemo(
+    () =>
+      Array.from({ length: Math.min(TESTIMONIALS_PER_VIEW, testimonials.length) }, (_, i) => {
+        const currentIndex = (testimonialIndex + i) % testimonials.length;
+        return { ...testimonials[currentIndex], index: currentIndex };
+      }),
+    [testimonialIndex],
+  );
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -57,6 +76,25 @@ export default function Home() {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (activeTestimonialTab === null) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveTestimonialTab(null);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeTestimonialTab]);
 
   return (
     <div className="home-page min-h-screen relative">
@@ -137,7 +175,7 @@ export default function Home() {
         <section className="sectionIntroUniverse py-20 bg-cosmic-dark-blue relative overflow-hidden">
           <div className="shooting-stars" aria-hidden="true">
             {Array.from({ length: 10 }).map((_, i) => (
-              <span key={`intro-star-${i}`} />
+              <span key={`services-star-${i}`} />
             ))}
           </div>
 
@@ -450,30 +488,113 @@ export default function Home() {
               </p>
             </div>
 
+            <div className="flex items-center justify-end gap-3 mb-6">
+              <button
+                type="button"
+                className="testimonial-nav-button"
+                onClick={() => setTestimonialIndex((testimonialIndex - 1 + testimonials.length) % testimonials.length)}
+                aria-label="Voir les témoignages précédents"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                className="testimonial-nav-button"
+                onClick={() => setTestimonialIndex((testimonialIndex + 1) % testimonials.length)}
+                aria-label="Voir les témoignages suivants"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((t) => (
-                <div key={t.name} className="cosmic-card reveal-on-scroll" data-reveal>
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-cyan-400/20 rounded-full flex items-center justify-center border-2 border-cyan-400">
-                      <span className="text-cyan-400 font-bold font-orbitron">{t.initials}</span>
+              {displayedTestimonials.map((t) => {
+                const preview = getPreview(t.text);
+                const isLong = preview !== t.text;
+                return (
+                  <article key={`${t.name}-${t.index}`} className="cosmic-card reveal-on-scroll testimonial-card" data-reveal>
+                    <div className="testimonial-avatar-wrap">
+                      <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
                     </div>
-                    <div className="ml-4">
-                      <h4 className="text-white font-semibold">{t.name}</h4>
-                      <p className="text-white/60 text-sm">{t.role}</p>
-                    </div>
-                  </div>
 
-                  <div className="flex mb-3">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-cyan-400 fill-current" />
-                    ))}
-                  </div>
+                    <h4 className="testimonial-name text-white font-semibold text-lg mt-4">{t.name}</h4>
+                    <p className="testimonial-role text-white/60 text-sm">{t.role}</p>
+                    <p className="testimonial-cite text-white/75 leading-relaxed">{preview}</p>
 
-                  <p className="text-white/70 leading-relaxed">{t.text}</p>
-                </div>
-              ))}
+                    {isLong && (
+                      <button
+                        type="button"
+                        className="testimonial-read-more"
+                        onClick={() => setActiveTestimonialTab(t.index)}
+                      >
+                        Lire la suite
+                      </button>
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </div>
+          {activeTestimonialTab !== null && (
+            <div className="testimonial-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="testimonial-modal-title">
+              <div className="testimonial-modal">
+                <button
+                  type="button"
+                  className="testimonial-modal-close"
+                  onClick={() => setActiveTestimonialTab(null)}
+                  aria-label="Fermer la fenêtre des témoignages"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                <h3 id="testimonial-modal-title" className="text-white text-2xl font-bold font-orbitron mb-4">
+                  Tous les témoignages
+                </h3>
+
+                <div className="testimonial-modal-tabs" role="tablist" aria-label="Choisir un témoignage">
+                  {testimonials.map((t, i) => (
+                    <button
+                      key={`${t.name}-tab`}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeTestimonialTab === i}
+                      aria-controls={`testimonial-panel-${i}`}
+                      id={`testimonial-tab-${i}`}
+                      className={`testimonial-modal-tab ${activeTestimonialTab === i ? "is-active" : ""}`}
+                      onClick={() => setActiveTestimonialTab(i)}
+                    >
+                      {t.name}
+                    </button>
+                  ))}
+                </div>
+
+                {testimonials.map((t, i) => (
+                  <section
+                    key={`${t.name}-panel`}
+                    id={`testimonial-panel-${i}`}
+                    role="tabpanel"
+                    aria-labelledby={`testimonial-tab-${i}`}
+                    className={activeTestimonialTab === i ? "block" : "hidden"}
+                  >
+                    <div className="flex items-center gap-4 mt-6 mb-5">
+                      <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
+                      <div>
+                        <h4 className="text-white text-lg font-semibold">{t.name}</h4>
+                        <p className="text-white/70 text-sm">{t.role}</p>
+                      </div>
+                    </div>
+                    <p className="text-white/85 leading-relaxed">{t.text}</p>
+                  </section>
+                ))}
+              </div>
+              <button
+                type="button"
+                className="testimonial-modal-backdrop-hitbox"
+                onClick={() => setActiveTestimonialTab(null)}
+                aria-label="Fermer les témoignages"
+              />
+            </div>
+          )}
         </section>
 
         {/* CTA */}

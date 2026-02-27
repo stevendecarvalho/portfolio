@@ -6,6 +6,7 @@ import {
   ChevronDown,
   Menu,
   Moon,
+  Sun,
   Search,
   Volume2,
   VolumeX,
@@ -443,7 +444,11 @@ export default function Header({
                   title={theme === "dark" ? "Mode clair" : "Mode sombre"}
                   type="button"
                 >
-                  <Moon className={["w-5 h-5", iconColor].join(" ")} />
+                  {theme === "dark" ? (
+                    <Sun className={["w-5 h-5 theme-toggle-icon", isLight ? "text-amber-500" : "text-cyan-300"].join(" ")} />
+                  ) : (
+                    <Moon className={["w-5 h-5 theme-toggle-icon", iconColor].join(" ")} />
+                  )}
                 </button>
               </nav>
 
@@ -652,7 +657,11 @@ export default function Header({
               onClick={onToggleTheme}
               type="button"
             >
-              <Moon className="w-5 h-5 text-cyan-400" />
+              {theme === "dark" ? (
+                <Sun className="w-5 h-5 theme-toggle-icon text-cyan-300" />
+              ) : (
+                <Moon className="w-5 h-5 theme-toggle-icon text-cyan-400" />
+              )}
             </button>
 
             <button
