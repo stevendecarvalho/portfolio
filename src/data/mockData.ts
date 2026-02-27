@@ -84,12 +84,65 @@ export const projects = [
   }
 ];
 
+export const clientLogos = [
+  {
+    name: "Savéol",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/11/steven-de-carvalho-website-references-saveol-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "Le petit carré de chocolat",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-white-400x400-1.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "Festival L'Europe autour de l'Europe",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "Ville de Paris",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-ville-de-paris-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "Festival du cinéma chinois de Paris",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "IZZI FIT ACADEMY",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-izzi-fit-academy-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "Bouygues Construction",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-construction-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "Bouygues Telecom",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-telecom-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "IT Forum",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-it-forum-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+  {
+    name: "Grill O'Bois",
+    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-grillobois-white.png",
+    href: "https://stevendecarvalho.com/portfolio/",
+  },
+];
+
 export const testimonials = [
   {
-    initials: "SM",
-    name: "Sophie Martin",
-    role: "CEO, TechStart",
-    text: "Un travail exceptionnel ! Le site web créé dépasse toutes nos attentes. Professionnalisme et créativité au rendez-vous.",
+    initials: "AI",
+    name: "Alexandre IZZI",
+    role: "CEO, IZZI FIT ACADEMY",
+    text: "Steven a su traduire avec une précision exceptionnelle l’essence de la IZZI FIT ACADEMY. Il ne s’est pas contenté de créer un simple site : il a bâti une véritable identité de marque, puissante, élégante et alignée avec les valeurs de notre accompagnement haut de gamme.",
     rating: 5,
   },
   {

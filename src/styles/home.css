@@ -573,4 +573,63 @@ section.earth-video-banner {
     .shooting-stars span::before {
         width: 130px;
     }
+
+}
+section.client-logos-section {
+    padding: 80px 0;
+    background: linear-gradient(180deg, rgba(1, 8, 26, 0.98) 0%, rgba(3, 15, 48, 0.98) 100%);
+    border-top: 1px solid rgba(25, 143, 217, 0.2);
+    border-bottom: 1px solid rgba(25, 143, 217, 0.2);
+}
+
+.logos-marquee {
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
+}
+
+.logos-marquee-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 18px;
+    animation: logos-marquee 34s linear infinite;
+}
+
+.logo-item {
+    width: 250px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+}
+
+.logo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(1.05);
+}
+
+.logo-item:hover {
+    transform: scale(1.1);
+}
+
+@keyframes logos-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - 9px));
+    }
+}
+
+@media (max-width: 768px) {
+    .logos-marquee-track {
+        gap: 12px;
+        animation-duration: 28s;
+    }
 }

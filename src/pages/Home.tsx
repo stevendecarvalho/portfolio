@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Rocket, Sparkles, Star } from "lucide-react";
-import { heroImages, projects, services, testimonials } from "../data/mockData";
+import { clientLogos, heroImages, projects, services, testimonials } from "../data/mockData";
 import "../styles/home.css";
 import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
 import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
@@ -388,6 +388,48 @@ export default function Home() {
             aria-hidden="true"
           />
           <div className="universe-video-banner__overlay absolute inset-0" />
+        </section>
+
+        {/* CLIENT LOGOS */}
+        <section className="client-logos-section relative overflow-hidden">
+          <div className="shooting-stars" aria-hidden="true">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <span key={`testimonials-star-${i}`} />
+            ))}
+          </div>
+
+          <div className="section-shell relative z-10">
+            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
+              <div className="absolute-title-outline">
+                <h2 className="section-title-outline">
+                  Références
+                </h2>
+              </div>
+              <h2 className="section-title-inline">
+                Ils m'ont fait confiance
+              </h2>
+              <div className="title-separator">
+                <div className="line" />
+              </div>
+            </div>
+
+            <div className="logos-marquee" aria-label="Logo de mes clients">
+              <div className="logos-marquee-track">
+                {[...clientLogos, ...clientLogos].map((logo, i) => (
+                  <a
+                    key={`${logo.name}-${i}`}
+                    href={logo.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="logo-item"
+                    aria-label={`Voir la référence ${logo.name}`}
+                  >
+                    <img src={logo.src} alt={logo.name} loading="lazy" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* TESTIMONIALS */}
