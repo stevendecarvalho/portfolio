@@ -1,16 +1,15 @@
-import {
-  TrendingUp,
-  Shield,
-  Palette,
-  Target,
-  Share2,
-  Camera,
-  Video,
-} from "lucide-react";
 import heroSlide001 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
 import heroSlide002 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-002.jpg";
 import heroSlide003 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-003.jpg";
 import serviceDevWeb from "../assets/images/home/realisations-sites-internet-webdesign.jpg";
+import serviceSEO from "../assets/images/home/realisations-referencement-seo.jpg";
+import serviceSocialMedia from "../assets/images/home/realisations-social-media.jpg";
+import serviceGraphisme from "../assets/images/home/realisations-design-graphique.jpg";
+import serviceBranding from "../assets/images/home/realisations-communication-branding.jpg";
+import serviceMarketing from "../assets/images/home/realisations-marketing.jpg";
+import serviceIntelligenceArtificielle from "../assets/images/home/realisations-intelligence-artificielle.jpg";
+import servicePhotographie from "../assets/images/home/realisations-photographies.jpg";
+import serviceCinema from "../assets/images/home/realisations-creation-contenus-videos.jpg";
 
 export const heroImages = [
   heroSlide001,
@@ -22,96 +21,67 @@ export const services = [
   {
     src: serviceDevWeb,
     title: "Développement Web",
-    desc: "Sites web modernes et performants avec les dernières technologies",
+    desc: "Webdesign et création de sites web modernes et performants",
     href: "/services/developpement-web"
   },
   {
+    src: serviceSEO,
     title: "Référencement SEO",
     desc: "Optimisation pour les moteurs de recherche et visibilité en ligne",
-    href: "/services/referencement-seo",
-    Icon: TrendingUp,
+    href: "/services/referencement-seo"
   },
   {
-    title: "Cybersécurité",
-    desc: "Protection et sécurisation de vos systèmes et données",
-    href: "/services/cybersecurite",
-    Icon: Shield,
-  },
-  {
-    title: "Graphisme",
-    desc: "Création visuelle et identité de marque impactante",
-    href: "/services/graphisme",
-    Icon: Palette,
-  },
-  {
-    title: "Stratégies Marketing",
-    desc: "Stratégies digitales pour booster votre croissance",
-    href: "/services/strategies-marketing",
-    Icon: Target,
-  },
-  {
+    src: serviceSocialMedia,
     title: "Social Media",
     desc: "Gestion et animation de vos réseaux sociaux",
-    href: "/services/social-media",
-    Icon: Share2,
+    href: "/services/social-media"
   },
   {
+    src: serviceGraphisme,
+    title: "Graphisme",
+    desc: "Création de visuels structurés et esthétiques pour tout vos supports",
+    href: "/services/graphisme"
+  },
+  {
+    src: serviceBranding,
+    title: "Logos & Branding",
+    desc: "Création d’identités de marque fortes et impactantes",
+    href: "/services/branding",
+  },
+  {
+    src: serviceMarketing,
+    title: "Stratégies Marketing",
+    desc: "Stratégies digitales pour booster votre croissance",
+    href: "/services/strategies-marketing"
+  },
+  {
+    src: serviceIntelligenceArtificielle,
+    title: "Intelligence artificielle",
+    desc: "Optimisation des flux de travail, génération de contenus et systèmes intelligents sur mesure.",
+    href: "/services/intelligence-artificielle"
+  },
+  {
+    src: servicePhotographie,
     title: "Photographie",
     desc: "Captures professionnelles pour tous vos besoins visuels",
-    href: "/services/photographie",
-    Icon: Camera,
+    href: "/services/photographie"
   },
   {
+    src: serviceCinema,
     title: "Vidéo - Cinéma",
     desc: "Production vidéo et contenus cinématographiques",
-    href: "/services/video-cinema",
-    Icon: Video,
+    href: "/services/video-cinema"
   },
 ];
 
 export const projects = [
   {
-    title: "E-commerce Futuriste",
-    desc: "Plateforme e-commerce avec interface holographique et expérience d'achat immersive.",
+    title: "A venir...",
+    desc: "A venir...",
     category: "Développement Web",
     img: "https://images.unsplash.com/photo-1687389806477-22be64a5480f?auto=format&fit=crop&w=1600&q=85",
     tags: ["React", "Node.js", "MongoDB"],
-  },
-  {
-    title: "Dashboard Analytics IA",
-    desc: "Interface de visualisation de données avec intelligence artificielle intégrée.",
-    category: "Développement Web",
-    img: "https://images.unsplash.com/photo-1671417722838-3fbaa7f66203?auto=format&fit=crop&w=1600&q=85",
-    tags: ["React", "Python", "AI"],
-  },
-  {
-    title: "Système de Sécurité Avancé",
-    desc: "Plateforme de monitoring et détection des menaces en temps réel.",
-    category: "Cybersécurité",
-    img: "https://images.unsplash.com/photo-1589820832207-788d969e5bc4?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Security", "Python", "AI"],
-  },
-  {
-    title: "Identité Visuelle Tech",
-    desc: "Création d'identité complète pour startup technologique innovante.",
-    category: "Graphisme",
-    img: "https://images.unsplash.com/photo-1755681430420-6f675fb7862a?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Branding", "Design", "Logo"],
-  },
-  {
-    title: "Campagne Marketing Spatial",
-    desc: "Stratégie marketing complète avec thème spatial et futuriste.",
-    category: "Marketing",
-    img: "https://images.unsplash.com/photo-1681673819379-a183d9acf860?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Marketing", "Strategy", "Content"],
-  },
-  {
-    title: "Série Photographie Cosmique",
-    desc: "Série artistique explorant les thèmes de l'espace et la technologie.",
-    category: "Photographie",
-    img: "https://images.unsplash.com/photo-1650365449083-b3113ff48337?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Photography", "Art", "Creative"],
-  },
+  }
 ];
 
 export const testimonials = [

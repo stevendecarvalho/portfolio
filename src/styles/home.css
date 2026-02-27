@@ -40,15 +40,91 @@ cite.homeVideoBannerCite {
     margin-top: 7px;
 }
 
-span.vaisseau-spatial {
+span.vaisseau-spatial--banner {
     position: absolute;
-    top: -100px;
-    left: 60px;
+    top: -110px;
+    left: 100px;
 }
 
 span.vaisseau-spatial img {
     width: 250px;
     height: auto;
+}
+
+span.pot-crayons--banner {
+    position: absolute;
+    top: -120px;
+    right: 70px;
+}
+
+span.pot-crayons img {
+    width: 200px;
+    height: auto;
+}
+
+div.absolute-title-outline {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+}
+
+h2.section-title-outline {
+    font-family: 'Arial Black', Gadget, sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 115px;
+    line-height: 122px;
+    color: rgba(255, 255, 255, 0);
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+}
+
+h2.section-title-inline {
+    font-family: Impact, Charcoal, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 30px;
+    text-shadow: 1px 1px 25px rgba(0, 0, 0, 0.2);
+    padding-top: 59px;
+}
+
+.title-separator {
+    align-self: center;
+    margin: 25px auto 55px auto;
+    max-width: 100px;
+}
+
+.title-separator .line {
+    border: 3.5px solid #198fd9;
+}
+
+a.homeExpertisesCard {
+    padding: 7px;
+    box-shadow: 1px 1px 10px 10px rgba(0, 0, 0, 0.35);
+    border: 2px solid #002647;
+    border-radius: 15px;
+}
+
+a.homeExpertisesCard:hover {
+    transform: scale(1.05);
+}
+
+a.homeExpertisesCard h3 {
+    margin: 0 !important;
+}
+
+a.homeExpertisesCard:hover h3 {
+    text-decoration: underline;
+}
+
+a.homeExpertisesCard p {
+    margin: 7px 15px 10px !important;
+}
+
+section.earth-video-banner {
+    padding: 250px 0;
 }
 
 @media (min-width: 650px) {
@@ -64,11 +140,68 @@ span.vaisseau-spatial img {
     }
 }
 
+@media (max-width: 1300px) {
+    span.pot-crayons img {
+        width: 150px;
+        height: auto;
+    }
+}
+
+@media (max-width: 1200px) {
+    span.vaisseau-spatial--banner {
+        top: -90px;
+        left: 30px;
+    }
+
+    span.vaisseau-spatial img {
+        width: 200px;
+        height: auto;
+    }
+}
+
+@media (max-width: 1100px) {
+    span.pot-crayons--banner {
+        top: -120px;
+        right: 30px;
+    }
+}
+
+@media (max-width: 1024px) {
+    section.homeServicesSection .lg\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 1000px) {
     div.sectionIntroUniverse-text p,
     div.sectionIntroUniverse-text a {
         font-size: 15px;
         line-height: 23px;
+    }
+
+    h2.section-title-outline {
+        font-size: 80px;
+        line-height: 88px;
+    }
+
+    span.vaisseau-spatial--banner {
+        top: -80px;
+        left: 30px;
+    }
+
+    span.vaisseau-spatial img {
+        width: 180px;
+        height: auto;
+    }
+
+    h2.section-title-inline {
+        padding-top: 50px;
+    }
+}
+
+@media (max-width: 950px) {
+    section.homeServicesSection .lg\:grid-cols-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -105,6 +238,16 @@ span.vaisseau-spatial img {
         font-size: 20px;
         line-height: 28px;
     }
+
+    span.pot-crayons--banner {
+        top: -120px;
+        right: 30px;
+    }
+
+    span.pot-crayons img {
+        width: 125px;
+        height: auto;
+    }
 }
 
 @media (max-width: 770px) {
@@ -117,6 +260,27 @@ span.vaisseau-spatial img {
     div.sectionIntroUniverse-text p,
     div.sectionIntroUniverse-text div.divLinkUniverse {
         margin-top: 15px !important;
+    }
+
+    section.homeProjetsSection .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 750px) {
+    h2.section-title-outline {
+        font-size: 64px;
+        line-height: 72px;
+    }
+
+    h2.section-title-inline {
+        padding-top: 40px;
+        font-size: 25px;
+        line-height: 33px;
+    }
+
+    .title-separator {
+        margin-top: 20px;
     }
 }
 
@@ -165,6 +329,51 @@ span.vaisseau-spatial img {
     cite.homeVideoBannerCite {
         font-size: 17px;
         line-height: 25px;
+    }
+
+    section.homeServicesSection .lg\:grid-cols-3,
+    section.homeProjetsSection .md\:grid-cols-2 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    section.homeServicesSection a.homeExpertisesCard img {
+        max-width: 60%;
+    }
+
+    section.homeServicesSection a.homeExpertisesCard h3 {
+        font-size: 17px;
+        line-height: 25px;
+    }
+
+    section.earth-video-banner {
+        padding: 150px 0;
+    }
+}
+
+@media (max-width: 600px) {
+    span.vaisseau-spatial--banner {
+        top: -65px;
+        left: 30px;
+    }
+
+    span.vaisseau-spatial img {
+        width: 150px;
+        height: auto;
+    }
+
+    h2.section-title-outline {
+        font-size: 48px;
+        line-height: 56px;
+    }
+
+    h2.section-title-inline {
+        padding-top: 35px;
+        font-size: 22px;
+        line-height: 30px;
+    }
+
+    span.pot-crayons--banner {
+        display: none;
     }
 }
 
@@ -332,8 +541,7 @@ span.vaisseau-spatial img {
 }
 
 .universe-video-banner {
-    min-height: 100vh;
-    min-height: 100svh;
+    padding: 75px 0;
 }
 
 .universe-video-banner__media {
@@ -354,6 +562,7 @@ span.vaisseau-spatial img {
 @media (max-width: 650px) {
     .universe-video-banner {
         min-height: unset;
+        padding: 0;
     }
 
     .universe-video-banner__content {

@@ -6,7 +6,9 @@ import "../styles/home.css";
 import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
 import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
 import universeBannerVideo from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
+import earthBannerVideo from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
 import vaisseauSpatial from "../assets/images/home/vaisseau-spatial-creation-steven.png";
+import potCrayons from "../assets/images/home/pot-crayon.png";
 
 export default function Home() {
   const images = useMemo(() => heroImages, []);
@@ -165,7 +167,7 @@ export default function Home() {
                 </p>
                 <div className="divLinkUniverse flex flex-col sm:flex-row items-center gap-4">
                   <Link to="/about" className="btn-cosmic inline-flex">
-                    Qui suis-je ? <Rocket className="w-4 h-4" />
+                    Qui suis-je ? <ArrowRight className="w-5 h-5" />
                   </Link>
                   <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
                     Mon univers <Rocket className="w-4 h-4" />
@@ -222,7 +224,7 @@ export default function Home() {
         </section>
 
         {/* UNIVERSE VIDEO BANNER */}
-        <section className="universe-video-banner relative w-full overflow-hidden">
+        <section className="universe-video-banner relative z-10 w-full overflow-hidden">
           <video
             className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
             src={universeBannerVideo}
@@ -246,40 +248,43 @@ export default function Home() {
         </section>
 
         {/* SERVICES */}
-        <section className="py-20 bg-cosmic-dark-blue relative overflow-hidden">
+        <section className="homeServicesSection py-20 bg-cosmic-dark-blue relative z-20 overflow-visible">
           <div className="shooting-stars" aria-hidden="true">
             {Array.from({ length: 10 }).map((_, i) => (
               <span key={`services-star-${i}`} />
             ))}
           </div>
 
-          <span className="vaisseau-spatial">
+          <span className="vaisseau-spatial vaisseau-spatial--banner z-20 pointer-events-none" aria-hidden="true">
             <img key="Vaisseau spatial" src={vaisseauSpatial} alt="Vaisseau spatial" className="object-contain" />
           </span>
 
           <div className="section-shell relative z-10">
             <div className="text-center mb-16 reveal-on-scroll" data-reveal>
-              <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
-                Services
+              <div className="absolute-title-outline">
+                <h2 className="section-title-outline">
+                  Expertises
+                </h2>
+              </div>
+              <h2 className="section-title-inline">
+                Mes domaines de prédilection
               </h2>
-              <p className="text-white/70 text-lg max-w-2xl mx-auto">
-                Des solutions complètes pour tous vos besoins digitaux
-              </p>
+              <div className="title-separator">
+                <div className="line" />
+              </div>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-6">
+            <div className="grid lg:grid-cols-3 gap-8">
               {services.map((s) => (
                 <Link
                   key={s.title}
                   to={s.href}
-                  className="cosmic-card group cursor-pointer reveal-on-scroll"
+                  className="homeExpertisesCard reveal-on-scroll"
                   data-reveal
                   style={{ animation: "fadeInUp 0.8s ease 0s 1 normal forwards" }}
                 >
                   <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="p-4 bg-cyan-400/10 rounded-none border border-cyan-400/30 group-hover:bg-cyan-400/20 transition-all duration-300">
-                      <img src={s.src} alt={s.title} className="object-contain" />
-                    </div>
+                    <img src={s.src} alt={s.title} className="object-contain" />
                     <h3 className="text-xl font-semibold text-white font-orbitron">{s.title}</h3>
                     <p className="text-white/60 text-sm leading-relaxed">{s.desc}</p>
                   </div>
@@ -289,28 +294,37 @@ export default function Home() {
 
             <div className="text-center mt-12 reveal-on-scroll" data-reveal>
               <Link to="/services" className="btn-cosmic inline-flex items-center">
-                Voir tous les services <ArrowRight className="w-5 h-5" />
+                Voir tous mes domaines <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>
         </section>
 
         {/* PROJECTS */}
-        <section className="py-20 cosmic-bg relative overflow-hidden">
+        <section className="homeProjetsSection py-20 cosmic-bg relative overflow-visible">
           <div className="shooting-stars" aria-hidden="true">
             {Array.from({ length: 10 }).map((_, i) => (
               <span key={`projects-star-${i}`} />
             ))}
           </div>
 
+          <span className="pot-crayons pot-crayons--banner z-30 pointer-events-none" aria-hidden="true">
+            <img key="Création artistique" src={potCrayons} alt="Création artistique" className="object-contain" />
+          </span>
+
           <div className="section-shell relative z-10">
             <div className="text-center mb-16 reveal-on-scroll" data-reveal>
-              <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
-                Projets Récents
+              <div className="absolute-title-outline">
+                <h2 className="section-title-outline">
+                  Portfolio
+                </h2>
+              </div>
+              <h2 className="section-title-inline">
+                Mes dernières réalisations
               </h2>
-              <p className="text-white/70 text-lg max-w-2xl mx-auto">
-                Découvrez mes créations et réalisations les plus récentes
-              </p>
+              <div className="title-separator">
+                <div className="line" />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -360,6 +374,20 @@ export default function Home() {
               </Link>
             </div>
           </div>
+        </section>
+
+        {/* EARTH VIDEO BANNER */}
+        <section className="earth-video-banner relative z-10 w-full overflow-hidden">
+          <video
+            className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
+            src={earthBannerVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-hidden="true"
+          />
+          <div className="universe-video-banner__overlay absolute inset-0" />
         </section>
 
         {/* TESTIMONIALS */}
