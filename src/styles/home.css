@@ -676,6 +676,7 @@ p.testimonial-cite {
     text-align: justify;
     font-size: 14px;
     line-height: 22px;
+    white-space: pre-line;
 }
 
 button.testimonial-read-more {
@@ -737,4 +738,61 @@ button.testimonial-modal-tab.is-active {
     border-color: rgba(34, 211, 238, 0.6);
     color: #22d3ee;
     background: rgba(34, 211, 238, 0.12);
+}
+
+p.testimonial-modal-text {
+    white-space: pre-line;
+}
+
+html[data-theme="light"] .shooting-stars {
+    opacity: 0.12;
+}
+
+html[data-theme="light"] section.client-logos-section {
+    background: linear-gradient(180deg, rgba(247, 230, 196, 0.95) 0%, rgba(233, 203, 152, 0.96) 100%);
+    border-top: 1px solid rgba(139, 92, 36, 0.22);
+    border-bottom: 1px solid rgba(139, 92, 36, 0.22);
+}
+
+html[data-theme="light"] .logo-item img {
+    filter: saturate(0.9) contrast(1.05);
+}
+
+html[data-theme="light"] button.testimonial-nav-button {
+    border: 1px solid rgba(180, 95, 26, 0.45);
+    color: #9a4a12;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+html[data-theme="light"] button.testimonial-nav-button:hover {
+    background: rgba(255, 170, 71, 0.24);
+}
+
+html[data-theme="light"] img.testimonial-avatar {
+    border: 2px solid rgba(180, 95, 26, 0.62);
+}
+
+html[data-theme="light"] button.testimonial-read-more {
+    color: #9a4a12;
+}
+
+html[data-theme="light"] div.testimonial-modal {
+    background: #fff7e6;
+    border: 1px solid rgba(150, 86, 32, 0.35);
+    color: #4f2d16;
+}
+
+html[data-theme="light"] button.testimonial-modal-close {
+    color: rgba(79, 45, 22, 0.85);
+}
+
+html[data-theme="light"] button.testimonial-modal-tab {
+    border-color: rgba(150, 86, 32, 0.28);
+    color: rgba(90, 51, 20, 0.8);
+}
+
+html[data-theme="light"] button.testimonial-modal-tab.is-active {
+    border-color: rgba(180, 95, 26, 0.52);
+    color: #9a4a12;
+    background: rgba(255, 181, 78, 0.22);
 }

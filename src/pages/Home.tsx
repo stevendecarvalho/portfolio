@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Rocket, Sparkles, Star, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Rocket, Sparkles, X } from "lucide-react";
 import { clientLogos, heroImages, projects, services, testimonials } from "../data/mockData";
 import "../styles/home.css";
 import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
@@ -16,6 +16,10 @@ const TESTIMONIAL_PREVIEW_LENGTH = 180;
 function getPreview(text: string) {
   if (text.length <= TESTIMONIAL_PREVIEW_LENGTH) return text;
   return `${text.slice(0, TESTIMONIAL_PREVIEW_LENGTH).trim()}…`;
+}
+
+function normalizeTestimonialText(text: string) {
+  return text.replace(/<br\s*\/?\s*>/gi, "\n");
 }
 
 export default function Home() {
@@ -509,8 +513,9 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {displayedTestimonials.map((t) => {
-                const preview = getPreview(t.text);
-                const isLong = preview !== t.text;
+                const normalizedText = normalizeTestimonialText(t.text);
+                const preview = getPreview(normalizedText);
+                const isLong = preview !== normalizedText;
                 return (
                   <article key={`${t.name}-${t.index}`} className="cosmic-card reveal-on-scroll testimonial-card" data-reveal>
                     <div className="testimonial-avatar-wrap">
@@ -547,7 +552,7 @@ export default function Home() {
                   <X className="w-5 h-5" />
                 </button>
 
-                <h3 id="testimonial-modal-title" className="text-white text-2xl font-bold font-orbitron mb-4">
+                <h3 id="testimonial-modal-title" className="testimonial-modal-title text-white text-2xl font-bold font-orbitron mb-4">
                   Tous les témoignages
                 </h3>
 
@@ -579,11 +584,11 @@ export default function Home() {
                     <div className="flex items-center gap-4 mt-6 mb-5">
                       <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
                       <div>
-                        <h4 className="text-white text-lg font-semibold">{t.name}</h4>
-                        <p className="text-white/70 text-sm">{t.role}</p>
+                        <h4 className="testimonial-modal-name text-white text-lg font-semibold">{t.name}</h4>
+                        <p className="testimonial-modal-role text-white/70 text-sm">{t.role}</p>
                       </div>
                     </div>
-                    <p className="text-white/85 leading-relaxed">{t.text}</p>
+                    <p className="testimonial-modal-text text-white/85 leading-relaxed">{normalizeTestimonialText(t.text)}</p>
                   </section>
                 ))}
               </div>
