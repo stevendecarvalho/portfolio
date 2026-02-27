@@ -1,6 +1,9 @@
 import heroSlide001 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
 import heroSlide002 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-002.jpg";
 import heroSlide003 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-003.jpg";
+
+import heroSlide001_Light from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-001.jpg";
+
 import serviceDevWeb from "../assets/images/home/realisations-sites-internet-webdesign.jpg";
 import serviceSEO from "../assets/images/home/realisations-referencement-seo.jpg";
 import serviceSocialMedia from "../assets/images/home/realisations-social-media.jpg";
@@ -11,14 +14,40 @@ import serviceIntelligenceArtificielle from "../assets/images/home/realisations-
 import servicePhotographie from "../assets/images/home/realisations-photographies.jpg";
 import serviceCinema from "../assets/images/home/realisations-creation-contenus-videos.jpg";
 
+import universeBannerVideoDark from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
+import earthBannerVideoDark from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
+import universeBannerVideoLight from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
+import earthBannerVideoLight from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
+
 import alexandre_izzi from "../assets/testimonials/temoignages-alexandre-izzi.jpg";
 import sebastien_vaugeois from "../assets/testimonials/sebastien-vaugeois.jpeg";
 import laurie_lesseigne from "../assets/testimonials/Laurie-Lesseigne.jpg";
+
 export const heroImages = [
   heroSlide001,
   heroSlide002,
   heroSlide003,
 ];
+
+export const heroImagesLight = [
+  heroSlide001_Light
+];
+
+export const heroImagesByTheme = {
+  dark: heroImages,
+  light: heroImagesLight,
+} as const;
+
+export const bannerVideosByTheme = {
+  dark: {
+    universe: universeBannerVideoDark,
+    earth: earthBannerVideoDark,
+  },
+  light: {
+    universe: universeBannerVideoLight,
+    earth: earthBannerVideoLight,
+  },
+} as const;
 
 export const services = [
   {

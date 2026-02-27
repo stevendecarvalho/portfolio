@@ -15,11 +15,9 @@ import {
 import type { Theme } from "../app/App";
 import { navLinks } from "../data/navLinks";
 import MegaMenu from "./MegaMenu";
-import { searchIndex } from "../data/searchIndex"; // ✅ fichier manuel
+import { searchIndex } from "../data/searchIndex";
 
 type DropdownPos = { left: number; top: number; width: number };
-
-// adapte au type réel de ton searchIndex.ts
 type SearchEntry = (typeof searchIndex)[number];
 
 function safeLower(s: unknown) {
@@ -32,12 +30,8 @@ function kindLabel(kind: string) {
       return "Page";
     case "article":
       return "Article";
-    case "film":
-      return "Film";
-    case "event":
-      return "Événement";
-    case "person":
-      return "Personne";
+    case "projet":
+      return "Projet";
     default:
       return "Autre";
   }
@@ -83,7 +77,6 @@ export default function Header({
     !!openedItem &&
     (!!(openedItem as any).mega || Array.isArray((openedItem as any).children));
 
-  // ✅ Résultats venant du fichier manuel
   const searchResults = useMemo(() => {
     const s = safeLower(q);
     if (!s) return [];
@@ -101,7 +94,6 @@ export default function Header({
           .join(" ")
           .toLowerCase();
 
-        // match "tous les mots" (plus agréable)
         return tokens.every((t) => hay.includes(t));
       })
       .slice(0, 30);
@@ -110,13 +102,13 @@ export default function Header({
   // theme
   const isLight = theme === "light";
   const textMuted = isLight
-    ? "text-black/65 hover:text-black"
+    ? "text-white/70 hover:text-cyan-400"
     : "text-white/70 hover:text-cyan-400";
-  const textActive = isLight ? "text-black" : "text-cyan-400";
-  const underlineColor = isLight ? "bg-black/80" : "bg-cyan-400";
-  const iconColor = isLight ? "text-black/80" : "text-cyan-400";
+  const textActive = isLight ? "text-white" : "text-cyan-400";
+  const underlineColor = isLight ? "bg-white/80" : "bg-cyan-400";
+  const iconColor = isLight ? "text-white/80" : "text-cyan-400";
   const iconBox = isLight
-    ? "bg-black/5 hover:bg-black/10"
+    ? "bg-white/5 hover:bg-white/10"
     : "bg-white/10 hover:bg-cyan-400/20";
 
   const headerClass = [
@@ -361,7 +353,7 @@ export default function Header({
                             className={[
                               "w-4 h-4 transition-transform duration-300",
                               isOpen ? "rotate-180" : "rotate-0",
-                              isLight ? "text-black/70" : "text-white/70",
+                              isLight ? "text-white/70" : "text-white/70",
                             ].join(" ")}
                           />
                           <span
@@ -590,7 +582,7 @@ export default function Header({
                               className={[
                                 "text-[11px] font-orbitron px-2 py-1 border",
                                 isLight
-                                  ? "border-black/15 text-black/70 bg-black/5"
+                                  ? "border-white/10 text-white/70 bg-white/5"
                                   : "border-white/10 text-white/70 bg-white/5",
                               ].join(" ")}
                             >

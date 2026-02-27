@@ -1,12 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Rocket, Sparkles, X } from "lucide-react";
-import { clientLogos, heroImages, projects, services, testimonials } from "../data/mockData";
+import {
+  bannerVideosByTheme,
+  clientLogos,
+  heroImagesByTheme,
+  projects,
+  services,
+  testimonials,
+} from "../data/mockData";
+
 import "../styles/home.css";
 import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
 import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
-import universeBannerVideo from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
-import earthBannerVideo from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
 import vaisseauSpatial from "../assets/images/home/vaisseau-spatial-creation-steven.png";
 import potCrayons from "../assets/images/home/pot-crayon.png";
 
@@ -23,7 +29,12 @@ function normalizeTestimonialText(text: string) {
 }
 
 export default function Home() {
-  const images = useMemo(() => heroImages, []);
+  const [theme, setTheme] = useState<"dark" | "light">(() =>
+    document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark",
+  );
+
+  const images = useMemo(() => heroImagesByTheme[theme], [theme]);
+  const bannerVideos = useMemo(() => bannerVideosByTheme[theme], [theme]);
   const aboutSlides = useMemo(() => [aboutFutureImage, biographyImage], []);
   const [index, setIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
@@ -38,6 +49,22 @@ export default function Home() {
       }),
     [testimonialIndex],
   );
+
+  useEffect(() => {
+    const onThemeUpdate = () => {
+      setTheme(document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark");
+    };
+
+    onThemeUpdate();
+
+    const observer = new MutationObserver(onThemeUpdate);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -269,7 +296,7 @@ export default function Home() {
         <section className="universe-video-banner relative z-10 w-full overflow-hidden">
           <video
             className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
-            src={universeBannerVideo}
+            src={bannerVideos.universe}
             autoPlay
             loop
             muted
@@ -422,7 +449,7 @@ export default function Home() {
         <section className="earth-video-banner relative z-10 w-full overflow-hidden">
           <video
             className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
-            src={earthBannerVideo}
+            src={bannerVideos.earth}
             autoPlay
             loop
             muted
