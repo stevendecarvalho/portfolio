@@ -1,24 +1,26 @@
-// src/components/Header.tsx
+////////////////
+// COMPOSANTS //
+////////////////
+
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
-import logo from "../assets/logo.svg";
-import {
-  ChevronDown,
-  Menu,
-  Moon,
-  Sun,
-  Search,
-  Volume2,
-  VolumeX,
-  X,
-} from "lucide-react";
+import { ChevronDown, Menu, Moon, Sun, Search, Volume2, VolumeX, X } from "lucide-react";
+
 import type { Theme } from "../app/App";
 import { navLinks } from "../data/navLinks";
 import MegaMenu from "./MegaMenu";
 import { searchIndex } from "../data/searchIndex";
 
+import logo from "../assets/logo.svg";
+
 type DropdownPos = { left: number; top: number; width: number };
 type SearchEntry = (typeof searchIndex)[number];
+
+
+
+///////////////
+// FONCTIONS //
+///////////////
 
 function safeLower(s: unknown) {
   return (s ?? "").toString().trim().toLowerCase();
@@ -48,30 +50,29 @@ export default function Header({
   musicEnabled: boolean;
   onToggleMusic: () => void;
 }) {
-  const { pathname } = useLocation();
 
+  const { pathname } = useLocation();
   const headerHeight = 80;
 
-  // scroll style
+  // Scroll
   const [scrolled, setScrolled] = useState(false);
 
-  // mega
+  // Méga menu
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const closeTimer = useRef<number | null>(null);
   const navAreaRef = useRef<HTMLDivElement | null>(null);
   const megaRef = useRef<HTMLDivElement | null>(null);
 
-  // search
+  // Recherche
   const [searchOpen, setSearchOpen] = useState(false);
   const [q, setQ] = useState("");
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const [searchDropPos, setSearchDropPos] = useState<DropdownPos | null>(null);
 
-  // mobile overlay
+  // Overlay menu mobile
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [mobileOpenIndex, setMobileOpenIndex] = useState<number | null>(null);
-
   const openedItem = openIndex !== null ? (navLinks as any[])[openIndex] : null;
   const openedHasMega =
     !!openedItem &&
@@ -99,11 +100,14 @@ export default function Header({
       .slice(0, 30);
   }, [q]);
 
-  // theme
+
+
+///////////
+// THÈME //
+///////////
+
   const isLight = theme === "light";
-  const textMuted = isLight
-    ? "text-white/70 hover:text-cyan-400"
-    : "text-white/70 hover:text-cyan-400";
+  const textMuted = isLight ? "text-white/70 hover:text-cyan-400" : "text-white/70 hover:text-cyan-400";
   const textActive = isLight ? "text-white" : "text-cyan-400";
   const underlineColor = isLight ? "bg-white/80" : "bg-cyan-400";
   const iconColor = isLight ? "text-white/80" : "text-cyan-400";
@@ -290,19 +294,20 @@ export default function Header({
   const MENU_ANIM = "duration-[650ms]";
   const SEARCH_ANIM = "duration-[750ms]";
 
+
+
+
+  ///////////
+  // RENDU //
+  ///////////
+
   return (
     <header className={headerClass} style={{ height: headerHeight }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20">
+      <div className="pl-[30px] pr-[30px] max-w-7xl mx-auto h-20">
         <div className="flex justify-between items-center h-20">
-          {/* LOGO */}
           <Link to="/" className="flex items-center space-x-2 group">
             <div className="relative">
-              <div
-                className={[
-                  "absolute inset-0 blur-xl opacity-0 group-hover:opacity-50 transition-opacity",
-                  isLight ? "bg-black/20" : "bg-cyan-400",
-                ].join(" ")}
-              />
+              <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-50 transition-opacity bg-cyan-400" />
               <img src={logo} alt="Logo" className="relative h-8 w-auto" />
             </div>
           </Link>
