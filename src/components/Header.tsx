@@ -110,6 +110,7 @@ export default function Header({
   const isLight = theme === "light";
   const isLightTop = isLight && !scrolled;
   const activeLogo = isLightTop ? logoLight : logo;
+  const mobileOverlayLogo = logo;
 
   const textMuted = isLightTop
     ? "text-[#112f5b]/80 hover:text-[#112f5b]"
@@ -697,7 +698,7 @@ export default function Header({
         aria-hidden={!mobileOpen}
       >
         <div
-          className="absolute inset-0 bg-black/90 backdrop-blur-md"
+          className="absolute inset-0 bg-cosmic-black/95 backdrop-blur-md"
           onClick={() => {
             setMobileOpen(false);
             setMobileSearchOpen(false);
@@ -709,10 +710,36 @@ export default function Header({
         <div className="relative h-full w-full">
           <div className="h-20 px-5 flex items-center justify-between border-b border-cyan-400/20">
             <div className="flex items-center gap-3">
-              <img src={activeLogo} alt="Logo" className="h-10 w-auto" />
+              <img src={mobileOverlayLogo} alt="Logo" className="h-10 w-auto" />
             </div>
 
             <div className="flex items-center gap-3">
+              <button
+                className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+                aria-label={musicEnabled ? "Couper la musique" : "Activer la musique"}
+                onClick={onToggleMusic}
+                type="button"
+              >
+                {musicEnabled ? (
+                  <Volume2 className="w-5 h-5 text-white/90" />
+                ) : (
+                  <VolumeX className="w-5 h-5 text-white/90" />
+                )}
+              </button>
+
+              <button
+                className={["p-2 rounded-none transition-all", iconBox].join(" ")}
+                aria-label="Toggle theme"
+                onClick={onToggleTheme}
+                type="button"
+              >
+                {theme === "dark" ? (
+                  <Sun className={["w-5 h-5 theme-toggle-icon", iconColor].join(" ")} />
+                ) : (
+                  <Moon className={["w-5 h-5 theme-toggle-icon", iconColor].join(" ")} />
+                )}
+              </button>
+
               <button
                 className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
                 aria-label={mobileSearchOpen ? "Afficher le menu" : "Afficher la recherche"}
