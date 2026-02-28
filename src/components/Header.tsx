@@ -12,6 +12,7 @@ import MegaMenu from "./MegaMenu";
 import { searchIndex } from "../data/searchIndex";
 
 import logo from "../assets/logo.svg";
+import logoLight from "../assets/logo-light.svg";
 
 type DropdownPos = { left: number; top: number; width: number };
 type SearchEntry = (typeof searchIndex)[number];
@@ -107,23 +108,39 @@ export default function Header({
 ///////////
 
   const isLight = theme === "light";
-  const textMuted = isLight ? "text-white/70 hover:text-cyan-400" : "text-white/70 hover:text-cyan-400";
-  const textActive = isLight ? "text-white" : "text-cyan-400";
-  const underlineColor = isLight ? "bg-white/80" : "bg-cyan-400";
-  const iconColor = isLight ? "text-white/80" : "text-cyan-400";
-  const iconBox = isLight
-    ? "bg-white/5 hover:bg-white/10"
-    : "bg-white/10 hover:bg-cyan-400/20";
+  const isLightTop = isLight && !scrolled;
+  const activeLogo = isLightTop ? logoLight : logo;
+
+  const textMuted = isLightTop
+    ? "text-[#112f5b]/80 hover:text-[#112f5b]"
+    : isLight
+      ? "text-white/70 hover:text-white"
+      : "text-white/70 hover:text-cyan-400";
+
+  const textActive = isLightTop
+    ? "text-[#112f5b]"
+    : isLight
+      ? "text-white"
+      : "text-cyan-400";
+
+  const underlineColor = isLightTop ? "bg-[#112f5b]/80" : "bg-white/80";
+  const iconColor = isLightTop
+    ? "text-[#112f5b]/85"
+    : isLight
+      ? "text-white/85"
+      : "text-cyan-400";
+
+  const iconBox = isLightTop
+    ? "bg-[#112f5b]/8 hover:bg-[#112f5b]/14"
+    : isLight
+      ? "bg-white/10 hover:bg-white/20"
+      : "bg-white/10 hover:bg-cyan-400/20";
 
   const headerClass = [
     "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
     scrolled
-      ? isLight
-        ? "backdrop-blur-md bg-white/80 shadow-lg border-b border-black/10"
-        : "backdrop-blur-md bg-cosmic-black/60 shadow-lg border-b border-cyan-400/20"
-      : isLight
-        ? "bg-white/0 border-b border-transparent"
-        : "bg-transparent border-b border-transparent",
+      ? "backdrop-blur-md bg-cosmic-black/75 shadow-lg border-b border-white/10"
+      : "bg-transparent border-b border-transparent",
   ].join(" ");
 
   const scheduleClose = () => {
@@ -304,11 +321,11 @@ export default function Header({
   return (
     <header className={headerClass} style={{ height: headerHeight }}>
       <div className="pl-[30px] pr-[30px] max-w-7xl mx-auto h-20">
-        <div className="flex justify-between items-center h-20 gap-[30px]">
+        <div className="flex justify-between items-center h-20 gap-3">
           <Link to="/" className="flex shrink-0 items-center space-x-2 group">
             <div className="relative">
               <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-50 transition-opacity bg-cyan-400" />
-              <img src={logo} alt="Logo" className="relative h-8 w-auto logo" />
+              <img src={activeLogo} alt="Logo" className="relative h-8 w-auto" />
             </div>
           </Link>
 
@@ -318,7 +335,7 @@ export default function Header({
           // DESKTOP (>= 850px) //
           //////////////////////*/ }
 
-          <div className="hidden min-[850px]:block relative flex-1 min-w-0" ref={navAreaRef}>
+          <div className="hidden min-[800px]:block relative flex-1 min-w-0" ref={navAreaRef}>
             <div className="relative h-20 w-full max-w-[1100px] ml-auto overflow-hidden">
               
               <nav
@@ -627,7 +644,7 @@ export default function Header({
           {/* MOBILE (< 850px) */}
           <div className="min-[850px]:hidden flex items-center space-x-3">
             <button
-              className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+              className={["p-2 rounded-none transition-all", iconBox].join(" ")}
               aria-label="Rechercher"
               type="button"
               onClick={() => {
@@ -635,37 +652,37 @@ export default function Header({
                 setMobileSearchOpen(true);
               }}
             >
-              <Search className="w-5 h-5 text-cyan-400" />
+              <Search className={["w-5 h-5", iconColor].join(" ")} />
             </button>
 
             <button
-              className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+              className={["p-2 rounded-none transition-all", iconBox].join(" ")}
               aria-label={musicEnabled ? "Couper la musique" : "Activer la musique"}
               onClick={onToggleMusic}
               type="button"
             >
               {musicEnabled ? (
-                <Volume2 className="w-5 h-5 text-cyan-400" />
+                <Volume2 className={["w-5 h-5", iconColor].join(" ")} />
               ) : (
-                <VolumeX className="w-5 h-5 text-cyan-400" />
+                <VolumeX className={["w-5 h-5", iconColor].join(" ")} />
               )}
             </button>
 
             <button
-              className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+              className={["p-2 rounded-none transition-all", iconBox].join(" ")}
               aria-label="Toggle theme"
               onClick={onToggleTheme}
               type="button"
             >
               {theme === "dark" ? (
-                <Sun className="w-5 h-5 theme-toggle-icon text-cyan-300" />
+                <Sun className={["w-5 h-5 theme-toggle-icon", iconColor].join(" ")} />
               ) : (
-                <Moon className="w-5 h-5 theme-toggle-icon text-cyan-400" />
+                <Moon className={["w-5 h-5 theme-toggle-icon", iconColor].join(" ")} />
               )}
             </button>
 
             <button
-              className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+              className={["p-2 rounded-none transition-all", iconBox].join(" ")}
               aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
               onClick={() => {
                 setMobileOpen(true);
@@ -673,7 +690,7 @@ export default function Header({
               }}
               type="button"
             >
-              <Menu className="w-6 h-6 text-cyan-400" />
+              <Menu className={["w-6 h-6", iconColor].join(" ")} />
             </button>
           </div>
         </div>
@@ -700,7 +717,7 @@ export default function Header({
         <div className="relative h-full w-full">
           <div className="h-20 px-5 flex items-center justify-between border-b border-cyan-400/20">
             <div className="flex items-center gap-3">
-              <img src={logo} alt="Logo" className="h-10 w-auto" />
+              <img src={activeLogo} alt="Logo" className="h-10 w-auto" />
             </div>
 
             <div className="flex items-center gap-3">
