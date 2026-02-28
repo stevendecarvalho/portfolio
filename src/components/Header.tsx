@@ -137,6 +137,9 @@ export default function Header({
       ? "bg-white/10 hover:bg-white/20"
       : "bg-white/10 hover:bg-cyan-400/20";
 
+  const mobileOverlayIcon = theme === "dark" ? "text-amber-300" : "text-cyan-300";
+  const mobileOverlayButton = "p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all";
+
   const headerClass = [
     "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
     scrolled
@@ -692,22 +695,19 @@ export default function Header({
       {/* MOBILE FULLSCREEN OVERLAY (fade) */}
       <div
         className={[
-          "fixed inset-0 z-[10000] min-[850px]:hidden transition-opacity duration-250",
+          "fixed inset-0 z-[10000] min-[850px]:hidden transition-opacity duration-250 bg-cosmic-black/95 backdrop-blur-md",
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         ].join(" ")}
         aria-hidden={!mobileOpen}
+        onClick={() => {
+          setMobileOpen(false);
+          setMobileSearchOpen(false);
+          setMobileOpenIndex(null);
+          setQ("");
+        }}
       >
-        <div
-          className="absolute inset-0 bg-cosmic-black/95 backdrop-blur-md"
-          onClick={() => {
-            setMobileOpen(false);
-            setMobileSearchOpen(false);
-            setMobileOpenIndex(null);
-            setQ("");
-          }}
-        />
-
-        <div className="relative h-full w-full">
+      <div className="absolute inset-0 z-0 bg-black/90 backdrop-blur-md" />
+        <div className="relative z-10 h-full w-full" onClick={(e) => e.stopPropagation()}>
           <div className="h-20 px-5 flex items-center justify-between border-b border-cyan-400/20">
             <div className="flex items-center gap-3">
               <img src={mobileOverlayLogo} alt="Logo" className="h-10 w-auto" />
@@ -715,7 +715,7 @@ export default function Header({
 
             <div className="flex items-center gap-3">
               <button
-                className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+                className={mobileOverlayButton}
                 aria-label={musicEnabled ? "Couper la musique" : "Activer la musique"}
                 onClick={onToggleMusic}
                 type="button"
@@ -728,20 +728,21 @@ export default function Header({
               </button>
 
               <button
-                className={["p-2 rounded-none transition-all", iconBox].join(" ")}
+                className={mobileOverlayButton}
                 aria-label="Toggle theme"
                 onClick={onToggleTheme}
                 type="button"
+                title={theme === "dark" ? "Mode clair" : "Mode sombre"}
               >
                 {theme === "dark" ? (
-                  <Sun className={["w-5 h-5 theme-toggle-icon", iconColor].join(" ")} />
+                  <Sun className={["w-5 h-5 theme-toggle-icon", mobileOverlayIcon].join(" ")} />
                 ) : (
-                  <Moon className={["w-5 h-5 theme-toggle-icon", iconColor].join(" ")} />
+                  <Moon className={["w-5 h-5 theme-toggle-icon", mobileOverlayIcon].join(" ")} />
                 )}
               </button>
 
               <button
-                className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+                className={mobileOverlayButton}
                 aria-label={mobileSearchOpen ? "Afficher le menu" : "Afficher la recherche"}
                 onClick={() => setMobileSearchOpen((v) => !v)}
                 type="button"
@@ -754,7 +755,7 @@ export default function Header({
               </button>
 
               <button
-                className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
+                className={mobileOverlayButton}
                 aria-label="Fermer"
                 onClick={() => {
                   setMobileOpen(false);
