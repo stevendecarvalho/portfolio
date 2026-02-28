@@ -304,18 +304,23 @@ export default function Header({
   return (
     <header className={headerClass} style={{ height: headerHeight }}>
       <div className="pl-[30px] pr-[30px] max-w-7xl mx-auto h-20">
-        <div className="flex justify-between items-center h-20">
-          <Link to="/" className="flex items-center space-x-2 group">
+        <div className="flex justify-between items-center h-20 gap-[30px]">
+          <Link to="/" className="flex shrink-0 items-center space-x-2 group">
             <div className="relative">
               <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-50 transition-opacity bg-cyan-400" />
-              <img src={logo} alt="Logo" className="relative h-8 w-auto" />
+              <img src={logo} alt="Logo" className="relative h-8 w-auto logo" />
             </div>
           </Link>
 
-          {/* DESKTOP (>= 800px) */}
-          <div className="hidden min-[800px]:block relative" ref={navAreaRef}>
-            <div className="relative h-20 w-[min(1100px,92vw)] overflow-hidden">
-              {/* MENU */}
+
+
+          {/*/////////////////////
+          // DESKTOP (>= 850px) //
+          //////////////////////*/ }
+
+          <div className="hidden min-[850px]:block relative flex-1 min-w-0" ref={navAreaRef}>
+            <div className="relative h-20 w-full max-w-[1100px] ml-auto overflow-hidden">
+              
               <nav
                 className={[
                   "absolute inset-0 flex items-center justify-end space-x-1",
@@ -334,7 +339,7 @@ export default function Header({
                   const isActive = item.href ? pathname === item.href : false;
 
                   const topBtnClass = [
-                    "px-4 py-2 rounded-none text-sm font-medium transition-all duration-300 relative group font-orbitron flex items-center gap-2",
+                    "px-4 py-2 text-sm transition-all duration-300 relative group font-orbitron flex items-center gap-2 element-menu",
                     isActive ? textActive : textMuted,
                   ].join(" ");
 
@@ -355,15 +360,13 @@ export default function Header({
                         >
                           {item.label}
                           <ChevronDown
-                            className={[
-                              "w-4 h-4 transition-transform duration-300",
+                            className={["w-4 h-4 transition-transform duration-300",
                               isOpen ? "rotate-180" : "rotate-0",
                               isLight ? "text-white/70" : "text-white/70",
                             ].join(" ")}
                           />
                           <span
-                            className={[
-                              "absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300",
+                            className={["absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300",
                               underlineColor,
                               isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
                             ].join(" ")}
@@ -373,7 +376,7 @@ export default function Header({
                         <Link
                           to={item.href ?? "/"}
                           className={[
-                            "px-4 py-2 rounded-none text-sm font-medium transition-all duration-300 relative group font-orbitron",
+                            "px-4 py-2 text-sm transition-all duration-300 relative group font-orbitron element-menu",
                             isActive ? textActive : textMuted,
                           ].join(" ")}
                           onPointerEnter={() => {
@@ -621,8 +624,8 @@ export default function Header({
             )}
           </div>
 
-          {/* MOBILE (< 800px) */}
-          <div className="min-[800px]:hidden flex items-center space-x-3">
+          {/* MOBILE (< 850px) */}
+          <div className="min-[850px]:hidden flex items-center space-x-3">
             <button
               className="p-2 rounded-none bg-white/10 hover:bg-cyan-400/20 transition-all"
               aria-label="Rechercher"
