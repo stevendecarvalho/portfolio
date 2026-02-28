@@ -42,23 +42,6 @@ html[data-theme="light"] body {
     0 0 40px rgba(34, 211, 238, 0.20);
 }
 
-html[data-theme="light"] .bg-cosmic-dark-blue {
-  background: linear-gradient(180deg, #efe4cc 0%, #e4d2aa 55%, #dcc292 100%);
-}
-
-html[data-theme="light"] .cosmic-bg {
-  background:
-    radial-gradient(1000px 520px at 50% 12%, rgba(255, 214, 130, 0.42), transparent 62%),
-    radial-gradient(700px 420px at 10% 90%, rgba(196, 132, 51, 0.20), transparent 58%),
-    linear-gradient(to bottom, #f7ead1 0%, #eed7ad 48%, #dfbf8b 100%);
-}
-
-html[data-theme="light"] .glow-text {
-  text-shadow:
-    0 0 20px rgba(255, 183, 77, 0.35),
-    0 0 38px rgba(242, 147, 41, 0.18);
-}
-
 .section-title {
   letter-spacing: 0.02em;
 }
@@ -93,7 +76,7 @@ html[data-theme="light"] .sombre-color {
 }
 
 button:hover .theme-toggle-icon {
-  transform: rotate(25deg);
+  transform: rotate(225deg);
 }
 
 @layer components {
@@ -113,14 +96,19 @@ button:hover .theme-toggle-icon {
            hover:bg-cyan-300 transition-all duration-300;
   }
 
-  html[data-theme="light"] .btn-cosmic {
-    @apply bg-amber-500 text-white hover:bg-amber-400;
-  }
-
   .btn-cosmic-outline {
     @apply bg-transparent text-white border border-cyan-400/40
            hover:bg-cyan-400/15;
   }
+}
+
+html[data-theme="light"] .btn-cosmic {
+  color: #fff;
+}
+
+html[data-theme="light"] .btn-cosmic.btn-cosmic-outline {
+  border-color: rgb(17 47 91);
+  color: #112f5b;
 }
 
 .reveal-on-scroll {

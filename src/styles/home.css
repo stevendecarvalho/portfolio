@@ -15,6 +15,17 @@ p.desc-hero-home {
     max-width: 48rem;
 }
 
+html[data-theme="light"] h1.title-hero-home,
+html[data-theme="light"] p.desc-hero-home {
+    color: #112f5b;
+}
+
+html[data-theme="light"] p.desc-hero-home {
+    font-weight: 500;
+    text-shadow: 1px 1px 5px #fff;
+    background-color: rgb(255 255 255 / 25%);
+}
+
 h2.title-section {
     font-family: Impact, Charcoal, sans-serif;
     font-size: 25px;
@@ -795,21 +806,4 @@ html[data-theme="light"] button.testimonial-modal-tab.is-active {
     border-color: rgba(180, 95, 26, 0.52);
     color: #9a4a12;
     background: rgba(255, 181, 78, 0.22);
-}
-
-html[data-theme="light"] .home-hero-glow-light {
-    text-shadow:
-        0 0 16px rgba(255, 176, 66, 0.45),
-        0 0 34px rgba(255, 145, 0, 0.35);
-}
-
-html[data-theme="light"] .btn-cosmic-light-hero {
-    background: #f2a400;
-    border: 1px solid #f2a400;
-    color: #ffffff;
-}
-
-html[data-theme="light"] .btn-cosmic-light-hero:hover {
-    background: #ffb300;
-    border-color: #ffb300;
 }

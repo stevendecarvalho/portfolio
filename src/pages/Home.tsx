@@ -159,7 +159,7 @@ export default function Home() {
                   className={[
                     "absolute inset-0",
                     isLight
-                      ? "bg-gradient-to-b from-[#2f0d05]/70 via-[#2c130a]/55 to-[#140604]/78"
+                      ? "bg-gradient-to-b from-[#202d56]/25 to-[#140604]/78"
                       : "bg-gradient-to-b from-cosmic-deep-blue/80 via-cosmic-deep-blue/60 to-cosmic-deep-blue",
                   ].join(" ")}
                 />
@@ -169,24 +169,24 @@ export default function Home() {
 
           {/* little stars */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className={`absolute top-1/4 left-1/4 w-2 h-2 ${isLight ? "bg-amber-400" : "bg-cyan-400"} rounded-full animate-pulse`} />
-            <div className={`absolute top-1/3 right-1/3 w-1 h-1 ${isLight ? "bg-amber-300" : "bg-cyan-400"} rounded-full animate-pulse`} style={{ animationDelay: "1s" }} />
-            <div className={`absolute bottom-1/4 left-1/3 w-1.5 h-1.5 ${isLight ? "bg-amber-400" : "bg-cyan-400"} rounded-full animate-pulse`} style={{ animationDelay: "2s" }} />
-            <div className={`absolute top-2/3 right-1/4 w-1 h-1 ${isLight ? "bg-amber-300" : "bg-cyan-400"} rounded-full animate-pulse`} style={{ animationDelay: "1.5s" }} />
+            <div className={`absolute top-1/4 left-1/4 w-2 h-2 ${isLight ? "hidden bg-[#112f5b]" : "bg-cyan-400"} rounded-full animate-pulse`} />
+            <div className={`absolute top-1/3 right-1/3 w-1 h-1 ${isLight ? "hidden bg-[#112f5b]" : "bg-cyan-400"} rounded-full animate-pulse`} style={{ animationDelay: "1s" }} />
+            <div className={`absolute bottom-1/4 left-1/3 w-1.5 h-1.5 ${isLight ? "hidden bg-[#112f5b]" : "bg-cyan-400"} rounded-full animate-pulse`} style={{ animationDelay: "2s" }} />
+            <div className={`absolute top-2/3 right-1/4 w-1 h-1 ${isLight ? "hidden bg-[#112f5b]" : "bg-cyan-400"} rounded-full animate-pulse`} style={{ animationDelay: "1.5s" }} />
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+          <div className={`${isLight ? "text-justify w-full" : "text-center"} relative z-10 max-w-7xl mx-auto pl-[30px] pr-[30px] pt-20`}>
             <div className="transform transition-all duration-1000 translate-y-0 opacity-100">
               <div
                 className={[
                   "inline-flex items-center space-x-2 px-5 py-2 rounded-full mb-6",
                   isLight
-                    ? "bg-amber-300/10 border border-amber-300/60"
+                    ? "bg-blue-300/10 border border-[#112f5b]"
                     : "bg-cyan-400/10 border border-cyan-400/30",
                 ].join(" ")}
               >
-                <Sparkles className={`w-4 h-4 ${isLight ? "text-amber-300" : "text-cyan-400"}`} />
-                <span className={`${isLight ? "text-amber-300" : "text-cyan-400"} text-sm font-medium font-orbitron`}>
+                <Sparkles className={`w-4 h-4 ${isLight ? "text-[#112f5b]" : "text-cyan-400"}`} />
+                <span className={`${isLight ? "text-[#112f5b]" : "text-cyan-400"} text-sm font-medium font-orbitron`}>
                   Créateur Digital & Innovateur
                 </span>
               </div>
@@ -194,18 +194,18 @@ export default function Home() {
               <h1 className="title-hero-home">
                 Explorez l&apos;Univers
                 <br />
-                <span className={`${isLight ? "text-amber-400 home-hero-glow-light" : "text-cyan-400 glow-text"}`}>Digital</span>
+                <span className={`${isLight ? "text-cyan-400 glow-text" : "text-cyan-400 glow-text"}`}>Digital</span>
               </h1>
 
               <p className="desc-hero-home">
                 Développement web, cybersécurité, SEO, graphisme, marketing, photographie et vidéo. Transformez vos idées en réalité avec des solutions innovantes.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link to="/portfolio" className={isLight ? "btn-cosmic btn-cosmic-light-hero" : "btn-cosmic"}>
+              <div className={`${isLight ? "justify-start" : "justify-center"} flex flex-col sm:flex-row items-center gap-4`}>
+                <Link to="/portfolio" className="btn-cosmic">
                   Découvrir mes projets <ArrowRight className="w-5 h-5" />
                 </Link>
-                <Link to="/contact" className={isLight ? "btn-cosmic btn-cosmic-light-hero" : "btn-cosmic btn-cosmic-outline"}>
+                <Link to="/contact" className="btn-cosmic btn-cosmic-outline">
                   Me contacter <Rocket className="w-5 h-5" />
                 </Link>
               </div>
@@ -213,8 +213,8 @@ export default function Home() {
           </div>
 
           <div className="homeScroll absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <div className={`w-6 h-10 border-2 ${isLight ? "border-amber-400/80" : "border-cyan-400/50"} rounded-full p-1`}>
-              <div className={`w-1.5 h-3 ${isLight ? "bg-amber-400" : "bg-cyan-400"} rounded-full mx-auto animate-pulse`} />
+            <div className={`w-6 h-10 border-2 ${isLight ? "border-[#112f5b]" : "border-cyan-400/50"} rounded-full p-1`}>
+              <div className={`w-1.5 h-3 ${isLight ? "bg-[#112f5b]" : "bg-cyan-400"} rounded-full mx-auto animate-pulse`} />
             </div>
           </div>
         </section>

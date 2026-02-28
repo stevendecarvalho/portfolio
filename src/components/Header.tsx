@@ -140,7 +140,9 @@ export default function Header({
     "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
     scrolled
       ? "backdrop-blur-md bg-cosmic-black/75 shadow-lg border-b border-white/10"
-      : "bg-transparent border-b border-transparent",
+      : isLightTop
+        ? "bg-[rgb(255_255_255_/25%)] backdrop-blur-md border-b border-white/20"
+        : "bg-transparent border-b border-transparent",
   ].join(" ");
 
   const scheduleClose = () => {
@@ -335,11 +337,10 @@ export default function Header({
           // DESKTOP (>= 850px) //
           //////////////////////*/ }
 
-          <div className="hidden min-[800px]:block relative flex-1 min-w-0" ref={navAreaRef}>
+          <div className="hidden min-[850px]:block relative flex-1 min-w-0" ref={navAreaRef}>
             <div className="relative h-20 w-full max-w-[1100px] ml-auto overflow-hidden">
               
-              <nav
-                className={[
+              <nav className={[
                   "absolute inset-0 flex items-center justify-end space-x-1",
                   "transition-[opacity,transform] ease-out",
                   MENU_ANIM,
@@ -379,7 +380,7 @@ export default function Header({
                           <ChevronDown
                             className={["w-4 h-4 transition-transform duration-300",
                               isOpen ? "rotate-180" : "rotate-0",
-                              isLight ? "text-white/70" : "text-white/70",
+                              isLightTop ? "text-[#112f5b]/80" : "text-white/70",
                             ].join(" ")}
                           />
                           <span
@@ -415,7 +416,7 @@ export default function Header({
                   );
                 })}
 
-                {/* Search button */}
+                {/* Bouton de recherche */}
                 <button
                   className={[
                     "ml-4 p-2 rounded-none transition-all duration-300 group",
@@ -432,7 +433,7 @@ export default function Header({
                   <Search className={["w-5 h-5", iconColor].join(" ")} />
                 </button>
 
-                {/* Music */}
+                {/* Musique */}
                 <button
                   className={[
                     "ml-3 p-2 rounded-none transition-all duration-300 group",
@@ -450,7 +451,7 @@ export default function Header({
                   )}
                 </button>
 
-                {/* Theme */}
+                {/* Thème */}
                 <button
                   className={[
                     "ml-3 p-2 rounded-none transition-all duration-300 group",
@@ -469,7 +470,7 @@ export default function Header({
                 </button>
               </nav>
 
-              {/* SEARCH BAR */}
+              {/* BARRE DE RECHERCHE */}
               <div
                 className={[
                   "absolute inset-0 flex items-center justify-end",
@@ -509,8 +510,7 @@ export default function Header({
                   >
                     <X
                       className={[
-                        "w-5 h-5",
-                        isLight ? "text-black/80" : "text-white/90",
+                        "w-5 h-5 text-white/90",
                       ].join(" ")}
                     />
                   </button>
@@ -518,18 +518,10 @@ export default function Header({
               </div>
             </div>
 
-            {/* SEARCH RESULTS */}
+            {/* RÉSULTATS DES RECHERCHES */}
             {showDesktopResults && searchDropPos && (
-              <div
-                className="fixed z-[9999]"
-                style={{
-                  left: searchDropPos.left,
-                  top: searchDropPos.top,
-                  width: searchDropPos.width,
-                }}
-              >
-                <div
-                  className={[
+              <div className="fixed z-[9999]" style={{ left: searchDropPos.left, top: searchDropPos.top, width: searchDropPos.width}}>
+                <div className={[
                     "rounded-none overflow-hidden",
                     isLight
                       ? "border border-black/10 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
@@ -699,7 +691,7 @@ export default function Header({
       {/* MOBILE FULLSCREEN OVERLAY (fade) */}
       <div
         className={[
-          "fixed inset-0 z-[10000] min-[800px]:hidden transition-opacity duration-250",
+          "fixed inset-0 z-[10000] min-[850px]:hidden transition-opacity duration-250",
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         ].join(" ")}
         aria-hidden={!mobileOpen}
