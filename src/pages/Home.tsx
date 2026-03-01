@@ -373,7 +373,7 @@ export default function Home() {
                   style={{ animation: "fadeInUp 0.8s ease 0s 1 normal forwards" }}
                 >
                   <div className="flex flex-col items-center text-center space-y-4">
-                    <img src={s.src} alt={s.title} className="object-contain" />
+                    <img src={s.srcByTheme[theme]} alt={s.title} className="object-contain" />
                     <h3 className="text-xl font-semibold text-white font-orbitron">{s.title}</h3>
                     <p className="text-white/60 text-sm leading-relaxed">{s.desc}</p>
                   </div>

@@ -27,6 +27,14 @@ import servicePhotographie from "../assets/images/home/realisations-photographie
 import serviceCinema from "../assets/images/home/realisations-creation-contenus-videos.jpg";
 
 import serviceDevWebLight from "../assets/images/home/realisations-sites-internet-webdesign-light.jpg";
+import serviceSEOLight from "../assets/images/home/realisations-referencement-seo-light.jpg";
+import serviceSocialMediaLight from "../assets/images/home/realisations-social-media-light.jpg";
+import serviceGraphismeLight from "../assets/images/home/realisations-design-graphique-light.jpg";
+import serviceBrandingLight from "../assets/images/home/realisations-communication-branding-light.jpg";
+import serviceMarketingLight from "../assets/images/home/realisations-marketing-light.jpg";
+import serviceIntelligenceArtificielleLight from "../assets/images/home/realisations-intelligence-artificielle-light.jpg";
+import servicePhotographieLight from "../assets/images/home/realisations-photographies-light.jpg";
+import serviceCinemaLight from "../assets/images/home/realisations-creation-contenus-videos-light.jpg";
 
 import alexandre_izzi from "../assets/testimonials/temoignages-alexandre-izzi.jpg";
 import sebastien_vaugeois from "../assets/testimonials/sebastien-vaugeois.jpeg";
@@ -63,68 +71,94 @@ export const bannerVideosByTheme = {
   },
 } as const;
 
-export const servicesByTheme = {
-  dark: {
-    DevWeb: serviceDevWeb,
-    earth: earthBannerVideoDark,
-  },
-  light: {
-    DevWeb: serviceDevWebLight,
-    earth: earthBannerVideoLight,
-  },
-} as const;
+export type ServiceItem = {
+  srcByTheme: {
+    dark: string;
+    light: string;
+  };
+  title: string;
+  desc: string;
+  href: string;
+};
 
-export const services = [
+export const services: ServiceItem[] = [
   {
-    src: serviceDevWeb,
+    srcByTheme: {
+      dark: serviceDevWeb,
+      light: serviceDevWebLight,
+    },
     title: "Développement Web",
     desc: "Webdesign et création de sites web modernes et performants",
     href: "/services/developpement-web"
   },
   {
-    src: serviceSEO,
+    srcByTheme: {
+      dark: serviceSEO,
+      light: serviceSEOLight,
+    },
     title: "Référencement SEO",
     desc: "Optimisation pour les moteurs de recherche et visibilité en ligne",
     href: "/services/referencement-seo"
   },
   {
-    src: serviceSocialMedia,
+    srcByTheme: {
+      dark: serviceSocialMedia,
+      light: serviceSocialMediaLight,
+    },
     title: "Social Media",
     desc: "Gestion et animation de vos réseaux sociaux",
     href: "/services/social-media"
   },
   {
-    src: serviceGraphisme,
+    srcByTheme: {
+      dark: serviceGraphisme,
+      light: serviceGraphismeLight,
+    },
     title: "Graphisme",
     desc: "Création de visuels structurés et esthétiques pour tout vos supports",
     href: "/services/graphisme"
   },
   {
-    src: serviceBranding,
+    srcByTheme: {
+      dark: serviceBranding,
+      light: serviceBrandingLight,
+    },
     title: "Logos & Branding",
     desc: "Création d’identités de marque fortes et impactantes",
     href: "/services/branding",
   },
   {
-    src: serviceMarketing,
+    srcByTheme: {
+      dark: serviceMarketing,
+      light: serviceMarketingLight,
+    },
     title: "Stratégies Marketing",
     desc: "Stratégies digitales pour booster votre croissance",
     href: "/services/strategies-marketing"
   },
   {
-    src: serviceIntelligenceArtificielle,
+    srcByTheme: {
+      dark: serviceIntelligenceArtificielle,
+      light: serviceIntelligenceArtificielleLight,
+    },
     title: "Intelligence artificielle",
     desc: "Optimisation des flux de travail, génération de contenus et systèmes intelligents sur mesure.",
     href: "/services/intelligence-artificielle"
   },
   {
-    src: servicePhotographie,
+    srcByTheme: {
+      dark: servicePhotographie,
+      light: servicePhotographieLight,
+    },
     title: "Photographie",
     desc: "Captures professionnelles pour tous vos besoins visuels",
     href: "/services/photographie"
   },
   {
-    src: serviceCinema,
+    srcByTheme: {
+      dark: serviceCinema,
+      light: serviceCinemaLight,
+    },
     title: "Vidéo - Cinéma",
     desc: "Production vidéo et contenus cinématographiques",
     href: "/services/video-cinema"

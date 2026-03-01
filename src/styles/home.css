@@ -99,6 +99,10 @@ h2.section-title-outline {
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
 }
 
+html[data-theme="light"] h2.section-title-outline {
+    -webkit-text-stroke: 1px #002647;
+}
+
 h2.section-title-inline {
     font-family: Impact, Charcoal, sans-serif;
     font-style: normal;
@@ -126,6 +130,20 @@ a.homeExpertisesCard {
     box-shadow: 1px 1px 10px 10px rgba(0, 0, 0, 0.35);
     border: 2px solid #002647;
     border-radius: 15px;
+}
+
+html[data-theme="light"] a.homeExpertisesCard {
+    box-shadow: none;
+    border: none;
+}
+
+html[data-theme="light"] a.homeExpertisesCard h3,
+html[data-theme="light"] a.homeExpertisesCard p {
+    color: #002647;
+}
+
+html[data-theme="light"] a.homeExpertisesCard h3 {
+    margin-top: 10px !important;
 }
 
 a.homeExpertisesCard:hover {
