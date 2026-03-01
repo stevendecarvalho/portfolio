@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Rocket, Sparkles, X } from "lucide-react";
 import {
+  aboutSlidesByTheme,
   bannerVideosByTheme,
   clientLogos,
   heroImagesByTheme,
@@ -11,8 +12,6 @@ import {
 } from "../data/mockData";
 
 import "../styles/home.css";
-import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
-import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
 import vaisseauSpatial from "../assets/images/home/vaisseau-spatial-creation-steven.png";
 import potCrayons from "../assets/images/home/pot-crayon.png";
 
@@ -35,7 +34,7 @@ export default function Home() {
 
   const images = useMemo(() => heroImagesByTheme[theme], [theme]);
   const bannerVideos = useMemo(() => bannerVideosByTheme[theme], [theme]);
-  const aboutSlides = useMemo(() => [aboutFutureImage, biographyImage], []);
+  const aboutSlides = useMemo(() => aboutSlidesByTheme[theme], [theme]);
   const [index, setIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
@@ -78,6 +77,10 @@ export default function Home() {
       setAboutIndex((i) => (i + 1) % aboutSlides.length);
     }, 5500);
     return () => window.clearInterval(id);
+  }, [aboutSlides.length]);
+
+  useEffect(() => {
+    setAboutIndex((current) => (current >= aboutSlides.length ? 0 : current));
   }, [aboutSlides.length]);
 
   useEffect(() => {
@@ -230,7 +233,7 @@ export default function Home() {
           <div className="section-shell relative z-10">
             <div className="laser-reveal flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4" data-reveal>
               <h2 className="laser-title title-section">
-                🌀 À LA FRONTIÈRE DU RÉEL ET DE L&apos;IMAGINAIRE
+                {[isLight ? "🌌 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE" : "🌀 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE"]}
               </h2>
               <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
                 Mon univers <Rocket className="w-4 h-4" />
@@ -240,16 +243,16 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="sectionIntroUniverse-text space-y-8 reveal-on-scroll" data-reveal>
                 <p className="text-white text-[16px] leading-relaxed text-justify">
-                  <strong>Steven DE CARVALHO</strong> est un jeune créateur visuel à l’univers hybride.
+                  <strong>Steven DE CARVALHO</strong> est un créateur digital spécialisé dans la conception d’univers visuels stratégiques.
                 </p>
                 <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                  Depuis plus de 10 ans, je navigue entre <strong>les arts, la technologie et la performance</strong>. Mon univers ? Un croisement entre cinéma, design graphique, interfaces numériques, corps en mouvement et narration visuelle. <strong>Chaque projet est pour moi un portail créatif</strong> : une passerelle entre esthétique et sens, innovation et émotion, technologie et humanité.
+                  Depuis plus de 10 ans, il développe des <strong>identités, des plateformes et des expériences digitales</strong> à la frontière du design, du code et de la narration.
                 </p>
                 <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                  Mon approche est <strong>pluridisciplinaire</strong> : je puise dans la danse pour la fluidité du mouvement, le cinéma pour la narration, le code pour la structure, le sport pour l’endurance, et l’art pour la liberté. Ce mélange me permet d’apporter une vision globale, engagée et contemporaine à chaque projet.
+                  Son travail repose sur une conviction simple : une <strong>image forte</strong> ne se limite pas à l’esthétique — elle doit <strong>structurer un message, incarner une vision et créer un impact durable.</strong>
                 </p>
                 <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                  Au fil des années, j’ai collaboré avec des <strong>entreprises, artistes, festivals et institutions</strong>. Aujourd’hui, je poursuis cette exploration créative en accompagnant ceux qui veulent raconter une histoire forte à travers leur image.
+                  Au fil des années, Steven DE CARVALHO a su collaboré avec des <strong>entreprises, artistes, festivals et institutions</strong> dans la construction d’écosystèmes visuels cohérents, innovants et performants.
                 </p>
                 <div className="divLinkUniverse flex flex-col sm:flex-row items-center gap-4">
                   <Link to="/about" className="btn-cosmic inline-flex">

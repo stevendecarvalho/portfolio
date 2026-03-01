@@ -36,8 +36,18 @@ h2.title-section {
     text-transform: uppercase;
 }
 
+html[data-theme="light"] h2.title-section,
+html[data-theme="light"] div.sectionIntroUniverse-text p {
+    color: #112f5b;
+    text-shadow: none;
+}
+
 div.sectionIntroUniverse-text a.btnTitleUniverseHome {
     display: none;
+}
+
+html[data-theme="light"] div.sectionIntroUniverse-slide button.bg-white\/60 {
+    background-color: rgba(113, 113, 113, 0.6);
 }
 
 p.homeVideoBannerText,
@@ -553,6 +563,10 @@ section.earth-video-banner {
 
 .universe-video-banner {
     padding: 75px 0;
+}
+
+html[data-theme="light"] .universe-video-banner {
+    padding: 180px 0;
 }
 
 .universe-video-banner__media {

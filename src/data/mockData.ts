@@ -4,6 +4,18 @@ import heroSlide003 from "../assets/images/home/steven-de-carvalho-visual-creato
 
 import heroSlide001_Light from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-001.jpg";
 
+import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
+import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
+
+import aboutFutureImage_Light from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future-light.jpg";
+import biographyImage_Light from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography-light.jpg";
+
+import universeBannerVideoDark from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
+import earthBannerVideoDark from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
+
+import parisBannerVideoLight from "../assets/videos/steven-de-carvalho-future-paris-banner.mp4";
+import earthBannerVideoLight from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
+
 import serviceDevWeb from "../assets/images/home/realisations-sites-internet-webdesign.jpg";
 import serviceSEO from "../assets/images/home/realisations-referencement-seo.jpg";
 import serviceSocialMedia from "../assets/images/home/realisations-social-media.jpg";
@@ -14,10 +26,7 @@ import serviceIntelligenceArtificielle from "../assets/images/home/realisations-
 import servicePhotographie from "../assets/images/home/realisations-photographies.jpg";
 import serviceCinema from "../assets/images/home/realisations-creation-contenus-videos.jpg";
 
-import universeBannerVideoDark from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
-import earthBannerVideoDark from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
-import universeBannerVideoLight from "../assets/videos/steven-de-carvalho-galaxy-banner.mp4";
-import earthBannerVideoLight from "../assets/videos/steven-de-carvalho-earth-galaxy-banner2.mp4";
+import serviceDevWebLight from "../assets/images/home/realisations-sites-internet-webdesign-light.jpg";
 
 import alexandre_izzi from "../assets/testimonials/temoignages-alexandre-izzi.jpg";
 import sebastien_vaugeois from "../assets/testimonials/sebastien-vaugeois.jpeg";
@@ -38,13 +47,29 @@ export const heroImagesByTheme = {
   light: heroImagesLight,
 } as const;
 
+export const aboutSlidesByTheme = {
+  dark: [aboutFutureImage, biographyImage],
+  light: [aboutFutureImage_Light, biographyImage_Light],
+} as const;
+
 export const bannerVideosByTheme = {
   dark: {
     universe: universeBannerVideoDark,
     earth: earthBannerVideoDark,
   },
   light: {
-    universe: universeBannerVideoLight,
+    universe: parisBannerVideoLight,
+    earth: earthBannerVideoLight,
+  },
+} as const;
+
+export const servicesByTheme = {
+  dark: {
+    DevWeb: serviceDevWeb,
+    earth: earthBannerVideoDark,
+  },
+  light: {
+    DevWeb: serviceDevWebLight,
     earth: earthBannerVideoLight,
   },
 } as const;

@@ -143,9 +143,9 @@ export default function Header({
   const headerClass = [
     "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
     scrolled
-      ? "backdrop-blur-md bg-cosmic-black/75 shadow-lg border-b border-white/10"
+      ? "bg-cosmic-black/75 shadow-lg border-b border-white/10"
       : isLightTop
-        ? "bg-[rgb(255_255_255_/25%)] backdrop-blur-md border-b border-white/20"
+        ? "bg-[rgb(255_255_255_/25%)] border-b border-white/20"
         : "bg-transparent border-b border-transparent",
   ].join(" ");
 
@@ -638,7 +638,7 @@ export default function Header({
           </div>
 
           {/* MOBILE (< 850px) */}
-          <div className="min-[850px]:hidden flex items-center space-x-3">
+          <div className="min-[850px]:hidden flex items-center gap-3">
             <button
               className={["p-2 rounded-none transition-all", iconBox].join(" ")}
               aria-label="Rechercher"
@@ -695,7 +695,7 @@ export default function Header({
       {/* MOBILE FULLSCREEN OVERLAY (fade) */}
       <div
         className={[
-          "fixed inset-0 z-[10000] min-[850px]:hidden transition-opacity duration-250 bg-cosmic-black/95 backdrop-blur-md",
+          "fixed inset-0 z-[10000] min-[850px]:hidden transition-opacity duration-250 bg-[#05060A]",
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         ].join(" ")}
         aria-hidden={!mobileOpen}
@@ -706,14 +706,27 @@ export default function Header({
           setQ("");
         }}
       >
-      <div className="absolute inset-0 z-0 bg-black/90 backdrop-blur-md" />
+      <div className="absolute inset-0 z-0 bg-[#05060A]/95" />
         <div className="relative z-10 h-full w-full" onClick={(e) => e.stopPropagation()}>
-          <div className="h-20 px-5 flex items-center justify-between border-b border-cyan-400/20">
+          <div className="h-20 pl-[30px] pr-[30px] flex items-center justify-between border-b border-cyan-400/20">
             <div className="flex items-center gap-3">
               <img src={mobileOverlayLogo} alt="Logo" className="h-10 w-auto" />
             </div>
 
             <div className="flex items-center gap-3">
+              <button
+                className={mobileOverlayButton}
+                aria-label={mobileSearchOpen ? "Afficher le menu" : "Afficher la recherche"}
+                onClick={() => setMobileSearchOpen((v) => !v)}
+                type="button"
+              >
+                {mobileSearchOpen ? (
+                  <Menu className="w-5 h-5 text-white/90" />
+                ) : (
+                  <Search className="w-5 h-5 text-white/90" />
+                )}
+              </button>
+              
               <button
                 className={mobileOverlayButton}
                 aria-label={musicEnabled ? "Couper la musique" : "Activer la musique"}
@@ -738,19 +751,6 @@ export default function Header({
                   <Sun className={["w-5 h-5 theme-toggle-icon", mobileOverlayIcon].join(" ")} />
                 ) : (
                   <Moon className={["w-5 h-5 theme-toggle-icon", mobileOverlayIcon].join(" ")} />
-                )}
-              </button>
-
-              <button
-                className={mobileOverlayButton}
-                aria-label={mobileSearchOpen ? "Afficher le menu" : "Afficher la recherche"}
-                onClick={() => setMobileSearchOpen((v) => !v)}
-                type="button"
-              >
-                {mobileSearchOpen ? (
-                  <Menu className="w-5 h-5 text-white/90" />
-                ) : (
-                  <Search className="w-5 h-5 text-white/90" />
                 )}
               </button>
 
