@@ -4,6 +4,10 @@ import heroSlide003 from "../assets/images/home/steven-de-carvalho-visual-creato
 
 import heroSlide001_Light from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-001.jpg";
 
+import previewASLCDanse_001 from "../assets/images/imgProjets/preview-projet-festival-aslc-danse-001.jpg";
+import previewFEAE_001 from "../assets/images/imgProjets/preview-projet-festival-leurope-autour-de-leurope-001.jpg";
+import previewIzziFit from "../assets/images/imgProjets/preview-projet-festival-izzi-fit-academy-001.jpg";
+
 import aboutFutureImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-about-future.jpg";
 import biographyImage from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
 
@@ -59,6 +63,90 @@ export const aboutSlidesByTheme = {
   dark: [aboutFutureImage, biographyImage],
   light: [aboutFutureImage_Light, biographyImage_Light],
 } as const;
+
+export type imgProjetsItem = {
+  srcByTheme: {
+    dark: string;
+    light: string;
+  };
+  title: string;
+  href: string;
+};
+
+export const imgProjets: imgProjetsItem[] = [
+  {
+    srcByTheme: {
+      dark: previewASLCDanse_001,
+      light: previewASLCDanse_001,
+    },
+    title: "ASLC Danse",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewFEAE_001,
+      light: previewFEAE_001,
+    },
+    title: "Festival L'Europe autour de l'Europe",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewIzziFit,
+      light: previewIzziFit,
+    },
+    title: "IZZI FIT Academy",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewASLCDanse_001,
+      light: previewASLCDanse_001,
+    },
+    title: "ASLC Danse",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewFEAE_001,
+      light: previewFEAE_001,
+    },
+    title: "Festival L'Europe autour de l'Europe",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewIzziFit,
+      light: previewIzziFit,
+    },
+    title: "IZZI FIT Academy",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewASLCDanse_001,
+      light: previewASLCDanse_001,
+    },
+    title: "ASLC Danse",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewFEAE_001,
+      light: previewFEAE_001,
+    },
+    title: "Festival L'Europe autour de l'Europe",
+    href: "#"
+  },
+  {
+    srcByTheme: {
+      dark: previewIzziFit,
+      light: previewIzziFit,
+    },
+    title: "IZZI FIT Academy",
+    href: "#"
+  },
+];
 
 export const bannerVideosByTheme = {
   dark: {
@@ -178,52 +266,82 @@ export const projects = [
 export const clientLogos = [
   {
     name: "Savéol",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/11/steven-de-carvalho-website-references-saveol-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/11/steven-de-carvalho-website-references-saveol-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/11/steven-de-carvalho-website-references-saveol-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "Le petit carré de chocolat",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-white-400x400-1.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "Festival L'Europe autour de l'Europe",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "Ville de Paris",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-ville-de-paris-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-ville-de-paris-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-ville-de-paris-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "Festival du cinéma chinois de Paris",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "IZZI FIT ACADEMY",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-izzi-fit-academy-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-izzi-fit-academy-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-izzi-fit-academy-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "Bouygues Construction",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-construction-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-construction-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-construction-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "Bouygues Telecom",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-telecom-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-telecom-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-telecom-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "IT Forum",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-it-forum-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-it-forum-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-it-forum-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
   {
     name: "Grill O'Bois",
-    src: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-grillobois-white.png",
+    srcByTheme: {
+      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-grillobois-white.png",
+      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-grillobois-white.png",
+    },
     href: "https://stevendecarvalho.com/portfolio/",
   },
 ];

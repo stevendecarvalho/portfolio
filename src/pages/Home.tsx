@@ -6,6 +6,7 @@ import {
   bannerVideosByTheme,
   clientLogos,
   heroImagesByTheme,
+  imgProjets,
   projects,
   services,
   testimonials,
@@ -35,6 +36,16 @@ export default function Home() {
   const images = useMemo(() => heroImagesByTheme[theme], [theme]);
   const bannerVideos = useMemo(() => bannerVideosByTheme[theme], [theme]);
   const aboutSlides = useMemo(() => aboutSlidesByTheme[theme], [theme]);
+  const portfolioShowcaseRows = useMemo(() => {
+    const slides = imgProjets.map((img) => ({
+      src: img.srcByTheme[theme],
+      title: img.title,
+      href: img.href,
+    }));
+
+    return [slides.slice(0, 5), slides.slice(4, 9)];
+  }, [theme]);
+
   const [index, setIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
@@ -206,10 +217,10 @@ export default function Home() {
 
               <div className={`${isLight ? "justify-start" : "justify-center"} flex flex-col sm:flex-row items-center gap-4`}>
                 <Link to="/portfolio" className="btn-cosmic">
-                  Découvrir mes projets <ArrowRight className="w-5 h-5" />
+                  Réserver un appel <Rocket className="w-5 h-5" />
                 </Link>
                 <Link to="/contact" className="btn-cosmic btn-cosmic-outline">
-                  Me contacter <Rocket className="w-5 h-5" />
+                  Découvrir mes projets <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
             </div>
@@ -218,6 +229,48 @@ export default function Home() {
           <div className="homeScroll absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
             <div className={`w-6 h-10 border-2 ${isLight ? "border-[#112f5b]" : "border-cyan-400/50"} rounded-full p-1`}>
               <div className={`w-1.5 h-3 ${isLight ? "bg-[#112f5b]" : "bg-cyan-400"} rounded-full mx-auto animate-pulse`} />
+            </div>
+          </div>
+        </section>
+
+        {/* TRUSTED BY + SHOWCASE */}
+        <section className="home-trusted-showcase relative overflow-hidden">
+          <div className="shooting-stars" aria-hidden="true">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <span key={`services-star-${i}`} />
+            ))}
+          </div>
+
+          <div className="section-shell relative z-10">
+            <div className="logos-marquee" aria-label="Logo de mes clients">
+              <div className="logos-marquee-track">
+                {[...clientLogos, ...clientLogos].map((logo, i) => (
+                  <a
+                    key={`hero-${logo.name}-${i}`}
+                    href={logo.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="logo-item"
+                    aria-label={`Voir la référence ${logo.name}`}
+                  >
+                    <img src={logo.srcByTheme[theme]} alt={logo.name} loading="lazy" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="showcase-rows mt-12">
+              {portfolioShowcaseRows.map((row, rowIndex) => (
+                <div key={`showcase-row-${rowIndex}`} className="showcase-marquee" aria-label={`Aperçu des réalisations ligne ${rowIndex + 1}`}>
+                  <div className={`showcase-marquee-track ${rowIndex === 1 ? "is-reverse" : ""}`}>
+                    {[...row, ...row].map((slide, i) => (
+                      <Link key={`${slide.title}-${rowIndex}-${i}`} to={slide.href} className="showcase-card">
+                        <img src={slide.src} alt={slide.title} loading="lazy" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -513,7 +566,7 @@ export default function Home() {
                     className="logo-item"
                     aria-label={`Voir la référence ${logo.name}`}
                   >
-                    <img src={logo.src} alt={logo.name} loading="lazy" />
+                    <img src={logo.srcByTheme[theme]} alt={logo.name} loading="lazy" />
                   </a>
                 ))}
               </div>

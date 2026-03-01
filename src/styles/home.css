@@ -839,3 +839,116 @@ html[data-theme="light"] button.testimonial-modal-tab.is-active {
     color: #9a4a12;
     background: rgba(255, 181, 78, 0.22);
 }
+section.home-trusted-showcase {
+    padding: 30px 0;
+    background: linear-gradient(180deg, rgba(1, 8, 26, 0.96) 0%, rgba(2, 11, 34, 0.98) 50%, rgba(1, 8, 26, 0.96) 100%);
+    border-top: 1px solid rgba(25, 143, 217, 0.18);
+    border-bottom: 1px solid rgba(25, 143, 217, 0.12);
+}
+
+p.trusted-title {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.58);
+    margin-bottom: 18px;
+}
+
+.showcase-rows {
+    display: grid;
+    gap: 24px;
+}
+
+.logos-marquee {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.showcase-marquee {
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent 0, black 7%, black 93%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 7%, black 93%, transparent 100%);
+}
+
+.showcase-marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 24px;
+    animation: showcase-marquee 36s linear infinite;
+}
+
+.showcase-marquee-track.is-reverse {
+    animation-direction: reverse;
+    animation-duration: 44s;
+}
+
+.logos-marquee .logos-marquee-track a.logo-item {
+    width: 150px;
+    height: 130px;
+}
+
+a.showcase-card {
+    width: clamp(240px, 280px, 430px);
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+    transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+a.showcase-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+a.showcase-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(34, 211, 238, 0.65);
+}
+
+a.showcase-card:hover img {
+    transform: scale(1.05);
+}
+
+@keyframes showcase-marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 7px));
+    }
+}
+
+@media (max-width: 768px) {
+    .showcase-marquee-track {
+        animation-duration: 26s;
+    }
+
+    .showcase-marquee-track.is-reverse {
+        animation-duration: 31s;
+    }
+}
+
+html[data-theme="light"] section.home-trusted-showcase {
+    background: linear-gradient(180deg, rgba(249, 240, 224, 0.95) 0%, rgba(247, 233, 210, 0.94) 55%, rgba(247, 230, 196, 0.93) 100%);
+    border-top: 1px solid rgba(139, 92, 36, 0.22);
+    border-bottom: 1px solid rgba(139, 92, 36, 0.16);
+}
+
+html[data-theme="light"] p.trusted-title {
+    color: rgba(90, 51, 20, 0.62);
+}
+
+html[data-theme="light"] a.showcase-card {
+    border-color: rgba(139, 92, 36, 0.28);
+    box-shadow: 0 10px 24px rgba(112, 62, 24, 0.15);
+}
+
+html[data-theme="light"] a.showcase-card:hover {
+    border-color: rgba(180, 95, 26, 0.64);
+}
