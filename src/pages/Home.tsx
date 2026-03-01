@@ -171,9 +171,9 @@ export default function Home() {
                 
                 <div
                   className={[
-                    "absolute inset-0",
+                    "absolute inset-0 home-hero-overlay",
                     isLight
-                      ? "bg-gradient-to-b from-[#202d56]/25 to-[#140604]/78"
+                      ? "home-hero-overlay-light"
                       : "bg-gradient-to-b from-cosmic-deep-blue/80 via-cosmic-deep-blue/60 to-cosmic-deep-blue",
                   ].join(" ")}
                 />
@@ -189,13 +189,13 @@ export default function Home() {
             <div className={`absolute top-2/3 right-1/4 w-1 h-1 ${isLight ? "hidden bg-[#112f5b]" : "bg-cyan-400"} rounded-full animate-pulse`} style={{ animationDelay: "1.5s" }} />
           </div>
 
-          <div className={`${isLight ? "text-justify w-full" : "text-center"} relative z-10 max-w-7xl mx-auto pl-[30px] pr-[30px] pt-20`}>
+          <div className={`${isLight ? "w-full" : "text-center"} relative z-10 max-w-7xl mx-auto pl-[30px] pr-[30px] pt-20`}>
             <div className="transform transition-all duration-1000 translate-y-0 opacity-100">
               <div
                 className={[
                   "inline-flex items-center space-x-2 px-5 py-2 rounded-full mb-6",
                   isLight
-                    ? "bg-blue-300/10 border border-[#112f5b]"
+                    ? "bg-white/10 border border-white/30 backdrop-blur-sm"
                     : "bg-cyan-400/10 border border-cyan-400/30",
                 ].join(" ")}
               >
@@ -208,7 +208,7 @@ export default function Home() {
               <h1 className="title-hero-home">
                 Explorez l&apos;Univers
                 <br />
-                <span className={`${isLight ? "text-cyan-400 glow-text" : "text-cyan-400 glow-text"}`}>Digital</span>
+                <span className={`${isLight ? "text-cyan-400 glow-text block" : "text-cyan-400 glow-text"}`}>Digital</span>
               </h1>
 
               <p className="desc-hero-home">
