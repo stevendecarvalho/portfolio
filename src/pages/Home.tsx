@@ -227,8 +227,8 @@ export default function Home() {
           </div>
 
           <div className="homeScroll absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <div className={`w-6 h-10 border-2 ${isLight ? "border-[#112f5b]" : "border-cyan-400/50"} rounded-full p-1`}>
-              <div className={`w-1.5 h-3 ${isLight ? "bg-[#112f5b]" : "bg-cyan-400"} rounded-full mx-auto animate-pulse`} />
+            <div className={`w-6 h-10 border-2 ${isLight ? "border-white-400/50" : "border-cyan-400/50"} rounded-full p-1`}>
+              <div className={`w-1.5 h-3 ${isLight ? "bg-white" : "bg-cyan-400"} rounded-full mx-auto animate-pulse`} />
             </div>
           </div>
         </section>

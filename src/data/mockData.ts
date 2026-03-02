@@ -40,86 +40,116 @@ export const aboutSlidesByTheme = {
 // LOGO DES CLIENTS //
 //////////////////////
 
+import saveolLogoWhite from "../assets/logos/steven-de-carvalho-website-references-saveol-white.png";
+import saveolLogoColor from "../assets/logos/steven-de-carvalho-website-references-saveol-color.png";
+
+import carreChocolatLogoWhite from "../assets/logos/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-white.png";
+import carreChocolatLogoColor from "../assets/logos/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-color.png";
+
+import feaeLogoWhite from "../assets/logos/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-white.png";
+import feaeLogoColor from "../assets/logos/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-color.png";
+
+import parisLogoWhite from "../assets/logos/steven-de-carvalho-website-references-ville-de-paris-white.png";
+import parisLogoColor from "../assets/logos/steven-de-carvalho-website-references-ville-de-paris-color.png";
+
+import fccpLogoWhite from "../assets/logos/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-white.png";
+import fccpLogoColor from "../assets/logos/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-color.png";
+
+import izzifitLogoWhite from "../assets/logos/steven-de-carvalho-website-references-izzi-fit-academy-white.png";
+import izzifitLogoColor from "../assets/logos/steven-de-carvalho-website-references-izzi-fit-academy-color.png";
+
+import bouygConstLogoWhite from "../assets/logos/steven-de-carvalho-website-references-bouygues-construction-white.png";
+import bouygConstLogoColor from "../assets/logos/steven-de-carvalho-website-references-bouygues-construction-color.png";
+
+import bouygTelLogoWhite from "../assets/logos/steven-de-carvalho-website-references-bouygues-telecom-white.png";
+import bouygTelLogoColor from "../assets/logos/steven-de-carvalho-website-references-bouygues-telecom-color.png";
+
+import itforumLogoWhite from "../assets/logos/steven-de-carvalho-website-references-it-forum-white.png";
+import itforumLogoColor from "../assets/logos/steven-de-carvalho-website-references-it-forum-color.png";
+
+import grilloboisLogoWhite from "../assets/logos/steven-de-carvalho-website-references-grillobois-white.png";
+import grilloboisLogoColor from "../assets/logos/steven-de-carvalho-website-references-grillobois-color.png";
+
 export const clientLogos = [
   {
     name: "Savéol",
     srcByTheme: { 
-      dark: "../assets/logos/steven-de-carvalho-website-references-saveol-white.png",
-      light: "../assets/logos/steven-de-carvalho-website-references-saveol-color.png",
+      dark: saveolLogoWhite,
+      light: saveolLogoColor,
     },
     href: "#",
   },
   {
     name: "Le petit carré de chocolat",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-le-petit-carre-de-chocolat-white.png",
+      dark: carreChocolatLogoWhite,
+      light: carreChocolatLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "Festival L'Europe autour de l'Europe",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-leurope-autour-de-leurope-white.png",
+      dark: feaeLogoWhite,
+      light: feaeLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "Ville de Paris",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-ville-de-paris-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-ville-de-paris-white.png",
+      dark: parisLogoWhite,
+      light: parisLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "Festival du cinéma chinois de Paris",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-festival-du-cinema-chinois-de-paris-white.png",
+      dark: fccpLogoWhite,
+      light: fccpLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "IZZI FIT ACADEMY",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-izzi-fit-academy-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/09/steven-de-carvalho-website-references-izzi-fit-academy-white.png",
+      dark: izzifitLogoWhite,
+      light: izzifitLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "Bouygues Construction",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-construction-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-construction-white.png",
+      dark: bouygConstLogoWhite,
+      light: bouygConstLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "Bouygues Telecom",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-telecom-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-bouygues-telecom-white.png",
+      dark: bouygTelLogoWhite,
+      light: bouygTelLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "IT Forum",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-it-forum-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-it-forum-white.png",
+      dark: itforumLogoWhite,
+      light: itforumLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
   {
     name: "Grill O'Bois",
     srcByTheme: {
-      dark: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-grillobois-white.png",
-      light: "https://stevendecarvalho.com/wp-content/uploads/2025/10/steven-de-carvalho-website-references-grillobois-white.png",
+      dark: grilloboisLogoWhite,
+      light: grilloboisLogoColor,
     },
-    href: "https://stevendecarvalho.com/portfolio/",
+    href: "#",
   },
 ];
 

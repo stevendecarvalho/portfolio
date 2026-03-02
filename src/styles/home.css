@@ -887,7 +887,7 @@ html[data-theme="light"] button.testimonial-modal-tab.is-active {
     background: rgba(255, 181, 78, 0.22);
 }
 section.home-trusted-showcase {
-    padding: 30px 0;
+    padding: 30px 0 75px;
     background: linear-gradient(180deg, rgba(1, 8, 26, 0.96) 0%, rgba(2, 11, 34, 0.98) 50%, rgba(1, 8, 26, 0.96) 100%);
     border-top: 1px solid rgba(25, 143, 217, 0.18);
     border-bottom: 1px solid rgba(25, 143, 217, 0.12);
@@ -982,7 +982,10 @@ a.showcase-card:hover img {
 }
 
 html[data-theme="light"] section.home-trusted-showcase {
-    background: linear-gradient(180deg, rgba(249, 240, 224, 0.95) 0%, rgba(247, 233, 210, 0.94) 55%, rgba(247, 230, 196, 0.93) 100%);
+    background-image: url("../assets/images/home/fond-light-theme-001.jpg");
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
     border-top: 1px solid rgba(139, 92, 36, 0.22);
     border-bottom: 1px solid rgba(139, 92, 36, 0.16);
 }

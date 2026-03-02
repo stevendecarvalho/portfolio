@@ -145,7 +145,7 @@ export default function Header({
     scrolled
       ? "bg-cosmic-black/75 shadow-lg border-b border-white/10"
       : isLightTop
-        ? "bg-[rgb(255_255_255_/25%)] border-b border-white/20"
+        ? "bg-[rgb(255_255_255_/80%)] border-b border-white/20"
         : "bg-transparent border-b border-transparent",
   ].join(" ");
 
