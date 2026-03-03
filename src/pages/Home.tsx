@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Rocket, Sparkles, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Rocket, Sparkles, TrendingUp, X, Zap, Palette, MessageCircleMore, Lightbulb } from "lucide-react";
 import {
   aboutSlidesByTheme,
   bannerVideosByTheme,
@@ -15,9 +15,62 @@ import {
 import "../styles/home.css";
 import vaisseauSpatial from "../assets/images/home/vaisseau-spatial-creation-steven.png";
 import potCrayons from "../assets/images/home/pot-crayon.png";
+import benefitsPreviewDark from "../assets/images/home/steven-de-carvalho-benefices-home.jpg";
+import benefitsPreviewLight from "../assets/images/home/steven-de-carvalho-benefices-home-light.jpg";
 
 const TESTIMONIALS_PER_VIEW = 3;
 const TESTIMONIAL_PREVIEW_LENGTH = 180;
+
+const clientBenefits = [
+  {
+    step: "Étape 1",
+    title: "Immersion stratégique",
+    description: "Avant de commencer votre projet, nous plongeons dans votre univers. On échange autour de votre activité, votre positionnement, votre concurrence et votre vision à long terme. Nous posons ainsi les bases d’un site ou d'un support qui serviront réellement vos ambitions.",
+    tags: ["Stratégie", "Objectifs"],
+    icon: Rocket,
+  },
+  {
+    step: "Étape 2",
+    title: "Contenus & Messages",
+    description: "Nous structurons ensemble vos idées et choisissons les bons arguments afin d'écrire des textes qui parlent à votre audience. Capter l’attention du client est une première étape, créer du lien une possible ouverture, et déclencher l’action le résultat final.",
+    tags: ["Copywriting", "Feedback"],
+    icon: MessageCircleMore,
+  },
+  {
+    step: "Étape 3",
+    title: "Direction artistique",
+    description: "Nous créons un univers visuel unique qui reflète votre identité et séduit votre audience. Typographie, charte graphique, rythme, storytelling — chaque élément est pensé pour renforcer votre message et créer une expérience mémorable.",
+    tags: ["Design", "Retours illimités"],
+    icon: Palette,
+  },
+  {
+    step: "Étape 4",
+    title: "Création & Optimisations",
+    description: "Nous créons votre produit proprement. Dans le cas d'un site internet : un code optimisé, un responsive natif, un SEO technique, une vitesse maximale et une structure évolutive. Le site est beau, mais surtout stratégique.",
+    tags: ["Développement", "Performance"],
+    icon: Zap,
+  },
+  {
+    step: "Étape 5",
+    title: "Impact & Conversions",
+    description: "En plus du design de votre produit, nous nous assurons du parcours utilisateurs, des CTA, de la lisibilité, l'accessibilité et la hiérarchie. Chaque section est pensée pour guider, rassurer et convertir.",
+    tags: ["Conversion", "Feedback"],
+    icon: TrendingUp,
+  },
+  {
+    step: "Étape 6",
+    title: "Livraison & Prise en main facile",
+    description: "Vous repartez avec un produit facile à gérer et une mini formation pour être autonome. Et je reste à ta disponibilité pendant 30 jours si tu as d'autres questions.",
+    tags: ["Formation", "Autonomie"],
+    icon: Lightbulb,
+  },
+];
+
+const benefitsStats = [
+  { value: 30, suffix: "+", label: "Projets Réalisés" },
+  { value: 18, suffix: "+", label: "Clients Satisfaits" },
+  { value: 10, suffix: "+", label: "Ans d'Expérience" },
+];
 
 function getPreview(text: string) {
   if (text.length <= TESTIMONIAL_PREVIEW_LENGTH) return text;
@@ -50,6 +103,9 @@ export default function Home() {
   const [aboutIndex, setAboutIndex] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<number | null>(null);
+  const benefitsRef = useRef<HTMLElement | null>(null);
+  const [hasStartedStatsCount, setHasStartedStatsCount] = useState(false);
+  const [animatedStats, setAnimatedStats] = useState(() => benefitsStats.map(() => 0));
 
   const displayedTestimonials = useMemo(
     () =>
@@ -141,7 +197,54 @@ export default function Home() {
     };
   }, [activeTestimonialTab]);
 
+  useEffect(() => {
+    const section = benefitsRef.current;
+    if (!section || hasStartedStatsCount) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setHasStartedStatsCount(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, [hasStartedStatsCount]);
+
+  useEffect(() => {
+    if (!hasStartedStatsCount) return;
+
+    const duration = 1600;
+    const start = performance.now();
+    let frameId = 0;
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - (1 - progress) ** 3;
+
+      setAnimatedStats(benefitsStats.map((stat) => Math.round(stat.value * eased)));
+
+      if (progress < 1) {
+        frameId = window.requestAnimationFrame(tick);
+      }
+    };
+
+    frameId = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [hasStartedStatsCount]);
+
   const isLight = theme === "light";
+  const benefitsPreview = isLight ? benefitsPreviewLight : benefitsPreviewDark;
 
   return (
     <div className="home-page min-h-screen relative">
@@ -217,7 +320,7 @@ export default function Home() {
 
               <div className={`${isLight ? "justify-start" : "justify-center"} flex flex-col sm:flex-row items-center gap-4`}>
                 <Link to="/portfolio" className="btn-cosmic">
-                  Réserver un appel <Rocket className="w-5 h-5" />
+                  Prendre contact <Rocket className="w-5 h-5" />
                 </Link>
                 <Link to="/contact" className="btn-cosmic btn-cosmic-outline">
                   Découvrir mes projets <ArrowRight className="w-5 h-5" />
@@ -273,6 +376,332 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* CLIENT BENEFITS */}
+        <section ref={benefitsRef} className="benefits-section relative">
+          <div className="shooting-stars" aria-hidden="true">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <span key={`benefits-star-${i}`} />
+            ))}
+          </div>
+
+          <div className="section-shell relative z-10">
+            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
+              <div className="absolute-title-outline">
+                <h2 className="section-title-outline">
+                  Expertises
+                </h2>
+              </div>
+              <h2 className="section-title-inline">
+                Pourquoi mes clients aiment travailler avec moi
+              </h2>
+              <div className="title-separator">
+                <div className="line" />
+              </div>
+            </div>
+          </div>
+
+          <div className="section-shell relative z-10">
+            <div className="benefits-layout" data-reveal>
+              <div className="benefits-scroll-column">
+                {clientBenefits.map((benefit) => {
+                  const Icon = benefit.icon;
+
+                  return (
+                    <article key={benefit.title} className="benefit-card">
+                      <div className="backdrop-blur-[10px]">
+                        <div className="benefit-card-top">
+                          <div className="benefit-icon-wrap" aria-hidden="true">
+                            <Icon className="benefit-icon" />
+                          </div>
+                          <span className="benefit-step">{benefit.step}</span>
+                        </div>
+                        <h3>{benefit.title}</h3>
+                        <p>{benefit.description}</p>
+                        <div className="benefit-tags">
+                          {benefit.tags.map((tag) => (
+                            <span key={`${benefit.title}-${tag}`}>{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+
+              <aside className="benefits-sticky-column" aria-label="Aperçu visuel des réalisations">
+                <div className="benefits-preview-frame">
+                  <img src={benefitsPreview} alt="Aperçu des projets clients" loading="lazy" />
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        {/* UNIVERSE VIDEO BANNER */}
+        <section className="universe-video-banner relative z-10 w-full overflow-hidden">
+          <video
+            className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
+            src={bannerVideos.universe}
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-hidden="true"
+          />
+          <div className="universe-video-banner__overlay absolute inset-0" />
+
+          <blockquote className="universe-video-banner__content relative z-10 flex flex-col items-center justify-center text-center text-white">
+            <p className="homeVideoBannerText font-semibold italic">
+              « Un projet bien construit traverse le temps et les esprits.<br className="mobile-break" />
+                <span>Une vision. Une structure. Un impact. »</span>
+            </p>
+            <cite className="homeVideoBannerCite font-bold not-italic">
+              — Steven DE CARVALHO
+            </cite>
+          </blockquote>
+        </section>
+
+        {/* PROJECTS */}
+        <section className="homeProjetsSection py-20 cosmic-bg relative overflow-visible">
+          <div className="shooting-stars" aria-hidden="true">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <span key={`projects-star-${i}`} />
+            ))}
+          </div>
+
+          <span className="vaisseau-spatial vaisseau-spatial--banner z-20 pointer-events-none" aria-hidden="true">
+            <img key="Vaisseau spatial" src={vaisseauSpatial} alt="Vaisseau spatial" className="object-contain" />
+          </span>
+
+          <div className="section-shell relative z-10">
+            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
+              <div className="absolute-title-outline">
+                <h2 className="section-title-outline">
+                  Portfolio
+                </h2>
+              </div>
+              <h2 className="section-title-inline">
+                Mes dernières réalisations
+              </h2>
+              <div className="title-separator">
+                <div className="line" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((p) => (
+                <div
+                  key={p.title}
+                  className="cosmic-card p-0 overflow-hidden group cursor-pointer reveal-on-scroll"
+                  data-reveal
+                >
+                  <div className="relative overflow-hidden h-64">
+                    <img
+                      src={p.img}
+                      alt={p.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-cosmic-deep-blue to-transparent opacity-60" />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 bg-cyan-400/90 text-cosmic-black text-xs font-semibold font-orbitron">
+                        {p.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-white mb-2 font-orbitron">
+                      {p.title}
+                    </h3>
+                    <p className="text-white/60 text-sm mb-4">{p.desc}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {p.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="px-2 py-1 bg-white/5 text-cyan-400 text-xs border border-cyan-400/30"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center mt-12 reveal-on-scroll" data-reveal>
+              <Link to="/portfolio" className="btn-cosmic inline-flex items-center">
+                Voir tout le portfolio <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* TESTIMONIALS */}
+        <section className="client-logos-section relative overflow-hidden">
+          <div className="shooting-stars" aria-hidden="true">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <span key={`testimonials-star-${i}`} />
+            ))}
+          </div>
+
+          <div className="section-shell relative z-10">
+            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
+              <div className="absolute-title-outline">
+                <h2 className="section-title-outline">
+                  Références
+                </h2>
+              </div>
+              <h2 className="section-title-inline">
+                Ils m'ont fait confiance
+              </h2>
+              <div className="title-separator">
+                <div className="line" />
+              </div>
+            </div>
+
+            <div className="logos-marquee" aria-label="Logo de mes clients">
+              <div className="logos-marquee-track">
+                {[...clientLogos, ...clientLogos].map((logo, i) => (
+                  <a
+                    key={`${logo.name}-${i}`}
+                    href={logo.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="logo-item"
+                    aria-label={`Voir la référence ${logo.name}`}
+                  >
+                    <img src={logo.srcByTheme[theme]} alt={logo.name} loading="lazy" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {displayedTestimonials.map((t) => {
+                const normalizedText = normalizeTestimonialText(t.text);
+                const preview = getPreview(normalizedText);
+                const isLong = preview !== normalizedText;
+                return (
+                  <article key={`${t.name}-${t.index}`} className="cosmic-card reveal-on-scroll testimonial-card" data-reveal>
+                    <div className="testimonial-avatar-wrap">
+                      <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
+                    </div>
+
+                    <h4 className="testimonial-name text-white font-semibold text-lg mt-4">{t.name}</h4>
+                    <p className="testimonial-role text-white/60 text-sm">{t.role}</p>
+                    <p className="testimonial-cite text-white/75 leading-relaxed">{preview}</p>
+
+                    {isLong && (
+                      <button
+                        type="button"
+                        className="testimonial-read-more"
+                        onClick={() => setActiveTestimonialTab(t.index)}
+                      >
+                        Lire la suite
+                      </button>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center justify-end gap-3 mb-6">
+              <button
+                type="button"
+                className="testimonial-nav-button"
+                onClick={() => setTestimonialIndex((testimonialIndex - 1 + testimonials.length) % testimonials.length)}
+                aria-label="Voir les témoignages précédents"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                className="testimonial-nav-button"
+                onClick={() => setTestimonialIndex((testimonialIndex + 1) % testimonials.length)}
+                aria-label="Voir les témoignages suivants"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {activeTestimonialTab !== null && (
+            <div className="testimonial-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="testimonial-modal-title">
+              <div className="testimonial-modal">
+                <button
+                  type="button"
+                  className="testimonial-modal-close"
+                  onClick={() => setActiveTestimonialTab(null)}
+                  aria-label="Fermer la fenêtre des témoignages"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                <h3 id="testimonial-modal-title" className="testimonial-modal-title text-white text-2xl font-bold font-orbitron mb-4">
+                  Tous les témoignages
+                </h3>
+
+                <div className="testimonial-modal-tabs" role="tablist" aria-label="Choisir un témoignage">
+                  {testimonials.map((t, i) => (
+                    <button
+                      key={`${t.name}-tab`}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeTestimonialTab === i}
+                      aria-controls={`testimonial-panel-${i}`}
+                      id={`testimonial-tab-${i}`}
+                      className={`testimonial-modal-tab ${activeTestimonialTab === i ? "is-active" : ""}`}
+                      onClick={() => setActiveTestimonialTab(i)}
+                    >
+                      {t.name}
+                    </button>
+                  ))}
+                </div>
+
+                {testimonials.map((t, i) => (
+                  <section
+                    key={`${t.name}-panel`}
+                    id={`testimonial-panel-${i}`}
+                    role="tabpanel"
+                    aria-labelledby={`testimonial-tab-${i}`}
+                    className={activeTestimonialTab === i ? "block" : "hidden"}
+                  >
+                    <div className="flex items-center gap-4 mt-6 mb-5">
+                      <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
+                      <div>
+                        <h4 className="testimonial-modal-name text-white text-lg font-semibold">{t.name}</h4>
+                        <p className="testimonial-modal-role text-white/70 text-sm">{t.role}</p>
+                      </div>
+                    </div>
+                    <p className="testimonial-modal-text text-white/85 leading-relaxed">{normalizeTestimonialText(t.text)}</p>
+                  </section>
+                ))}
+              </div>
+              <button
+                type="button"
+                className="testimonial-modal-backdrop-hitbox"
+                onClick={() => setActiveTestimonialTab(null)}
+                aria-label="Fermer les témoignages"
+              />
+            </div>
+          )}
+        </section>
+
+        {/* EARTH VIDEO BANNER */}
+        <section className="earth-video-banner relative z-10 w-full overflow-hidden">
+          <video
+            className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
+            src={bannerVideos.earth}
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-hidden="true"
+          />
+          <div className="universe-video-banner__overlay absolute inset-0" />
         </section>
 
         {/* ABOUT UNIVERSE */}
@@ -365,40 +794,37 @@ export default function Home() {
           </div>
         </section>
 
-        {/* UNIVERSE VIDEO BANNER */}
-        <section className="universe-video-banner relative z-10 w-full overflow-hidden">
-          <video
-            className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
-            src={bannerVideos.universe}
-            autoPlay
-            loop
-            muted
-            playsInline
-            aria-hidden="true"
-          />
-          <div className="universe-video-banner__overlay absolute inset-0" />
+        {/* CTA */}
+        <section className="py-20 cosmic-bg relative overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
+          </div>
 
-          <blockquote className="universe-video-banner__content relative z-10 flex flex-col items-center justify-center text-center text-white">
-            <p className="homeVideoBannerText font-semibold italic">
-              « Un projet bien construit traverse le temps et les esprits.<br className="mobile-break" />
-                <span>Une vision. Une structure. Un impact. »</span>
-            </p>
-            <cite className="homeVideoBannerCite font-bold not-italic">
-              — Steven DE CARVALHO
-            </cite>
-          </blockquote>
+          <div className="section-shell">
+            <div className="relative max-w-4xl mx-auto text-center reveal-on-scroll" data-reveal>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-orbitron">
+                Prêt à lancer votre projet ?
+              </h2>
+              <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+                Discutons de vos besoins et créons ensemble quelque chose d&apos;extraordinaire.
+              </p>
+              <Link to="/contact" className="btn-cosmic inline-flex items-center text-lg">
+                Commencer maintenant <Rocket className="w-6 h-6" />
+              </Link>
+            </div>
+          </div>
         </section>
 
         {/* SERVICES */}
-        <section className="homeServicesSection py-20 bg-cosmic-dark-blue relative z-20 overflow-visible">
+        <section className="hidden homeServicesSection py-20 bg-cosmic-dark-blue relative z-20 overflow-visible">
           <div className="shooting-stars" aria-hidden="true">
             {Array.from({ length: 10 }).map((_, i) => (
               <span key={`services-star-${i}`} />
             ))}
           </div>
 
-          <span className="vaisseau-spatial vaisseau-spatial--banner z-20 pointer-events-none" aria-hidden="true">
-            <img key="Vaisseau spatial" src={vaisseauSpatial} alt="Vaisseau spatial" className="object-contain" />
+          <span className="pot-crayons pot-crayons--banner z-30 pointer-events-none" aria-hidden="true">
+            <img key="Création artistique" src={potCrayons} alt="Création artistique" className="object-contain" />
           </span>
 
           <div className="section-shell relative z-10">
@@ -440,287 +866,6 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        </section>
-
-        {/* PROJECTS */}
-        <section className="homeProjetsSection py-20 cosmic-bg relative overflow-visible">
-          <div className="shooting-stars" aria-hidden="true">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <span key={`projects-star-${i}`} />
-            ))}
-          </div>
-
-          <span className="pot-crayons pot-crayons--banner z-30 pointer-events-none" aria-hidden="true">
-            <img key="Création artistique" src={potCrayons} alt="Création artistique" className="object-contain" />
-          </span>
-
-          <div className="section-shell relative z-10">
-            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
-              <div className="absolute-title-outline">
-                <h2 className="section-title-outline">
-                  Portfolio
-                </h2>
-              </div>
-              <h2 className="section-title-inline">
-                Mes dernières réalisations
-              </h2>
-              <div className="title-separator">
-                <div className="line" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((p) => (
-                <div
-                  key={p.title}
-                  className="cosmic-card p-0 overflow-hidden group cursor-pointer reveal-on-scroll"
-                  data-reveal
-                >
-                  <div className="relative overflow-hidden h-64">
-                    <img
-                      src={p.img}
-                      alt={p.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-cosmic-deep-blue to-transparent opacity-60" />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-cyan-400/90 text-cosmic-black text-xs font-semibold font-orbitron">
-                        {p.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-2 font-orbitron">
-                      {p.title}
-                    </h3>
-                    <p className="text-white/60 text-sm mb-4">{p.desc}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2 py-1 bg-white/5 text-cyan-400 text-xs border border-cyan-400/30"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="text-center mt-12 reveal-on-scroll" data-reveal>
-              <Link to="/portfolio" className="btn-cosmic inline-flex items-center">
-                Voir tout le portfolio <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* EARTH VIDEO BANNER */}
-        <section className="earth-video-banner relative z-10 w-full overflow-hidden">
-          <video
-            className="universe-video-banner__media absolute inset-0 w-full h-full object-cover"
-            src={bannerVideos.earth}
-            autoPlay
-            loop
-            muted
-            playsInline
-            aria-hidden="true"
-          />
-          <div className="universe-video-banner__overlay absolute inset-0" />
-        </section>
-
-        {/* CLIENT LOGOS */}
-        <section className="client-logos-section relative overflow-hidden">
-          <div className="shooting-stars" aria-hidden="true">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <span key={`testimonials-star-${i}`} />
-            ))}
-          </div>
-
-          <div className="section-shell relative z-10">
-            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
-              <div className="absolute-title-outline">
-                <h2 className="section-title-outline">
-                  Références
-                </h2>
-              </div>
-              <h2 className="section-title-inline">
-                Ils m'ont fait confiance
-              </h2>
-              <div className="title-separator">
-                <div className="line" />
-              </div>
-            </div>
-
-            <div className="logos-marquee" aria-label="Logo de mes clients">
-              <div className="logos-marquee-track">
-                {[...clientLogos, ...clientLogos].map((logo, i) => (
-                  <a
-                    key={`${logo.name}-${i}`}
-                    href={logo.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="logo-item"
-                    aria-label={`Voir la référence ${logo.name}`}
-                  >
-                    <img src={logo.srcByTheme[theme]} alt={logo.name} loading="lazy" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* TESTIMONIALS */}
-        <section className="py-20 bg-cosmic-dark-blue relative overflow-hidden">
-          <div className="shooting-stars" aria-hidden="true">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <span key={`testimonials-star-${i}`} />
-            ))}
-          </div>
-
-          <div className="section-shell relative z-10">
-            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
-              <h2 className="section-title text-4xl md:text-5xl font-bold text-white mb-4 font-orbitron">
-                Témoignages
-              </h2>
-              <p className="text-white/70 text-lg max-w-2xl mx-auto">
-                Ce que mes clients disent de mon travail
-              </p>
-            </div>
-
-            <div className="flex items-center justify-end gap-3 mb-6">
-              <button
-                type="button"
-                className="testimonial-nav-button"
-                onClick={() => setTestimonialIndex((testimonialIndex - 1 + testimonials.length) % testimonials.length)}
-                aria-label="Voir les témoignages précédents"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                className="testimonial-nav-button"
-                onClick={() => setTestimonialIndex((testimonialIndex + 1) % testimonials.length)}
-                aria-label="Voir les témoignages suivants"
-              >
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {displayedTestimonials.map((t) => {
-                const normalizedText = normalizeTestimonialText(t.text);
-                const preview = getPreview(normalizedText);
-                const isLong = preview !== normalizedText;
-                return (
-                  <article key={`${t.name}-${t.index}`} className="cosmic-card reveal-on-scroll testimonial-card" data-reveal>
-                    <div className="testimonial-avatar-wrap">
-                      <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
-                    </div>
-
-                    <h4 className="testimonial-name text-white font-semibold text-lg mt-4">{t.name}</h4>
-                    <p className="testimonial-role text-white/60 text-sm">{t.role}</p>
-                    <p className="testimonial-cite text-white/75 leading-relaxed">{preview}</p>
-
-                    {isLong && (
-                      <button
-                        type="button"
-                        className="testimonial-read-more"
-                        onClick={() => setActiveTestimonialTab(t.index)}
-                      >
-                        Lire la suite
-                      </button>
-                    )}
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-          {activeTestimonialTab !== null && (
-            <div className="testimonial-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="testimonial-modal-title">
-              <div className="testimonial-modal">
-                <button
-                  type="button"
-                  className="testimonial-modal-close"
-                  onClick={() => setActiveTestimonialTab(null)}
-                  aria-label="Fermer la fenêtre des témoignages"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                <h3 id="testimonial-modal-title" className="testimonial-modal-title text-white text-2xl font-bold font-orbitron mb-4">
-                  Tous les témoignages
-                </h3>
-
-                <div className="testimonial-modal-tabs" role="tablist" aria-label="Choisir un témoignage">
-                  {testimonials.map((t, i) => (
-                    <button
-                      key={`${t.name}-tab`}
-                      type="button"
-                      role="tab"
-                      aria-selected={activeTestimonialTab === i}
-                      aria-controls={`testimonial-panel-${i}`}
-                      id={`testimonial-tab-${i}`}
-                      className={`testimonial-modal-tab ${activeTestimonialTab === i ? "is-active" : ""}`}
-                      onClick={() => setActiveTestimonialTab(i)}
-                    >
-                      {t.name}
-                    </button>
-                  ))}
-                </div>
-
-                {testimonials.map((t, i) => (
-                  <section
-                    key={`${t.name}-panel`}
-                    id={`testimonial-panel-${i}`}
-                    role="tabpanel"
-                    aria-labelledby={`testimonial-tab-${i}`}
-                    className={activeTestimonialTab === i ? "block" : "hidden"}
-                  >
-                    <div className="flex items-center gap-4 mt-6 mb-5">
-                      <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
-                      <div>
-                        <h4 className="testimonial-modal-name text-white text-lg font-semibold">{t.name}</h4>
-                        <p className="testimonial-modal-role text-white/70 text-sm">{t.role}</p>
-                      </div>
-                    </div>
-                    <p className="testimonial-modal-text text-white/85 leading-relaxed">{normalizeTestimonialText(t.text)}</p>
-                  </section>
-                ))}
-              </div>
-              <button
-                type="button"
-                className="testimonial-modal-backdrop-hitbox"
-                onClick={() => setActiveTestimonialTab(null)}
-                aria-label="Fermer les témoignages"
-              />
-            </div>
-          )}
-        </section>
-
-        {/* CTA */}
-        <section className="py-20 cosmic-bg relative overflow-hidden">
-          <div className="absolute inset-0">
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
-          </div>
-
-        <div className="section-shell">
-          <div className="relative max-w-4xl mx-auto text-center reveal-on-scroll" data-reveal>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-orbitron">
-              Prêt à lancer votre projet ?
-            </h2>
-            <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-              Discutons de vos besoins et créons ensemble quelque chose d&apos;extraordinaire.
-            </p>
-            <Link to="/contact" className="btn-cosmic inline-flex items-center text-lg">
-              Commencer maintenant <Rocket className="w-6 h-6" />
-            </Link>
-          </div>
-        </div>
         </section>
       </div>
     </div>
