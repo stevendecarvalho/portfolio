@@ -44,12 +44,12 @@ export default function Header({
   theme,
   onToggleTheme,
   musicEnabled,
-  onToggleMusic,
+  onOpenPlaylist,
 }: {
   theme: Theme;
   onToggleTheme: () => void;
   musicEnabled: boolean;
-  onToggleMusic: () => void;
+  onOpenPlaylist,
 }) {
 
   const { pathname } = useLocation();
@@ -443,9 +443,9 @@ export default function Header({
                     "ml-3 p-2 rounded-none transition-all duration-300 group",
                     iconBox,
                   ].join(" ")}
-                  aria-label={musicEnabled ? "Couper la musique" : "Activer la musique"}
-                  onClick={onToggleMusic}
-                  title={musicEnabled ? "Couper la musique" : "Activer la musique"}
+                  aria-label="Ouvrir la playlist"
+                  onClick={onOpenPlaylist}
+                  title="Ouvrir la playlist"
                   type="button"
                 >
                   {musicEnabled ? (
@@ -653,8 +653,8 @@ export default function Header({
 
             <button
               className={["p-2 rounded-none transition-all", iconBox].join(" ")}
-              aria-label={musicEnabled ? "Couper la musique" : "Activer la musique"}
-              onClick={onToggleMusic}
+              aria-label="Ouvrir la playlist"
+              onClick={onOpenPlaylist}
               type="button"
             >
               {musicEnabled ? (
@@ -729,8 +729,8 @@ export default function Header({
               
               <button
                 className={mobileOverlayButton}
-                aria-label={musicEnabled ? "Couper la musique" : "Activer la musique"}
-                onClick={onToggleMusic}
+                aria-label="Ouvrir la playlist"
+                onClick={onOpenPlaylist}
                 type="button"
               >
                 {musicEnabled ? (

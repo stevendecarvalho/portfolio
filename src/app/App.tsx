@@ -3,10 +3,19 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import AppRoutes from "./routes";
 import FullScreenLoader from "../components/FullScreenLoader";
+import ToTopButton from "../components/ToTopButton.tsx";
+import CookieBanner from "../components/CookieBanner.tsx";
+import MusicPlaylistModal from "../components/MusicPlaylistModal.tsx";
 
-import musicUrl from "../assets/audio/ambient.mp3"; // <-- adapte
+import musicUrl from "../assets/audio/ambient.mp3";
 
 export type Theme = "dark" | "light";
+
+type Track = { title: string; artist: string; src: string };
+
+const musicTracks: Track[] = [
+  { title: "Ambient Cosmos", artist: "Steven DE CARVALHO", src: musicUrl },
+];
 
 function wait(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
@@ -30,47 +39,71 @@ async function preloadImages(urls: string[]) {
 export default function App() {
   const [theme, setTheme] = useState<Theme>("dark");
 
-  // Loader
+
+
+  // --- LOADER ---
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loaderVisible, setLoaderVisible] = useState(true);
+
+
 
   // --- MUSIQUE ---
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [musicEnabled, setMusicEnabled] = useState<boolean>(() => {
     const saved = localStorage.getItem("musicEnabled");
-    return saved ? saved === "1" : true; // par défaut ON
+    return saved ? saved === "1" : true;
   });
+  const [activeTrack, setActiveTrack] = useState(() => {
+    const saved = Number(localStorage.getItem("activeTrack") ?? 0);
+    return Number.isNaN(saved) ? 0 : Math.min(Math.max(0, saved), musicTracks.length - 1);
+  });
+  const [playlistOpen, setPlaylistOpen] = useState(false);
 
+
+
+  // --- CURSEUR ---
   const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
 
+
+
+  // --- PRELOAD ---
   const assetsToPreload = useMemo(
-    () => [
-      "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg",
-    ],
+    () => ["../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg"],
     []
   );
 
+
+
+  // --- THÈME ---
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  // Initialise l'audio (une seule fois)
+
+
+  // --- INITIALISE L'AUDIO (UNE SEULE FOIS) ---
   useEffect(() => {
-    const a = new Audio(musicUrl);
-    a.loop = true;
-    a.preload = "auto";
-    a.volume = 0.55; // ajuste
-    audioRef.current = a;
+    const audio = new Audio(musicTracks[activeTrack]?.src ?? musicTracks[0].src);
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0.55;
+    audioRef.current = audio;
+
+    if (musicEnabled) {
+      audio.play().catch(() => {});
+    }
 
     return () => {
-      a.pause();
+      audio.pause();
       audioRef.current = null;
     };
-  }, []);
+  }, [activeTrack, musicEnabled]);
 
-  // Applique le mute/unmute quand musicEnabled change
+
+
+  // --- APPLIQUE LE MUTE / UNMUTE DE LA MUSIQUE ---
   useEffect(() => {
     localStorage.setItem("musicEnabled", musicEnabled ? "1" : "0");
     const a = audioRef.current;
@@ -79,22 +112,22 @@ export default function App() {
     if (!musicEnabled) {
       a.pause();
     } else {
-      // On essaie de jouer (peut être bloqué si pas d'interaction)
-      a.play().catch(() => {
-        // Pas grave: on démarrera au 1er geste utilisateur
-      });
+      a.play().catch(() => {});
     }
   }, [musicEnabled]);
 
-  // Démarrer au premier geste utilisateur (autoplay policy friendly)
+
+
+  // --- DÉMARRER LA MUSIQUE AU PREMIER GESTE UTILISATEUR ---
+  useEffect(() => {
+    localStorage.setItem("activeTrack", String(activeTrack));
+  }, [activeTrack]);
+
   useEffect(() => {
     const tryStart = () => {
-      if (!ready) return; // attends que ton site soit prêt si tu veux
-      if (!musicEnabled) return;
-
+      if (!ready || !musicEnabled) return;
       const a = audioRef.current;
       if (!a) return;
-
       a.play().catch(() => {});
       cleanup();
     };
@@ -114,6 +147,9 @@ export default function App() {
     return cleanup;
   }, [ready, musicEnabled]);
 
+
+
+  // --- CURSEUR ---
   useEffect(() => {
     let currentX = -100;
     let currentY = -100;
@@ -142,19 +178,21 @@ export default function App() {
     };
   }, []);
 
+
+
+  // --- TOGGLE MUSIQUE ---
   const onToggleMusic = () => {
     setMusicEnabled((v) => !v);
-    // Si l'utilisateur clique, c'est une interaction -> play() sera autorisé
-    const a = audioRef.current;
-    if (!a) return;
-    if (!musicEnabled) {
-      a.play().catch(() => {});
-    } else {
-      a.pause();
-    }
   };
 
-  // Boot loader
+  const selectTrack = (index: number) => {
+    setActiveTrack(index);
+    setMusicEnabled(true);
+  };
+
+  const nextTrack = () => setActiveTrack((i) => (i + 1) % musicTracks.length);
+  const prevTrack = () => setActiveTrack((i) => (i - 1 + musicTracks.length) % musicTracks.length);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -220,17 +258,12 @@ export default function App() {
         </div>
       )}
 
-      <div
-        className={[
-          "transition-opacity duration-500",
-          ready ? "opacity-100" : "opacity-0",
-        ].join(" ")}
-      >
+      <div className={["transition-opacity duration-500", ready ? "opacity-100" : "opacity-0"].join(" ")}>
         <Header
           theme={theme}
           onToggleTheme={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
           musicEnabled={musicEnabled}
-          onToggleMusic={onToggleMusic}
+          onOpenPlaylist={() => setPlaylistOpen(true)}
         />
 
         <main className="min-h-screen">
@@ -239,6 +272,20 @@ export default function App() {
 
         <Footer />
       </div>
+
+      <ToTopButton />
+      <CookieBanner />
+      <MusicPlaylistModal
+        open={playlistOpen}
+        onClose={() => setPlaylistOpen(false)}
+        tracks={musicTracks}
+        activeTrack={activeTrack}
+        isPlaying={musicEnabled}
+        onTogglePlay={onToggleMusic}
+        onSelectTrack={selectTrack}
+        onNext={nextTrack}
+        onPrev={prevTrack}
+      />
     </div>
   );
 }

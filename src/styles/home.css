@@ -1060,6 +1060,15 @@ article.benefit-card {
     background-repeat: no-repeat;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 14px 34px rgba(6, 21, 54, 0.34);
     backdrop-filter: blur(7px);
+    transform: scale(0.94);
+    opacity: 0.78;
+    transition: transform 0.45s ease, opacity 0.45s ease, box-shadow 0.45s ease;
+}
+
+article.benefit-card.is-active {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), 0 24px 50px rgba(8, 34, 82, 0.48);
 }
 
 .benefit-card-top {
@@ -1304,6 +1313,11 @@ html[data-theme="light"] .benefit-icon {
     display: none;
 }
 
+.benefits-scroll-column--mobile .benefit-card {
+    transform: scale(1);
+    opacity: 1;
+}
+
 .benefit-step-contact {
     margin-top: 18px;
 }
@@ -1335,14 +1349,26 @@ html[data-theme="light"] .benefit-icon {
     animation: projects-carousel 28s linear infinite;
 }
 
+.projects-carousel:hover .projects-carousel-track {
+    animation-duration: 80s;
+}
+
 .project-device-card {
     width: min(420px, 80vw);
-    border-radius: 28px;
-    border: 1px solid rgba(148, 199, 255, 0.2);
-    background: linear-gradient(180deg, rgba(8, 16, 35, 0.92) 0%, rgba(4, 9, 24, 0.96) 100%);
+    border-radius: 30px;
+    border: 1px solid rgba(148, 199, 255, 0.22);
+    background: linear-gradient(180deg, rgba(8, 16, 35, 0.9) 0%, rgba(4, 9, 24, 0.95) 100%);
     box-shadow: 0 18px 42px rgba(0, 0, 0, 0.46);
     padding: 12px;
     flex-shrink: 0;
+    backdrop-filter: blur(2px);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.project-device-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(173, 221, 255, 0.5);
+    box-shadow: 0 28px 52px rgba(0, 0, 0, 0.55);
 }
 
 .project-device-screen {
@@ -1350,6 +1376,16 @@ html[data-theme="light"] .benefit-icon {
     overflow: hidden;
     border: 1px solid rgba(130, 191, 255, 0.2);
     height: 240px;
+    height: 280px;
+    position: relative;
+}
+
+.project-device-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.72) 100%);
+    pointer-events: none;
 }
 
 .project-device-screen img {
@@ -1360,6 +1396,9 @@ html[data-theme="light"] .benefit-icon {
 
 .project-device-content {
     padding: 22px 10px 12px;
+    margin-top: -56px;
+    position: relative;
+    z-index: 2;
 }
 
 .project-device-content h3 {

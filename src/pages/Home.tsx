@@ -97,25 +97,27 @@ export default function Home() {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<number | null>(null);
   const benefitsRef = useRef<HTMLElement | null>(null);
+  const benefitCardRefs = useRef<Array<HTMLElement | null>>([]);
   const [benefitSlideIndex, setBenefitSlideIndex] = useState(0);
+  const [activeBenefitIndexDesktop, setActiveBenefitIndexDesktop] = useState(0);
 
   const projectCards = useMemo(
     () => [
       {
-        title: "Logoss Formation",
-        desc: "Une identité digitale pour révéler l'art de prendre la parole et de la communication.",
+        title: "A venir ...",
+        desc: "A venir ...",
         tags: ["Landing page", "Framer", "Branding"],
         image: imgProjets[0]?.srcByTheme[theme],
       },
       {
-        title: "The Lab.io",
-        desc: "Un accompagnement pour les entrepreneurs ambitieux et visionnaires.",
+        title: "A venir ...",
+        desc: "A venir ...",
         tags: ["Landing page", "React", "Animations"],
         image: imgProjets[1]?.srcByTheme[theme],
       },
       {
-        title: "Pépites et vous",
-        desc: "L'allié des entreprises pour un recrutement plus fluide et plus humain.",
+        title: "A venir ...",
+        desc: "A venir ...",
         tags: ["Site complet", "Webflow", "SEO"],
         image: imgProjets[2]?.srcByTheme[theme],
       },
@@ -212,6 +214,34 @@ export default function Home() {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [activeTestimonialTab]);
+
+
+  useEffect(() => {
+    const cards = benefitCardRefs.current.filter(Boolean) as HTMLElement[];
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let mostVisible = { index: activeBenefitIndexDesktop, ratio: 0 };
+
+        entries.forEach((entry) => {
+          const index = Number((entry.target as HTMLElement).dataset.benefitIndex ?? -1);
+          if (entry.isIntersecting && index >= 0 && entry.intersectionRatio >= mostVisible.ratio) {
+            mostVisible = { index, ratio: entry.intersectionRatio };
+          }
+        });
+
+        if (mostVisible.ratio > 0.45) {
+          setActiveBenefitIndexDesktop(mostVisible.index);
+        }
+      },
+      { threshold: [0.35, 0.5, 0.7], rootMargin: "-12% 0px -22% 0px" },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, [activeBenefitIndexDesktop]);
 
   const isLight = theme === "light";
   const benefitsPreview = isLight ? benefitsPreviewLight : benefitsPreviewDark;
@@ -377,11 +407,18 @@ export default function Home() {
           <div className="section-shell relative z-10">
             <div className="benefits-layout" data-reveal>
               <div className="benefits-scroll-column benefits-scroll-column--desktop">
-                {clientBenefits.map((benefit) => {
+                {clientBenefits.map((benefit, index) => {
                   const Icon = benefit.icon;
 
                   return (
-                    <article key={benefit.title} className="benefit-card">
+                    <article
+                      key={benefit.title}
+                      ref={(node) => {
+                        benefitCardRefs.current[index] = node;
+                      }}
+                      data-benefit-index={index}
+                      className={`benefit-card ${activeBenefitIndexDesktop === index ? "is-active" : ""}`}
+                    >
                       <div className="backdrop-blur-[10px]">
                         <div className="benefit-card-top">
                           <div className="benefit-icon-wrap" aria-hidden="true">
