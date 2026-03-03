@@ -1355,26 +1355,67 @@ html[data-theme="light"] .benefit-icon {
 
 .project-device-card {
     width: min(420px, 80vw);
+    position: relative;
+    overflow: hidden;
     border-radius: 30px;
-    border: 1px solid rgba(148, 199, 255, 0.22);
+    border: 1px solid rgba(148, 199, 255, 0.15);
     background: linear-gradient(180deg, rgba(8, 16, 35, 0.9) 0%, rgba(4, 9, 24, 0.95) 100%);
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.46);
-    padding: 12px;
     flex-shrink: 0;
     backdrop-filter: blur(2px);
     transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .project-device-card:hover {
-    transform: translateY(-7px);
     border-color: rgba(173, 221, 255, 0.5);
-    box-shadow: 0 28px 52px rgba(0, 0, 0, 0.55);
+}
+
+.project-device-category {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 3;
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    background: #0f7cff;
+    color: #fff;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.project-device-content img {
+    width: auto;
+    height: 35px;
+    margin-bottom: 15px;
+}
+
+.project-device-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.project-badge-new {
+    padding: 0.32rem 0.72rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(180deg, #2096ff 0%, #1769d1 100%);
+}
+
+.project-device-divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(143, 206, 255, 0.65), rgba(143, 206, 255, 0));
+    margin-bottom: 8px;
 }
 
 .project-device-screen {
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgba(130, 191, 255, 0.2);
     height: 240px;
     height: 280px;
     position: relative;
@@ -1395,17 +1436,16 @@ html[data-theme="light"] .benefit-icon {
 }
 
 .project-device-content {
-    padding: 22px 10px 12px;
-    margin-top: -56px;
+    padding: 30px;
     position: relative;
     z-index: 2;
 }
 
 .project-device-content h3 {
-    font-size: 34px;
-    line-height: 38px;
+    font-size: 18px;
+    line-height: 26px;
     color: #f6faff;
-    margin-bottom: 14px;
+    margin-bottom: 0;
 }
 
 .project-device-content p {
@@ -1422,7 +1462,7 @@ html[data-theme="light"] .benefit-icon {
 }
 
 .project-device-tags span {
-    padding: 0.52rem 1rem;
+    padding: 5px 10px;
     border-radius: 12px;
     border: 1px solid rgba(166, 212, 255, 0.2);
     background: rgba(255, 255, 255, 0.04);
@@ -1451,6 +1491,10 @@ html[data-theme="light"] .project-device-screen {
 
 html[data-theme="light"] .project-device-content h3 {
     color: #7a3d18;
+}
+
+html[data-theme="light"] .project-device-category {
+    background: #1f8aff;
 }
 
 html[data-theme="light"] .project-device-content p,

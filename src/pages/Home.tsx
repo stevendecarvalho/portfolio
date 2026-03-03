@@ -16,6 +16,7 @@ import vaisseauSpatial from "../assets/images/home/vaisseau-spatial-creation-ste
 import potCrayons from "../assets/images/home/pot-crayon.png";
 import benefitsPreviewDark from "../assets/images/home/steven-de-carvalho-benefices-home.jpg";
 import benefitsPreviewLight from "../assets/images/home/steven-de-carvalho-benefices-home-light.jpg";
+import logoLight from "../assets/logo-light.svg";
 
 const TESTIMONIALS_PER_VIEW = 3;
 const TESTIMONIAL_PREVIEW_LENGTH = 180;
@@ -108,18 +109,27 @@ export default function Home() {
         desc: "A venir ...",
         tags: ["Landing page", "Framer", "Branding"],
         image: imgProjets[0]?.srcByTheme[theme],
+        logo: logoLight,
+        category: "Développement web",
+        isNew: true,
       },
       {
         title: "A venir ...",
         desc: "A venir ...",
         tags: ["Landing page", "React", "Animations"],
         image: imgProjets[1]?.srcByTheme[theme],
+        logo: logoLight,
+        category: "Développement web",
+        isNew: false,
       },
       {
         title: "A venir ...",
         desc: "A venir ...",
         tags: ["Site complet", "Webflow", "SEO"],
         image: imgProjets[2]?.srcByTheme[theme],
+        logo: logoLight,
+        category: "Développement web",
+        isNew: false,
       },
     ],
     [theme],
@@ -321,10 +331,10 @@ export default function Home() {
               </p>
 
               <div className={`${isLight ? "justify-start" : "justify-center"} flex flex-col sm:flex-row items-center gap-4`}>
-                <Link to="/portfolio" className="btn-cosmic">
+                <Link to="https://wa.me/33661332501" className="btn-cosmic">
                   Prendre contact <Rocket className="w-5 h-5" />
                 </Link>
-                <Link to="/contact" className="btn-cosmic btn-cosmic-outline">
+                <Link to="#" className="btn-cosmic btn-cosmic-outline">
                   Découvrir mes projets <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
@@ -435,7 +445,7 @@ export default function Home() {
                         </div>
                         {benefit.step === "Étape 6" && (
                           <div className="benefit-step-contact">
-                            <Link to="/contact" className="btn-cosmic rounded-[13px]">
+                            <Link to="https://wa.me/33661332501" className="btn-cosmic rounded-[13px]">
                               Prendre contact <Rocket className="w-5 h-5" />
                             </Link>
                           </div>
@@ -464,7 +474,7 @@ export default function Home() {
                     </div>
                     {activeBenefit.step === "Étape 6" && (
                       <div className="benefit-step-contact">
-                        <Link to="/contact" className="btn-cosmic rounded-[13px]">
+                        <Link to="https://wa.me/33661332501" className="btn-cosmic rounded-[13px]">
                           Prendre contact <Rocket className="w-5 h-5" />
                         </Link>
                       </div>
@@ -557,11 +567,17 @@ export default function Home() {
               <div className="projects-carousel-track">
                 {[...projectCards, ...projectCards].map((projectCard, idx) => (
                   <article key={`${projectCard.title}-${idx}`} className="project-device-card">
+                    <span className="project-device-category">{projectCard.category}</span>
                     <div className="project-device-screen">
                       <img src={projectCard.image} alt={projectCard.title} loading="lazy" />
                     </div>
                     <div className="project-device-content">
-                      <h3>{projectCard.title}</h3>
+                      <img src={projectCard.logo} alt={`Logo ${projectCard.title}`} loading="lazy" />
+                      <div className="project-device-heading">
+                        <h3>{projectCard.title}</h3>
+                        {projectCard.isNew && <span className="project-badge-new">Nouveauté</span>}
+                      </div>
+                      <span className="project-device-divider" aria-hidden="true" />
                       <p>{projectCard.desc}</p>
                       <div className="project-device-tags">
                         {projectCard.tags.map((tag) => (
@@ -575,7 +591,7 @@ export default function Home() {
             </div>
 
             <div className="text-center mt-12 reveal-on-scroll" data-reveal>
-              <Link to="/portfolio" className="btn-cosmic inline-flex items-center">
+              <Link to="#" className="btn-cosmic inline-flex items-center">
                 Voir tout le portfolio <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
@@ -760,7 +776,7 @@ export default function Home() {
               <h2 className="laser-title title-section">
                 {[isLight ? "🌌 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE" : "🌀 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE"]}
               </h2>
-              <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
+              <Link to="#" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
                 Mon univers <Rocket className="w-4 h-4" />
               </Link>
             </div>
@@ -780,10 +796,10 @@ export default function Home() {
                   Au fil des années, Steven DE CARVALHO a su collaboré avec des <strong>entreprises, artistes, festivals et institutions</strong> dans la construction d’écosystèmes visuels cohérents, innovants et performants.
                 </p>
                 <div className="divLinkUniverse flex flex-col sm:flex-row items-center gap-4">
-                  <Link to="/about" className="btn-cosmic inline-flex">
+                  <Link to="#" className="btn-cosmic inline-flex">
                     Qui suis-je ? <ArrowRight className="w-5 h-5" />
                   </Link>
-                  <Link to="/univers" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
+                  <Link to="#" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
                     Mon univers <Rocket className="w-4 h-4" />
                   </Link>
                 </div>
@@ -851,7 +867,7 @@ export default function Home() {
               <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
                 Discutons de vos besoins et créons ensemble quelque chose d&apos;extraordinaire.
               </p>
-              <Link to="/contact" className="btn-cosmic inline-flex items-center text-lg">
+              <Link to="https://wa.me/33661332501" className="btn-cosmic inline-flex items-center text-lg">
                 Commencer maintenant <Rocket className="w-6 h-6" />
               </Link>
             </div>

@@ -143,7 +143,7 @@ export default function Header({
   const headerClass = [
     "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
     scrolled
-      ? "bg-cosmic-black/75 shadow-lg border-b border-white/10"
+      ? "bg-cosmic-black/95 shadow-lg border-b border-white/10"
       : isLightTop
         ? "bg-[rgb(255_255_255_/80%)] border-b border-white/20"
         : "bg-transparent border-b border-transparent",

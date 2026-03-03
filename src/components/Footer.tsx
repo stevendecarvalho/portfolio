@@ -3,8 +3,7 @@ import { Facebook, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "luc
 import logo from "../assets/logo.svg";
 
 const quickLinks = [
-  { label: "À propos", href: "/about" },
-  { label: "Mon univers", href: "/univers" }
+  { label: "Accueil", href: "/" },
 ];
 
 const socialLinks = [
@@ -12,7 +11,7 @@ const socialLinks = [
   { label: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/in/steven-de-carvalho" },
   { label: "Instagram", Icon: Instagram, href: "https://www.instagram.com/steven.insights/" },
   { label: "YouTube", Icon: Youtube, href: "https://www.youtube.com/@stevendecarvalho2021" },
-  { label: "WhatsApp", Icon: Mail, href: "mailto:contact@stevendecarvalho.com" },
+  { label: "Mail", Icon: Mail, href: "mailto:contact@stevendecarvalho.com" },
 ];
 
 export default function Footer() {
@@ -69,10 +68,10 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-white font-orbitron">Mes services</h4>
             <ul className="space-y-2">
-              <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/services">Expertises</Link></li>
+              {/* <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/services">Expertises</Link></li>
               <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/projets">Mes projets</Link></li>
               <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/photos">Mes photos</Link></li>
-              <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/blog">Blog</Link></li>
+              <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/blog">Blog</Link></li> */}
             </ul>
           </div>
 
@@ -99,9 +98,9 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-white/60 text-sm">© 2017 - {new Date().getFullYear()} Steven DE CARVALHO. Tous droits réservés.</p>
             <div className="flex space-x-6 text-sm">
-              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/mentions-legales">Mentions légales</Link>
+              {/* <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/mentions-legales">Mentions légales</Link>
               <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/confidentialite">Confidentialité</Link>
-              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/cookies">Cookies</Link>
+              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/cookies">Cookies</Link> */}
             </div>
           </div>
         </div>

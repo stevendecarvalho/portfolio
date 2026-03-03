@@ -1,7 +1,7 @@
-import { ChevronUp } from "lucide-react";
+import { ChevronUp, KeyRound } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function ToTopButton() {
+export default function ToTopButton({ onOpenCookies }: { onOpenCookies: () => void }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -19,13 +19,23 @@ export default function ToTopButton() {
   };
 
   return (
-    <button
-      type="button"
-      aria-label="Aller en haut"
-      className={`to-top-button ${visible ? "is-visible" : ""}`}
-      onClick={scrollToTop}
-    >
-      <ChevronUp className="w-6 h-6" />
-    </button>
+    <div className={`floating-actions ${visible ? "is-visible" : ""}`}>
+      <button
+        type="button"
+        aria-label="Gérer les cookies"
+        className="cookie-manager-button bounce"
+        onClick={onOpenCookies}
+      >
+        <KeyRound className="w-5 h-5" />
+      </button>
+      <button
+        type="button"
+        aria-label="Aller en haut"
+        className="to-top-button bounce"
+        onClick={scrollToTop}
+      >
+        <ChevronUp className="w-6 h-6" />
+      </button>
+    </div>
   );
 }

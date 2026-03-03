@@ -4,29 +4,20 @@ export type SearchEntry = {
   id: string;
   title: string;
   href: string;
-  img: string;          // preview image
-  kind: SearchKind;     // page / article / autre
-  subtitle?: string;    // optionnel (ex: catégorie, année, auteur…)
-  keywords?: string[];  // optionnel (pour matcher plus large)
+  img: string;
+  kind: SearchKind;
+  subtitle?: string;
+  keywords?: string[];
 };
 
 export const searchIndex: SearchEntry[] = [
   {
-    id: "festival",
-    title: "Le festival",
-    href: "/festival",
+    id: "accueil",
+    title: "Accueil",
+    href: "/",
     img: "/assets/menu/festival.jpg",
     kind: "page",
-    subtitle: "À propos",
-    keywords: ["europe", "autour", "paris"],
-  },
-  {
-    id: "press",
-    title: "Espace presse",
-    href: "/presse",
-    img: "/assets/menu/contact.jpg",
-    kind: "page",
-    subtitle: "Infos & contacts",
-    keywords: ["media", "dossier", "communiqué"],
+    subtitle: "Page d'accueil",
+    keywords: ["home"],
   },
 ];

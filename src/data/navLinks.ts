@@ -49,7 +49,7 @@ export type Block =
   export const navLinks = [
     { label: "Accueil", href: "/" },
 
-    { label: "À propos",
+    /*{ label: "À propos",
       mega: {
         layout: {
           widthPx: 1100,
@@ -155,5 +155,5 @@ export type Block =
     { label: "Expertises", href: "/2026" },
     { label: "Projets", href: "/mediatheque" },
     { label: "Blog", href: "/infos-pratiques" },
-    { label: "Contact", href: "/presse" },
+    { label: "Contact", href: "/presse" },*/
   ];

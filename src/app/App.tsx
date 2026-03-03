@@ -4,17 +4,17 @@ import Footer from "../components/Footer";
 import AppRoutes from "./routes";
 import FullScreenLoader from "../components/FullScreenLoader";
 import ToTopButton from "../components/ToTopButton.tsx";
-import CookieBanner from "../components/CookieBanner.tsx";
+import CookieBanner, { OPEN_COOKIE_EVENT } from "../components/CookieBanner.tsx";
 import MusicPlaylistModal from "../components/MusicPlaylistModal.tsx";
 
 import musicUrl from "../assets/audio/ambient.mp3";
 
 export type Theme = "dark" | "light";
 
-type Track = { title: string; artist: string; src: string };
+type Track = { title: string; artist: string; duree: string; src: string };
 
 const musicTracks: Track[] = [
-  { title: "Ambient Cosmos", artist: "Steven DE CARVALHO", src: musicUrl },
+  { title: "Riding Thru Your City", artist: "Ovi Wood", duree: "3:42", src: musicUrl },
 ];
 
 function wait(ms: number) {
@@ -273,7 +273,7 @@ export default function App() {
         <Footer />
       </div>
 
-      <ToTopButton />
+      <ToTopButton onOpenCookies={() => window.dispatchEvent(new Event(OPEN_COOKIE_EVENT))} />
       <CookieBanner />
       <MusicPlaylistModal
         open={playlistOpen}
