@@ -7,7 +7,6 @@ import {
   clientLogos,
   heroImagesByTheme,
   imgProjets,
-  projects,
   services,
   testimonials,
 } from "../data/mockData";
@@ -66,12 +65,6 @@ const clientBenefits = [
   },
 ];
 
-const benefitsStats = [
-  { value: 30, suffix: "+", label: "Projets Réalisés" },
-  { value: 18, suffix: "+", label: "Clients Satisfaits" },
-  { value: 10, suffix: "+", label: "Ans d'Expérience" },
-];
-
 function getPreview(text: string) {
   if (text.length <= TESTIMONIAL_PREVIEW_LENGTH) return text;
   return `${text.slice(0, TESTIMONIAL_PREVIEW_LENGTH).trim()}…`;
@@ -104,8 +97,31 @@ export default function Home() {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<number | null>(null);
   const benefitsRef = useRef<HTMLElement | null>(null);
-  const [hasStartedStatsCount, setHasStartedStatsCount] = useState(false);
-  const [animatedStats, setAnimatedStats] = useState(() => benefitsStats.map(() => 0));
+  const [benefitSlideIndex, setBenefitSlideIndex] = useState(0);
+
+  const projectCards = useMemo(
+    () => [
+      {
+        title: "Logoss Formation",
+        desc: "Une identité digitale pour révéler l'art de prendre la parole et de la communication.",
+        tags: ["Landing page", "Framer", "Branding"],
+        image: imgProjets[0]?.srcByTheme[theme],
+      },
+      {
+        title: "The Lab.io",
+        desc: "Un accompagnement pour les entrepreneurs ambitieux et visionnaires.",
+        tags: ["Landing page", "React", "Animations"],
+        image: imgProjets[1]?.srcByTheme[theme],
+      },
+      {
+        title: "Pépites et vous",
+        desc: "L'allié des entreprises pour un recrutement plus fluide et plus humain.",
+        tags: ["Site complet", "Webflow", "SEO"],
+        image: imgProjets[2]?.srcByTheme[theme],
+      },
+    ],
+    [theme],
+  );
 
   const displayedTestimonials = useMemo(
     () =>
@@ -197,54 +213,10 @@ export default function Home() {
     };
   }, [activeTestimonialTab]);
 
-  useEffect(() => {
-    const section = benefitsRef.current;
-    if (!section || hasStartedStatsCount) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setHasStartedStatsCount(true);
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.35 },
-    );
-
-    observer.observe(section);
-
-    return () => observer.disconnect();
-  }, [hasStartedStatsCount]);
-
-  useEffect(() => {
-    if (!hasStartedStatsCount) return;
-
-    const duration = 1600;
-    const start = performance.now();
-    let frameId = 0;
-
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - (1 - progress) ** 3;
-
-      setAnimatedStats(benefitsStats.map((stat) => Math.round(stat.value * eased)));
-
-      if (progress < 1) {
-        frameId = window.requestAnimationFrame(tick);
-      }
-    };
-
-    frameId = window.requestAnimationFrame(tick);
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-    };
-  }, [hasStartedStatsCount]);
-
   const isLight = theme === "light";
   const benefitsPreview = isLight ? benefitsPreviewLight : benefitsPreviewDark;
+  const activeBenefit = clientBenefits[benefitSlideIndex];
+  const ActiveBenefitIcon = activeBenefit.icon;
 
   return (
     <div className="home-page min-h-screen relative">
@@ -404,7 +376,7 @@ export default function Home() {
 
           <div className="section-shell relative z-10">
             <div className="benefits-layout" data-reveal>
-              <div className="benefits-scroll-column">
+              <div className="benefits-scroll-column benefits-scroll-column--desktop">
                 {clientBenefits.map((benefit) => {
                   const Icon = benefit.icon;
 
@@ -424,10 +396,64 @@ export default function Home() {
                             <span key={`${benefit.title}-${tag}`}>{tag}</span>
                           ))}
                         </div>
+                        {benefit.step === "Étape 6" && (
+                          <div className="benefit-step-contact">
+                            <Link to="/contact" className="btn-cosmic rounded-[13px]">
+                              Prendre contact <Rocket className="w-5 h-5" />
+                            </Link>
+                          </div>
+                        )}
                       </div>
                     </article>
                   );
                 })}
+              </div>
+
+              <div className="benefits-scroll-column benefits-scroll-column--mobile">
+                <article key={activeBenefit.title} className="benefit-card">
+                  <div className="backdrop-blur-[10px]">
+                    <div className="benefit-card-top">
+                      <div className="benefit-icon-wrap" aria-hidden="true">
+                        <ActiveBenefitIcon className="benefit-icon" />
+                      </div>
+                      <span className="benefit-step">{activeBenefit.step}</span>
+                    </div>
+                    <h3>{activeBenefit.title}</h3>
+                    <p>{activeBenefit.description}</p>
+                    <div className="benefit-tags">
+                      {activeBenefit.tags.map((tag) => (
+                        <span key={`${activeBenefit.title}-${tag}`}>{tag}</span>
+                      ))}
+                    </div>
+                    {activeBenefit.step === "Étape 6" && (
+                      <div className="benefit-step-contact">
+                        <Link to="/contact" className="btn-cosmic rounded-[13px]">
+                          Prendre contact <Rocket className="w-5 h-5" />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </article>
+
+                <div className="benefits-mobile-controls" aria-label="Navigation des étapes">
+                  <button
+                    type="button"
+                    className="testimonial-nav-button"
+                    onClick={() => setBenefitSlideIndex((benefitSlideIndex - 1 + clientBenefits.length) % clientBenefits.length)}
+                    aria-label="Étape précédente"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
+                  <span>{benefitSlideIndex + 1} / {clientBenefits.length}</span>
+                  <button
+                    type="button"
+                    className="testimonial-nav-button"
+                    onClick={() => setBenefitSlideIndex((benefitSlideIndex + 1) % clientBenefits.length)}
+                    aria-label="Étape suivante"
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               <aside className="benefits-sticky-column" aria-label="Aperçu visuel des réalisations">
@@ -490,45 +516,25 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((p) => (
-                <div
-                  key={p.title}
-                  className="cosmic-card p-0 overflow-hidden group cursor-pointer reveal-on-scroll"
-                  data-reveal
-                >
-                  <div className="relative overflow-hidden h-64">
-                    <img
-                      src={p.img}
-                      alt={p.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-cosmic-deep-blue to-transparent opacity-60" />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-cyan-400/90 text-cosmic-black text-xs font-semibold font-orbitron">
-                        {p.category}
-                      </span>
+            <div className="projects-carousel reveal-on-scroll" data-reveal>
+              <div className="projects-carousel-track">
+                {[...projectCards, ...projectCards].map((projectCard, idx) => (
+                  <article key={`${projectCard.title}-${idx}`} className="project-device-card">
+                    <div className="project-device-screen">
+                      <img src={projectCard.image} alt={projectCard.title} loading="lazy" />
                     </div>
-                  </div>
-
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-2 font-orbitron">
-                      {p.title}
-                    </h3>
-                    <p className="text-white/60 text-sm mb-4">{p.desc}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2 py-1 bg-white/5 text-cyan-400 text-xs border border-cyan-400/30"
-                        >
-                          {t}
-                        </span>
-                      ))}
+                    <div className="project-device-content">
+                      <h3>{projectCard.title}</h3>
+                      <p>{projectCard.desc}</p>
+                      <div className="project-device-tags">
+                        {projectCard.tags.map((tag) => (
+                          <span key={`${projectCard.title}-${tag}`}>{tag}</span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </article>
+                ))}
+              </div>
             </div>
 
             <div className="text-center mt-12 reveal-on-scroll" data-reveal>

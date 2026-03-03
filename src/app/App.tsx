@@ -42,9 +42,11 @@ export default function App() {
     return saved ? saved === "1" : true; // par défaut ON
   });
 
+  const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
+
   const assetsToPreload = useMemo(
     () => [
-      "https://customer-assets.emergentagent.com/job_pixel-galaxy-1/artifacts/xd8gu54w_504099052_18000820796790514_849239878460782463_n.jpg",
+      "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg",
     ],
     []
   );
@@ -112,6 +114,34 @@ export default function App() {
     return cleanup;
   }, [ready, musicEnabled]);
 
+  useEffect(() => {
+    let currentX = -100;
+    let currentY = -100;
+    let targetX = -100;
+    let targetY = -100;
+    let frameId = 0;
+
+    const onPointerMove = (event: PointerEvent) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+    };
+
+    const animate = () => {
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
+      setCursorPosition({ x: currentX, y: currentY });
+      frameId = window.requestAnimationFrame(animate);
+    };
+
+    frameId = window.requestAnimationFrame(animate);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("pointermove", onPointerMove);
+    };
+  }, []);
+
   const onToggleMusic = () => {
     setMusicEnabled((v) => !v);
     // Si l'utilisateur clique, c'est une interaction -> play() sera autorisé
@@ -174,6 +204,11 @@ export default function App() {
 
   return (
     <div className="App" data-theme={theme}>
+      <span
+        className="mouse-follower"
+        aria-hidden="true"
+        style={{ left: `${cursorPosition.x}px`, top: `${cursorPosition.y}px` }}
+      />
       {loaderVisible && (
         <div
           className={[
