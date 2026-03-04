@@ -1346,11 +1346,6 @@ html[data-theme="light"] .benefit-icon {
     display: flex;
     width: max-content;
     gap: 26px;
-    animation: projects-carousel 28s linear infinite;
-}
-
-.projects-carousel:hover .projects-carousel-track {
-    animation-duration: 80s;
 }
 
 .project-device-card {

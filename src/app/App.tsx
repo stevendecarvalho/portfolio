@@ -7,14 +7,21 @@ import ToTopButton from "../components/ToTopButton.tsx";
 import CookieBanner, { OPEN_COOKIE_EVENT } from "../components/CookieBanner.tsx";
 import MusicPlaylistModal from "../components/MusicPlaylistModal.tsx";
 
-import musicUrl from "../assets/audio/ambient.mp3";
+import music_RidingThruYourCity_img from "../assets/audio/music_RidingThruYourCity_img.jpg";
+import music_RidingThruYourCity from "../assets/audio/music_RidingThruYourCity.mp3";
+import music_Comedown_img from "../assets/audio/music_Comedown_img.jpg";
+import music_Comedown from "../assets/audio/music_Comedown.mp3";
+import music_WhatItSoundsLike_Sagelune_img from "../assets/audio/music_WhatItSoundsLike_Sagelune_img.jpg";
+import music_WhatItSoundsLike_Sagelune from "../assets/audio/music_WhatItSoundsLike_Sagelune.mp3";
 
 export type Theme = "dark" | "light";
 
-type Track = { title: string; artist: string; duree: string; src: string };
+type Track = { img: string; title: string; artist: string; duree: string; src: string };
 
 const musicTracks: Track[] = [
-  { title: "Riding Thru Your City", artist: "Ovi Wood", duree: "3:42", src: musicUrl },
+  { img: music_RidingThruYourCity_img, title: "Riding Thru Your City", artist: "Ovi Wood", duree: "3:42", src: music_RidingThruYourCity },
+  { img: music_Comedown_img, title: "Comedown (a face like)", artist: "Naits", duree: "3:19", src: music_Comedown },
+  { img: music_WhatItSoundsLike_Sagelune_img, title: "What It Sounds Like - Sped Up", artist: "Sagelune, Glowtide", duree: "3:13", src: music_WhatItSoundsLike_Sagelune },
 ];
 
 function wait(ms: number) {

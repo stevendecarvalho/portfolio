@@ -310,9 +310,17 @@ html[data-theme="light"] .mouse-follower {
   background: linear-gradient(180deg, #229ce4 0%, #1a7ec5 100%);
 }
 
+.to-top-button:hover {
+  background: linear-gradient(180deg, #1d85c2 0%, #166dab 100%);
+}
+
 .cookie-manager-button {
   background-color: #0f4d74;
   color: #fff;
+}
+
+.cookie-manager-button:hover {
+  background-color: #0a3550;
 }
 
 .bounce {
@@ -320,6 +328,13 @@ html[data-theme="light"] .mouse-follower {
   -moz-animation: arrow-bounce 0.5s ease infinite alternate;
   -o-animation: arrow-bounce 0.5s ease infinite alternate;
   animation: arrow-bounce 0.5s ease infinite alternate;
+}
+
+.cookie-banner-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.72);
+  z-index: 1300;
 }
 
 .cookie-banner {
@@ -341,20 +356,18 @@ html[data-theme="light"] .mouse-follower {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .cookie-close {
-  border: 1px solid rgba(172, 212, 255, 0.8);
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
+  width: 50px;
+  height: 50px;
   display: grid;
   place-items: center;
 }
 
-.cookie-banner h3 { margin: 0; font-size: 40px; font-weight: 700; }
-.cookie-banner p { color: rgba(236, 247, 255, 0.9); font-size: 16px; line-height: 30px; }
+.cookie-banner h3 { margin: 0; font-size: 25px; font-weight: 700; }
+.cookie-banner p { color: rgba(236, 247, 255, 0.9); font-size: 15px; line-height: 23px; }
 .cookie-link { color: #7cd7ff; margin: 8px 0 14px; text-decoration: underline; }
 .cookie-preferences { display: grid; gap: 10px; margin: 10px 0; max-height: 250px; overflow: auto; padding-right: 4px; }
 
@@ -380,7 +393,7 @@ html[data-theme="light"] .mouse-follower {
 
 .cookie-summary { font-size: 13px; opacity: 0.78; margin-top: 6px; }
 .cookie-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
-.cookie-btn { padding: 0.9rem 1rem; border-radius: 10px; font-size: 20px; }
+.cookie-btn { padding: 0.9rem 1rem; border-radius: 10px; font-size: 16px; }
 .cookie-btn-accept { background: #2f82c7; }
 .cookie-btn-refuse { background: #d43e40; }
 .cookie-btn-save { background: #e6e6e6; color: #111; }
@@ -461,6 +474,12 @@ html[data-theme="light"] .mouse-follower {
 .music-album,
 .music-duration,
 .music-index { color: rgba(236, 247, 255, 0.8); }
+
+span.music-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 .music-controls { display: flex; justify-content: center; gap: 12px; margin-top: 30px; }
 

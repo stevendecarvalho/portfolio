@@ -1,6 +1,6 @@
 import { Clock3, Pause, Play, SkipBack, SkipForward, X } from "lucide-react";
 
-type Track = { title: string; artist: string, duree: string };
+type Track = { img: string; title: string; artist: string, duree: string };
 
 export default function MusicPlaylistModal({
   open,
@@ -51,7 +51,7 @@ export default function MusicPlaylistModal({
                 onClick={() => onSelectTrack(index)}
               >
                 <span className="music-index">{index + 1}</span>
-                <span className="music-title-wrap"><strong>{track.title}</strong></span>
+                <span className="music-title-wrap"><img className="w-[40px]" src={`${track.img}`}/> <strong>{track.title}</strong></span>
                 <span className="music-artist">{track.artist}</span>
                 <span className="music-duration">{track.duree}</span>
               </button>

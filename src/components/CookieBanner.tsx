@@ -1,5 +1,6 @@
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
+import logo from "../assets/logo.svg";
 
 type CookiePrefs = {
   essential: true;
@@ -113,6 +114,11 @@ export default function CookieBanner() {
         aria-label="Gestion du consentement"
       >
         <div className="cookie-banner-header">
+          <a href="/" className="flex items-center space-x-2 group">
+            <div className="relative">
+              <img src={logo} alt="Logo" className="relative h-auto w-[100px]" />
+            </div>
+          </a>
           <h3>Gestion du consentement</h3>
           <button
             type="button"
@@ -120,7 +126,7 @@ export default function CookieBanner() {
             aria-label="Fermer"
             onClick={() => setVisible(false)}
           >
-            <X className="w-5 h-5" />
+            <X className="w-[25px] h-[25px]" />
           </button>
         </div>
         <p>

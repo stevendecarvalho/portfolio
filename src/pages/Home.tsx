@@ -31,13 +31,15 @@ import logoLight from "../assets/logo-light.svg";
 
 const TESTIMONIALS_PER_VIEW = 3;
 const TESTIMONIAL_PREVIEW_LENGTH = 180;
+const PROJECTS_CAROUSEL_DURATION_MS = 24000;
+const PROJECTS_CAROUSEL_HOVER_RATE = 0.5;
+const PROJECTS_CAROUSEL_RATE_LERP = 0.08;
 
 const clientBenefits = [
   {
     step: "Étape 1",
     title: "Immersion stratégique",
-    description:
-      "Avant de commencer votre projet, nous plongeons dans votre univers. On échange autour de votre activité, votre positionnement, votre concurrence et votre vision à long terme. Nous posons ainsi les bases d’un site ou d'un support qui serviront réellement vos ambitions.",
+    description: "Avant de commencer votre projet, nous plongeons dans votre univers. On échange autour de votre activité, votre positionnement, votre concurrence et votre vision à long terme. Nous posons ainsi les bases d’un site ou d'un support qui serviront réellement vos ambitions.",
     tags: ["Stratégie", "Objectifs"],
     icon: Rocket,
   },
@@ -108,9 +110,13 @@ export default function Home() {
   const [index, setIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const [activeTestimonialTab, setActiveTestimonialTab] = useState<number | null>(null);
+  const [activeTestimonialTab, setActiveTestimonialTab] = useState<
+    number | null
+  >(null);
   const benefitsRef = useRef<HTMLElement | null>(null);
   const benefitCardRefs = useRef<Array<HTMLElement | null>>([]);
+  const projectsCarouselRef = useRef<HTMLDivElement | null>(null);
+  const projectsCarouselTrackRef = useRef<HTMLDivElement | null>(null);
   const [benefitSlideIndex, setBenefitSlideIndex] = useState(0);
   const [activeBenefitIndexDesktop, setActiveBenefitIndexDesktop] = useState(0);
 
@@ -149,16 +155,23 @@ export default function Home() {
 
   const displayedTestimonials = useMemo(
     () =>
-      Array.from({ length: Math.min(TESTIMONIALS_PER_VIEW, testimonials.length) }, (_, i) => {
-        const currentIndex = (testimonialIndex + i) % testimonials.length;
-        return { ...testimonials[currentIndex], index: currentIndex };
-      }),
+      Array.from(
+        { length: Math.min(TESTIMONIALS_PER_VIEW, testimonials.length) },
+        (_, i) => {
+          const currentIndex = (testimonialIndex + i) % testimonials.length;
+          return { ...testimonials[currentIndex], index: currentIndex };
+        },
+      ),
     [testimonialIndex],
   );
 
   useEffect(() => {
     const onThemeUpdate = () => {
-      setTheme(document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark");
+      setTheme(
+        document.documentElement.getAttribute("data-theme") === "light"
+          ? "light"
+          : "dark",
+      );
     };
 
     onThemeUpdate();
@@ -198,7 +211,9 @@ export default function Home() {
   }, [aboutSlides]);
 
   useEffect(() => {
-    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+    );
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -215,6 +230,62 @@ export default function Home() {
     return () => {
       elements.forEach((el) => observer.unobserve(el));
       observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const track = projectsCarouselTrackRef.current;
+    const container = projectsCarouselRef.current;
+    if (!track || !container || typeof track.animate !== "function") return;
+
+    const animation = track.animate(
+      [
+        { transform: "translateX(0)" },
+        { transform: "translateX(calc(-50% - 13px))" },
+      ],
+      {
+        duration: PROJECTS_CAROUSEL_DURATION_MS,
+        iterations: Infinity,
+        easing: "linear",
+      },
+    );
+
+    let currentPlaybackRate = 1;
+    let targetPlaybackRate = 1;
+    let frameId: number | null = null;
+
+    const tick = () => {
+      currentPlaybackRate += (targetPlaybackRate - currentPlaybackRate) * PROJECTS_CAROUSEL_RATE_LERP;
+      animation.playbackRate = currentPlaybackRate;
+
+      if (Math.abs(targetPlaybackRate - currentPlaybackRate) < 0.001) {
+        animation.playbackRate = targetPlaybackRate;
+        frameId = null;
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(tick);
+    };
+
+    const updatePlaybackRate = (nextRate: number) => {
+      targetPlaybackRate = nextRate;
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(tick);
+    };
+
+    const onMouseEnter = () => updatePlaybackRate(PROJECTS_CAROUSEL_HOVER_RATE);
+    const onMouseLeave = () => updatePlaybackRate(1);
+
+    container.addEventListener("mouseenter", onMouseEnter);
+    container.addEventListener("mouseleave", onMouseLeave);
+
+    return () => {
+      container.removeEventListener("mouseenter", onMouseEnter);
+      container.removeEventListener("mouseleave", onMouseLeave);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      animation.cancel();
     };
   }, []);
 
@@ -247,8 +318,14 @@ export default function Home() {
         let mostVisible = { index: activeBenefitIndexDesktop, ratio: 0 };
 
         entries.forEach((entry) => {
-          const index = Number((entry.target as HTMLElement).dataset.benefitIndex ?? -1);
-          if (entry.isIntersecting && index >= 0 && entry.intersectionRatio >= mostVisible.ratio) {
+          const index = Number(
+            (entry.target as HTMLElement).dataset.benefitIndex ?? -1,
+          );
+          if (
+            entry.isIntersecting &&
+            index >= 0 &&
+            entry.intersectionRatio >= mostVisible.ratio
+          ) {
             mostVisible = { index, ratio: entry.intersectionRatio };
           }
         });
@@ -563,9 +640,7 @@ export default function Home() {
           <div className="section-shell relative z-10">
             <div className="text-center mb-16 reveal-on-scroll" data-reveal>
               <div className="absolute-title-outline">
-                <h2 className="section-title-outline">
-                  Portfolio
-                </h2>
+                <h2 className="section-title-outline">Portfolio</h2>
               </div>
               <h2 className="section-title-inline">
                 Mes dernières réalisations
@@ -575,21 +650,39 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="projects-carousel reveal-on-scroll" data-reveal>
-              <div className="projects-carousel-track">
+            <div className="projects-carousel reveal-on-scroll" data-reveal ref={projectsCarouselRef}>
+              <div className="projects-carousel-track" ref={projectsCarouselTrackRef}>
                 {[...projectCards, ...projectCards].map((projectCard, idx) => (
-                  <article key={`${projectCard.title}-${idx}`} className="project-device-card">
-                    <span className="project-device-category">{projectCard.category}</span>
+                  <article
+                    key={`${projectCard.title}-${idx}`}
+                    className="project-device-card"
+                  >
+                    <span className="project-device-category">
+                      {projectCard.category}
+                    </span>
                     <div className="project-device-screen">
-                      <img src={projectCard.image} alt={projectCard.title} loading="lazy" />
+                      <img
+                        src={projectCard.image}
+                        alt={projectCard.title}
+                        loading="lazy"
+                      />
                     </div>
                     <div className="project-device-content">
-                      <img src={projectCard.logo} alt={`Logo ${projectCard.title}`} loading="lazy" />
+                      <img
+                        src={projectCard.logo}
+                        alt={`Logo ${projectCard.title}`}
+                        loading="lazy"
+                      />
                       <div className="project-device-heading">
                         <h3>{projectCard.title}</h3>
-                        {projectCard.isNew && <span className="project-badge-new">Nouveauté</span>}
+                        {projectCard.isNew && (
+                          <span className="project-badge-new">Nouveauté</span>
+                        )}
                       </div>
-                      <span className="project-device-divider" aria-hidden="true" />
+                      <span
+                        className="project-device-divider"
+                        aria-hidden="true"
+                      />
                       <p>{projectCard.desc}</p>
                       <div className="project-device-tags">
                         {projectCard.tags.map((tag) => (
@@ -650,7 +743,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-[45px] pb-[45px]">
               {displayedTestimonials.map((t) => {
                 const normalizedText = normalizeTestimonialText(t.text);
                 const preview = getPreview(normalizedText);
