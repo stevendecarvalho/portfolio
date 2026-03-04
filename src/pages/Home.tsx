@@ -183,6 +183,11 @@ export default function Home() {
     );
   }, [testimonialSearch]);
 
+  const sortedTestimonials = useMemo(
+    () => testimonials.map((testimonial, index) => ({ ...testimonial, index })).sort((a, b) => a.name.localeCompare(b.name, "fr", { sensitivity: "base" })),
+    [],
+  );
+
   useEffect(() => {
     const onResize = () => {
       setIsMobileTestimonials(window.innerWidth <= MOBILE_TESTIMONIAL_BREAKPOINT);
@@ -260,7 +265,7 @@ export default function Home() {
       elements.forEach((el) => observer.unobserve(el));
       observer.disconnect();
     };
-  }, []);
+  }, [testimonialIndex]);
 
   useEffect(() => {
     const track = projectsCarouselTrackRef.current;
@@ -837,46 +842,44 @@ export default function Home() {
                   Tous les témoignages
                 </h3>
 
-                <div className="testimonial-modal-tabs" role="tablist" aria-label="Choisir un témoignage">
+                <div className="testimonial-modal-tabs" aria-label="Choisir un témoignage">
+                  <label className="testimonial-modal-select-label" htmlFor="testimonial-select-input">
+                    Choisir un témoignage
+                  </label>
                   <input
-                    type="search"
-                    className="testimonial-modal-search"
+                    id="testimonial-select-input"
+                    className="testimonial-modal-select"
+                    list="testimonial-select-options"
                     value={testimonialSearch}
-                    onChange={(event) => setTestimonialSearch(event.target.value)}
-                    placeholder="Rechercher un nom ou une entreprise..."
-                    aria-label="Rechercher un témoignage"
+                    placeholder="Sélectionnez ou tapez un nom..."
+                    onChange={(event) => {
+                      const nextValue = event.target.value;
+                      setTestimonialSearch(nextValue);
+                      const selected = sortedTestimonials.find((t) => t.name.toLowerCase() === nextValue.trim().toLowerCase());
+                      if (selected) {
+                        setActiveTestimonialTab(selected.index);
+                      }
+                    }}
+                    onFocus={() => {
+                      const currentName = testimonials[activeTestimonialTab]?.name;
+                      if (currentName) {
+                        setTestimonialSearch(currentName);
+                      }
+                    }}
                   />
+                  <datalist id="testimonial-select-options">
+                    {sortedTestimonials.map((t) => (
+                      <option key={`${t.name}-option`} value={t.name} />
+                    ))}
+                  </datalist>
 
-                  <p className="testimonial-modal-search-count">
-                    {filteredTestimonials.length} résultat(s)
-                  </p>
-
-                  {filteredTestimonials.map((t) => (
-                    <button
-                      key={`${t.name}-tab`}
-                      type="button"
-                      role="tab"
-                      aria-selected={activeTestimonialTab === t.index}
-                      aria-controls={`testimonial-panel-${t.index}`}
-                      id={`testimonial-tab-${t.index}`}
-                      className={`testimonial-modal-tab ${activeTestimonialTab === t.index ? "is-active" : ""}`}
-                      onClick={() => setActiveTestimonialTab(t.index)}
-                    >
-                      {t.name}
-                    </button>
-                  ))}
-
-                  {filteredTestimonials.length === 0 && (
-                    <p className="testimonial-modal-empty">Aucun témoignage ne correspond à votre recherche.</p>
-                  )}
+                  {filteredTestimonials.length === 0 && <p className="testimonial-modal-empty">Aucun témoignage ne correspond à votre recherche.</p>}
                 </div>
 
                 {testimonials.map((t, i) => (
                   <section
                     key={`${t.name}-panel`}
                     id={`testimonial-panel-${i}`}
-                    role="tabpanel"
-                    aria-labelledby={`testimonial-tab-${i}`}
                     className={activeTestimonialTab === i ? "block" : "hidden"}
                   >
                     <div className="flex items-center gap-4 mt-6 mb-5">
@@ -923,39 +926,21 @@ export default function Home() {
           </div>
 
           <div className="section-shell relative z-10">
-            <div className="laser-reveal flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4" data-reveal>
-              <h2 className="laser-title title-section">
-                {[isLight ? "🌌 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE" : "🌀 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE"]}
+            <div className="text-center mb-16 reveal-on-scroll" data-reveal>
+              <div className="absolute-title-outline">
+                <h2 className="section-title-outline">
+                  À propos
+                </h2>
+              </div>
+              <h2 className="section-title-inline">
+                Qui est Steven DE CARVALHO ?
               </h2>
-              <Link to="#" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
-                Mon univers <Rocket className="w-4 h-4" />
-              </Link>
+              <div className="title-separator">
+                <div className="line" />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="sectionIntroUniverse-text space-y-8 reveal-on-scroll" data-reveal>
-                <p className="text-white text-[16px] leading-relaxed text-justify">
-                  <strong>Steven DE CARVALHO</strong> est un créateur digital spécialisé dans la conception d’univers visuels stratégiques.
-                </p>
-                <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                  Depuis plus de 10 ans, il développe des <strong>identités, des plateformes et des expériences digitales</strong> à la frontière du design, du code et de la narration.
-                </p>
-                <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                  Son travail repose sur une conviction simple : une <strong>image forte</strong> ne se limite pas à l’esthétique — elle doit <strong>structurer un message, incarner une vision et créer un impact durable.</strong>
-                </p>
-                <p className="text-white/90 text-[16px] leading-relaxed text-justify">
-                  Au fil des années, Steven DE CARVALHO a su collaboré avec des <strong>entreprises, artistes, festivals et institutions</strong> dans la construction d’écosystèmes visuels cohérents, innovants et performants.
-                </p>
-                <div className="divLinkUniverse flex flex-col sm:flex-row items-center gap-4">
-                  <Link to="#" className="btn-cosmic inline-flex">
-                    Qui suis-je ? <ArrowRight className="w-5 h-5" />
-                  </Link>
-                  <Link to="#" className="btn-cosmic btn-cosmic-outline whitespace-nowrap btnTitleUniverseHome">
-                    Mon univers <Rocket className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-
               <div className="sectionIntroUniverse-slide relative reveal-on-scroll" data-reveal>
                 <div className="relative w-full max-w-[400px] mx-auto overflow-hidden bg-cosmic-deep-blue/40">
                   <div className="relative w-full h-[420px] md:h-[620px]">
@@ -998,6 +983,35 @@ export default function Home() {
                       aria-label={`Voir le slide ${i + 1}`}
                     />
                   ))}
+                </div>
+              </div>
+
+              <div className="sectionIntroUniverse-text space-y-8 reveal-on-scroll" data-reveal>
+                <div className="laser-reveal flex flex-col md:flex-row md:items-center justify-between mb-[20px] gap-4" data-reveal>
+                  <h2 className="laser-title title-section">
+                    {[isLight ? "🌌 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE" : "🌀 À LA FRONTIÈRE DU RÉEL ET DE L'IMAGINAIRE"]}
+                  </h2>
+                </div>
+
+                <p className="text-white text-[16px] leading-relaxed text-justify">
+                  <strong>Steven DE CARVALHO est un créateur digital et directeur artistique spécialisé dans la conception d’univers visuels.</strong>
+                </p>
+                <p className="text-white/90 text-[16px] leading-relaxed text-justify">
+                  Depuis plus de dix ans, il imagine et développe des identités, des images de marque et des expériences qui se déploient à travers le design, le web, la photographie, l'événementiel, la vidéo et la communication.
+                </p>
+                <p className="text-white/90 text-[16px] leading-relaxed text-justify">
+                  Son approche repose sur une conviction simple : une image forte ne se limite pas à l’esthétique. Elle doit <strong>transmettre un message clair, incarner une vision et créer un impact durable</strong>.
+                </p>
+                <p className="text-white/90 text-[16px] leading-relaxed text-justify">
+                  Entre direction artistique, design graphique et production de contenus, <strong>Steven DE CARVALHO accompagne entreprises, artistes et institutions</strong> dans la construction d’écosystèmes visuels cohérents, contemporains et mémorables.
+                </p>
+                <div className="divLinkUniverse flex flex-col sm:flex-row items-center gap-4">
+                  <Link to="#" className="btn-cosmic inline-flex">
+                    En savoir plus <ArrowRight className="w-5 h-5" />
+                  </Link>
+                  <Link to="#" className="btn-cosmic btn-cosmic-outline whitespace-nowrap">
+                    Mon univers <Rocket className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
             </div>

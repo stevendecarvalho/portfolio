@@ -749,6 +749,7 @@ article.testimonial-card {
     text-align: center;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 div.testimonial-avatar-wrap {
@@ -820,46 +821,27 @@ button.testimonial-modal-close {
 }
 
 div.testimonial-modal-tabs {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 8px;
-    max-height: 200px;
-    overflow: auto;
-    align-content: flex-start;
-    padding-right: 4px;
+    margin-bottom: 12px;
 }
 
-input.testimonial-modal-search {
-    width: min(360px, 100%);
+label.testimonial-modal-select-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+input.testimonial-modal-select {
+    width: min(380px, 100%);
     border: 1px solid rgba(255, 255, 255, 0.22);
     padding: 10px 12px;
     color: #ffffff;
     background: rgba(255, 255, 255, 0.04);
 }
 
-p.testimonial-modal-search-count {
-    width: 100%;
-    margin: 2px 0 6px;
-    color: rgba(255, 255, 255, 0.72);
-    font-size: 0.88rem;
-}
-
 p.testimonial-modal-empty {
     color: rgba(255, 255, 255, 0.72);
-    margin-top: 10px;
-}
-
-button.testimonial-modal-tab {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.75);
-    padding: 8px 12px;
-    font-size: 0.92rem;
-}
-
-button.testimonial-modal-tab.is-active {
-    border-color: rgba(34, 211, 238, 0.6);
-    color: #22d3ee;
-    background: rgba(34, 211, 238, 0.12);
+    margin-top: 4px;
 }
 
 p.testimonial-modal-text {
@@ -908,24 +890,13 @@ html[data-theme="light"] button.testimonial-modal-close {
     color: rgba(79, 45, 22, 0.85);
 }
 
-html[data-theme="light"] button.testimonial-modal-tab {
-    border-color: rgba(150, 86, 32, 0.28);
-    color: rgba(90, 51, 20, 0.8);
-}
-
-html[data-theme="light"] button.testimonial-modal-tab.is-active {
-    border-color: rgba(180, 95, 26, 0.52);
-    color: #9a4a12;
-    background: rgba(255, 181, 78, 0.22);
-}
-
-html[data-theme="light"] input.testimonial-modal-search {
+html[data-theme="light"] input.testimonial-modal-select {
     border-color: rgba(150, 86, 32, 0.35);
     background: rgba(255, 255, 255, 0.75);
     color: #4f2d16;
 }
 
-html[data-theme="light"] p.testimonial-modal-search-count,
+html[data-theme="light"] label.testimonial-modal-select-label,
 html[data-theme="light"] p.testimonial-modal-empty {
     color: rgba(90, 51, 20, 0.75);
 }

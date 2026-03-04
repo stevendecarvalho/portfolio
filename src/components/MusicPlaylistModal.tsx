@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Clock3, Pause, Play, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
+import { Clock3, Heart, Pause, Play, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
 
 type Track = { img: string; title: string; artist: string, duree: string };
 
@@ -18,10 +18,15 @@ export default function MusicPlaylistModal({
   isPlaying,
   onTogglePlay,
   onSelectTrack,
+  onToggleTrackPlay,
   onNext,
   onPrev,
   repeatOne,
   shuffleEnabled,
+  favoritesOnly,
+  onToggleFavoritesOnly,
+  favorites,
+  onToggleFavorite,
   onToggleRepeatOne,
   onToggleShuffle,
   currentTime,
@@ -32,15 +37,20 @@ export default function MusicPlaylistModal({
 }: {
   open: boolean;
   onClose: () => void;
-  tracks: Track[];
+  tracks: Array<{ track: Track; index: number }>;
   activeTrack: number;
   isPlaying: boolean;
   onTogglePlay: () => void;
   onSelectTrack: (index: number) => void;
+  onToggleTrackPlay: (index: number) => void;
   onNext: () => void;
   onPrev: () => void;
   repeatOne: boolean;
   shuffleEnabled: boolean;
+  favoritesOnly: boolean;
+  onToggleFavoritesOnly: () => void;
+  favorites: number[];
+  onToggleFavorite: (index: number) => void;
   onToggleRepeatOne: () => void;
   onToggleShuffle: () => void;
   currentTime: number;
@@ -68,6 +78,7 @@ export default function MusicPlaylistModal({
         <h3>Playlist</h3>
         <div className="music-playlist-head">
           <span>#</span>
+          <span aria-label="Favori" className="text-center">♡</span>
           <span>Titre</span>
           <span>Artiste</span>
           <span aria-label="Durée">
@@ -76,42 +87,80 @@ export default function MusicPlaylistModal({
         </div>
 
         <ul className="music-playlist music-playlist--table">
-          {tracks.map((track, index) => {
+          {tracks.map(({ track, index }) => {
             const isActiveTrack = index === activeTrack;
             const isTrackHovered = hoveredTrack === index;
             const showOverlay = isTrackHovered || isActiveTrack;
             const showPause = isActiveTrack && isPlaying && isTrackHovered;
+            const isFavorite = favorites.includes(index);
 
             return (
               <li key={`${track.title}-${index}`}>
-                <button
-                  type="button"
-                  className={isActiveTrack ? "is-active" : ""}
+                <div
+                  className={`music-playlist-row ${isActiveTrack ? "is-active" : ""}`}
                   onClick={() => onSelectTrack(index)}
                   onMouseEnter={() => setHoveredTrack(index)}
                   onMouseLeave={() => setHoveredTrack(null)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      onSelectTrack(index);
+                    }
+                  }}
                 >
                   <span className="music-index">{index + 1}</span>
+                  <span className="music-favorite-cell">
+                    <button
+                      type="button"
+                      className={`music-favorite-button ${isFavorite ? "is-favorite" : ""}`}
+                      aria-label={isFavorite ? `Retirer ${track.title} des favoris` : `Ajouter ${track.title} aux favoris`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onToggleFavorite(index);
+                      }}
+                    >
+                      <Heart className="w-4 h-4" />
+                    </button>
+                  </span>
                   <span className="music-title-wrap">
-                    <span className="music-cover-wrap">
+                    <button
+                      type="button"
+                      className="music-cover-wrap"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onToggleTrackPlay(index);
+                      }}
+                      aria-label={isActiveTrack && isPlaying ? `Mettre en pause ${track.title}` : `Lire ${track.title}`}
+                    >
                       <img className="music-cover" src={track.img} alt={track.title} />
                       {showOverlay && (
                         <span className="music-cover-overlay" aria-hidden="true">
                           {showPause ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                         </span>
                       )}
-                    </span>
+                    </button>
                     <strong>{track.title}</strong>
                   </span>
                   <span className="music-artist">{track.artist}</span>
                   <span className="music-duration">{track.duree}</span>
-                </button>
+                </div>
               </li>
             );
           })}
         </ul>
 
         <div className="music-controls">
+          <button
+            type="button"
+            onClick={onToggleFavoritesOnly}
+            aria-label="Jouer uniquement les favoris"
+            className={favoritesOnly ? "is-active" : ""}
+            title="Favoris uniquement"
+          >
+            <Heart className="w-4 h-4" />
+          </button>
           <button
             type="button"
             onClick={onToggleShuffle}

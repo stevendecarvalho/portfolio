@@ -18,6 +18,19 @@ export type Theme = "dark" | "light";
 
 type Track = { img: string; title: string; artist: string; duree: string; src: string };
 
+type UserPreferences = {
+  theme: Theme;
+  musicEnabled: boolean;
+  activeTrack: number;
+  volume: number;
+  repeatOne: boolean;
+  shuffleEnabled: boolean;
+  favoritesOnly: boolean;
+  favoriteTracks: number[];
+};
+
+const PREFERENCES_COOKIE = "portfolio_preferences";
+
 const musicTracks: Track[] = [
   { img: music_RidingThruYourCity_img, title: "Riding Thru Your City", artist: "Ovi Wood", duree: "3:42", src: music_RidingThruYourCity },
   { img: music_Comedown_img, title: "Comedown (a face like)", artist: "Naits", duree: "3:19", src: music_Comedown },
@@ -43,59 +56,103 @@ async function preloadImages(urls: string[]) {
   );
 }
 
+function clampTrackIndex(index: number) {
+  if (!Number.isFinite(index)) return 0;
+  return Math.min(Math.max(0, Math.floor(index)), musicTracks.length - 1);
+}
+
+function sanitizeFavoriteTracks(indices: number[]) {
+  return Array.from(new Set(indices.map(clampTrackIndex)));
+}
+
+function readPreferencesCookie(): Partial<UserPreferences> {
+  if (typeof document === "undefined") return {};
+  const match = document.cookie
+    .split("; ")
+    .find((entry) => entry.startsWith(`${PREFERENCES_COOKIE}=`));
+
+  if (!match) return {};
+
+  try {
+    const rawValue = decodeURIComponent(match.split("=").slice(1).join("="));
+    const parsed = JSON.parse(rawValue) as Partial<UserPreferences>;
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function writePreferencesCookie(preferences: UserPreferences) {
+  if (typeof document === "undefined") return;
+  document.cookie = `${PREFERENCES_COOKIE}=${encodeURIComponent(JSON.stringify(preferences))}; Max-Age=${60 * 60 * 24 * 365}; Path=/; SameSite=Lax`;
+}
+
 export default function App() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const initialPreferences = readPreferencesCookie();
 
-
-
-  // --- LOADER ---
+  const [theme, setTheme] = useState<Theme>(() =>
+    initialPreferences.theme === "light" ? "light" : "dark",
+  );
+  
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loaderVisible, setLoaderVisible] = useState(true);
-
-
-
-  // --- MUSIQUE ---
+  
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [musicEnabled, setMusicEnabled] = useState<boolean>(() => {
-    const saved = localStorage.getItem("musicEnabled");
-    return saved ? saved === "1" : true;
-  });
-  const [activeTrack, setActiveTrack] = useState(() => {
-    const saved = Number(localStorage.getItem("activeTrack") ?? 0);
-    return Number.isNaN(saved) ? 0 : Math.min(Math.max(0, saved), musicTracks.length - 1);
-  });
+  const [musicEnabled, setMusicEnabled] = useState<boolean>(
+    typeof initialPreferences.musicEnabled === "boolean" ? initialPreferences.musicEnabled : true,
+  );
+  const [activeTrack, setActiveTrack] = useState<number>(
+    clampTrackIndex(Number(initialPreferences.activeTrack ?? 0)),
+  );
   const [playlistOpen, setPlaylistOpen] = useState(false);
-  const [repeatOne, setRepeatOne] = useState(false);
-  const [shuffleEnabled, setShuffleEnabled] = useState(false);
+  const [repeatOne, setRepeatOne] = useState<boolean>(Boolean(initialPreferences.repeatOne));
+  const [shuffleEnabled, setShuffleEnabled] = useState<boolean>(Boolean(initialPreferences.shuffleEnabled));
+  const [favoritesOnly, setFavoritesOnly] = useState<boolean>(Boolean(initialPreferences.favoritesOnly));
+  const [favoriteTracks, setFavoriteTracks] = useState<number[]>(
+    sanitizeFavoriteTracks(Array.isArray(initialPreferences.favoriteTracks) ? initialPreferences.favoriteTracks : []),
+  );
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(0.55);
-
-
-
-  // --- CURSEUR ---
+  const [volume, setVolume] = useState<number>(
+    Math.min(1, Math.max(0, Number(initialPreferences.volume ?? 0.55))),
+  );
+  
   const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
-
-
-
-  // --- PRELOAD ---
+  
   const assetsToPreload = useMemo(
     () => ["../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg"],
     []
   );
 
+  const playableTrackIndexes = useMemo(() => {
+    if (!favoritesOnly) return musicTracks.map((_, index) => index);
+    return favoriteTracks;
+  }, [favoritesOnly, favoriteTracks]);
 
+  const visiblePlaylistTracks = useMemo(
+    () => (favoritesOnly ? favoriteTracks : musicTracks.map((_, index) => index)).map((index) => ({ track: musicTracks[index], index })),
+    [favoritesOnly, favoriteTracks],
+  );
 
-  // --- THÈME ---
+  useEffect(() => {
+    writePreferencesCookie({
+      theme,
+      musicEnabled,
+      activeTrack,
+      volume,
+      repeatOne,
+      shuffleEnabled,
+      favoritesOnly,
+      favoriteTracks,
+    });
+  }, [theme, musicEnabled, activeTrack, volume, repeatOne, shuffleEnabled, favoritesOnly, favoriteTracks]);
+
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
-
-
-
-  // --- INITIALISE L'AUDIO (UNE SEULE FOIS) ---
+  
   useEffect(() => {
     const audio = new Audio(musicTracks[activeTrack]?.src ?? musicTracks[0].src);
     audio.loop = repeatOne;
@@ -140,7 +197,6 @@ export default function App() {
 
     audio.src = musicTracks[activeTrack]?.src ?? musicTracks[0].src;
     audio.currentTime = 0;
-    setCurrentTime(0);
 
     if (musicEnabled) {
       audio.play().catch(() => {});
@@ -158,12 +214,8 @@ export default function App() {
     if (!audio) return;
     audio.volume = volume;
   }, [volume]);
-
-
-
-  // --- APPLIQUE LE MUTE / UNMUTE DE LA MUSIQUE ---
+  
   useEffect(() => {
-    localStorage.setItem("musicEnabled", musicEnabled ? "1" : "0");
     const a = audioRef.current;
     if (!a) return;
 
@@ -173,13 +225,6 @@ export default function App() {
       a.play().catch(() => {});
     }
   }, [musicEnabled]);
-
-
-
-  // --- DÉMARRER LA MUSIQUE AU PREMIER GESTE UTILISATEUR ---
-  useEffect(() => {
-    localStorage.setItem("activeTrack", String(activeTrack));
-  }, [activeTrack]);
 
   useEffect(() => {
     const tryStart = () => {
@@ -205,32 +250,43 @@ export default function App() {
     return cleanup;
   }, [ready, musicEnabled]);
 
+  const selectRandomPlayableTrack = (currentTrack: number) => {
+    if (playableTrackIndexes.length <= 1) return currentTrack;
+    let randomTrack = currentTrack;
+    while (randomTrack === currentTrack) {
+      randomTrack = playableTrackIndexes[Math.floor(Math.random() * playableTrackIndexes.length)];
+    }
+    return randomTrack;
+  };
+
+  const getAdjacentTrack = (currentTrack: number, direction: "next" | "prev") => {
+    if (playableTrackIndexes.length === 0) return currentTrack;
+    const currentIndex = playableTrackIndexes.indexOf(currentTrack);
+    const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
+    const delta = direction === "next" ? 1 : -1;
+    const nextIndex = (safeCurrentIndex + delta + playableTrackIndexes.length) % playableTrackIndexes.length;
+    return playableTrackIndexes[nextIndex];
+  };
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const handleEnded = () => {
       if (repeatOne) return;
+
       setActiveTrack((currentTrack) => {
         if (shuffleEnabled) {
-          if (musicTracks.length <= 1) return currentTrack;
-          let randomIndex = currentTrack;
-          while (randomIndex === currentTrack) {
-            randomIndex = Math.floor(Math.random() * musicTracks.length);
-          }
-          return randomIndex;
+          return selectRandomPlayableTrack(currentTrack);
         }
-        return (currentTrack + 1) % musicTracks.length;
+        return getAdjacentTrack(currentTrack, "next");
       });
     };
 
     audio.addEventListener("ended", handleEnded);
     return () => audio.removeEventListener("ended", handleEnded);
-  }, [repeatOne, shuffleEnabled]);
-
-
-
-  // --- CURSEUR ---
+  }, [repeatOne, shuffleEnabled, playableTrackIndexes]);
+  
   useEffect(() => {
     let currentX = -100;
     let currentY = -100;
@@ -258,11 +314,9 @@ export default function App() {
       window.removeEventListener("pointermove", onPointerMove);
     };
   }, []);
-
-
-
-  // --- TOGGLE MUSIQUE ---
+  
   const onToggleMusic = () => {
+    if (favoritesOnly && playableTrackIndexes.length === 0) return;
     setMusicEnabled((v) => !v);
   };
 
@@ -271,14 +325,27 @@ export default function App() {
     setMusicEnabled(true);
   };
 
-  const nextTrack = () => setActiveTrack((i) => (i + 1) % musicTracks.length);
+
+  const toggleTrackPlay = (index: number) => {
+    if (index === activeTrack) {
+      onToggleMusic();
+      return;
+    }
+    selectTrack(index);
+  };
+
+  const nextTrack = () => {
+    setActiveTrack((currentTrack) => getAdjacentTrack(currentTrack, "next"));
+  };
+
   const prevTrack = () => {
     const audio = audioRef.current;
     if (audio && audio.currentTime > 3) {
       audio.currentTime = 0;
       return;
     }
-    setActiveTrack((i) => (i - 1 + musicTracks.length) % musicTracks.length);
+
+    setActiveTrack((currentTrack) => getAdjacentTrack(currentTrack, "prev"));
   };
 
   const seekTrack = (nextTime: number) => {
@@ -295,16 +362,42 @@ export default function App() {
   const toggleShuffle = () => setShuffleEnabled((currentValue) => !currentValue);
   const toggleRepeatOne = () => setRepeatOne((currentValue) => !currentValue);
 
+  const toggleFavoriteTrack = (index: number) => {
+    setFavoriteTracks((currentFavorites) => {
+      const removing = currentFavorites.includes(index);
+      const nextFavorites = removing
+        ? currentFavorites.filter((favoriteIndex) => favoriteIndex !== index)
+        : sanitizeFavoriteTracks([...currentFavorites, index]);
+
+      if (favoritesOnly && removing && index == activeTrack) {
+        if (nextFavorites.length === 0) {
+          setMusicEnabled(false);
+        } else {
+          setActiveTrack(nextFavorites[0]);
+        }
+      }
+
+      return nextFavorites;
+    });
+  };
+
+  const toggleFavoritesOnly = () => {
+    setFavoritesOnly((value) => {
+      const nextValue = !value;
+      if (nextValue) {
+        if (favoriteTracks.length === 0) {
+          setMusicEnabled(false);
+        } else if (!favoriteTracks.includes(activeTrack)) {
+          setActiveTrack(favoriteTracks[0]);
+        }
+      }
+      return nextValue;
+    });
+  };
+
   const nextFromControl = () => {
     if (shuffleEnabled) {
-      setActiveTrack((currentTrack) => {
-        if (musicTracks.length <= 1) return currentTrack;
-        let randomIndex = currentTrack;
-        while (randomIndex === currentTrack) {
-          randomIndex = Math.floor(Math.random() * musicTracks.length);
-        }
-        return randomIndex;
-      });
+      setActiveTrack((currentTrack) => selectRandomPlayableTrack(currentTrack));
       return;
     }
 
@@ -396,15 +489,20 @@ export default function App() {
       <MusicPlaylistModal
         open={playlistOpen}
         onClose={() => setPlaylistOpen(false)}
-        tracks={musicTracks}
+        tracks={visiblePlaylistTracks}
         activeTrack={activeTrack}
         isPlaying={musicEnabled}
         onTogglePlay={onToggleMusic}
         onSelectTrack={selectTrack}
+        onToggleTrackPlay={toggleTrackPlay}
         onNext={nextFromControl}
         onPrev={prevTrack}
         repeatOne={repeatOne}
         shuffleEnabled={shuffleEnabled}
+        favoritesOnly={favoritesOnly}
+        onToggleFavoritesOnly={toggleFavoritesOnly}
+        favorites={favoriteTracks}
+        onToggleFavorite={toggleFavoriteTrack}
         onToggleRepeatOne={toggleRepeatOne}
         onToggleShuffle={toggleShuffle}
         currentTime={currentTime}

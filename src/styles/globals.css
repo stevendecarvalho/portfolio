@@ -442,9 +442,9 @@ html[data-theme="light"] .mouse-follower {
 }
 
 .music-playlist-head,
-.music-playlist--table button {
+.music-playlist-row {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1.8fr) minmax(0, 1fr) 74px;
+  grid-template-columns: 34px 38px minmax(0, 1.8fr) minmax(0, 1fr) 74px;
   align-items: center;
   gap: 12px;
 }
@@ -457,13 +457,14 @@ html[data-theme="light"] .mouse-follower {
 }
 
 .music-playlist { display: grid; gap: 8px; margin-top: 8px; }
-.music-playlist button {
+.music-playlist-row {
   width: 100%;
   text-align: left;
   border: 1px solid rgba(149, 208, 255, 0.12);
   border-radius: 10px;
   padding: 10px;
   transition: background-color 180ms ease, border-color 180ms ease;
+  cursor: pointer;
 }
 
 .music-playlist button:hover {
@@ -471,7 +472,7 @@ html[data-theme="light"] .mouse-follower {
   background: rgba(90, 174, 238, 0.1);
 }
 
-.music-playlist button.is-active {
+.music-playlist-row.is-active {
   border-color: rgba(149, 208, 255, 0.58);
   background: rgba(90, 174, 238, 0.16);
 }
@@ -511,11 +512,11 @@ span.music-title-wrap {
   color: #fff;
 }
 
-.music-playlist button:hover .music-cover-overlay {
+.music-playlist-row:hover .music-cover-overlay {
   opacity: 1;
 }
 
-.music-playlist button.is-active:not(:hover) .music-cover-overlay {
+.music-playlist-row.is-active:not(:hover) .music-cover-overlay {
   opacity: 1;
   background: transparent;
   color: #ecf7ff;
@@ -616,4 +617,29 @@ span.music-title-wrap {
 
 .music-volume-wrap input {
   width: min(220px, 45vw);
+}
+
+.music-favorite-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-favorite-button {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(236, 247, 255, 0.6);
+}
+
+.music-favorite-button.is-favorite {
+  color: #ff5f99;
+}
+
+button.music-cover-wrap {
+  border: 0;
+  padding: 0;
+  background: transparent;
 }
