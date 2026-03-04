@@ -1650,3 +1650,10 @@ html[data-theme="light"] .project-device-tags span {
         line-height: 26px;
     }
 }
+
+html[data-theme="light"] .benefits-section,
+html[data-theme="light"] .homeProjetsSection,
+html[data-theme="light"] .client-logos-section,
+html[data-theme="light"] .earth-video-banner {
+    display: none;
+}
