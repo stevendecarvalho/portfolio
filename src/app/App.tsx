@@ -66,6 +66,11 @@ export default function App() {
     return Number.isNaN(saved) ? 0 : Math.min(Math.max(0, saved), musicTracks.length - 1);
   });
   const [playlistOpen, setPlaylistOpen] = useState(false);
+  const [repeatOne, setRepeatOne] = useState(false);
+  const [shuffleEnabled, setShuffleEnabled] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(0.55);
 
 
 
@@ -93,9 +98,9 @@ export default function App() {
   // --- INITIALISE L'AUDIO (UNE SEULE FOIS) ---
   useEffect(() => {
     const audio = new Audio(musicTracks[activeTrack]?.src ?? musicTracks[0].src);
-    audio.loop = true;
+    audio.loop = repeatOne;
     audio.preload = "auto";
-    audio.volume = 0.55;
+    audio.volume = volume;
     audioRef.current = audio;
 
     if (musicEnabled) {
@@ -106,7 +111,53 @@ export default function App() {
       audio.pause();
       audioRef.current = null;
     };
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const updateProgress = () => setCurrentTime(audio.currentTime || 0);
+    const updateDuration = () => setDuration(audio.duration || 0);
+
+    audio.addEventListener("timeupdate", updateProgress);
+    audio.addEventListener("loadedmetadata", updateDuration);
+    audio.addEventListener("durationchange", updateDuration);
+
+    updateProgress();
+    updateDuration();
+
+    return () => {
+      audio.removeEventListener("timeupdate", updateProgress);
+      audio.removeEventListener("loadedmetadata", updateDuration);
+      audio.removeEventListener("durationchange", updateDuration);
+    };
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.src = musicTracks[activeTrack]?.src ?? musicTracks[0].src;
+    audio.currentTime = 0;
+    setCurrentTime(0);
+
+    if (musicEnabled) {
+      audio.play().catch(() => {});
+    }
   }, [activeTrack, musicEnabled]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.loop = repeatOne;
+  }, [repeatOne]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = volume;
+  }, [volume]);
 
 
 
@@ -154,6 +205,29 @@ export default function App() {
     return cleanup;
   }, [ready, musicEnabled]);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleEnded = () => {
+      if (repeatOne) return;
+      setActiveTrack((currentTrack) => {
+        if (shuffleEnabled) {
+          if (musicTracks.length <= 1) return currentTrack;
+          let randomIndex = currentTrack;
+          while (randomIndex === currentTrack) {
+            randomIndex = Math.floor(Math.random() * musicTracks.length);
+          }
+          return randomIndex;
+        }
+        return (currentTrack + 1) % musicTracks.length;
+      });
+    };
+
+    audio.addEventListener("ended", handleEnded);
+    return () => audio.removeEventListener("ended", handleEnded);
+  }, [repeatOne, shuffleEnabled]);
+
 
 
   // --- CURSEUR ---
@@ -198,7 +272,44 @@ export default function App() {
   };
 
   const nextTrack = () => setActiveTrack((i) => (i + 1) % musicTracks.length);
-  const prevTrack = () => setActiveTrack((i) => (i - 1 + musicTracks.length) % musicTracks.length);
+  const prevTrack = () => {
+    const audio = audioRef.current;
+    if (audio && audio.currentTime > 3) {
+      audio.currentTime = 0;
+      return;
+    }
+    setActiveTrack((i) => (i - 1 + musicTracks.length) % musicTracks.length);
+  };
+
+  const seekTrack = (nextTime: number) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = nextTime;
+    setCurrentTime(nextTime);
+  };
+
+  const changeVolume = (nextVolume: number) => {
+    setVolume(nextVolume);
+  };
+
+  const toggleShuffle = () => setShuffleEnabled((currentValue) => !currentValue);
+  const toggleRepeatOne = () => setRepeatOne((currentValue) => !currentValue);
+
+  const nextFromControl = () => {
+    if (shuffleEnabled) {
+      setActiveTrack((currentTrack) => {
+        if (musicTracks.length <= 1) return currentTrack;
+        let randomIndex = currentTrack;
+        while (randomIndex === currentTrack) {
+          randomIndex = Math.floor(Math.random() * musicTracks.length);
+        }
+        return randomIndex;
+      });
+      return;
+    }
+
+    nextTrack();
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -290,8 +401,17 @@ export default function App() {
         isPlaying={musicEnabled}
         onTogglePlay={onToggleMusic}
         onSelectTrack={selectTrack}
-        onNext={nextTrack}
+        onNext={nextFromControl}
         onPrev={prevTrack}
+        repeatOne={repeatOne}
+        shuffleEnabled={shuffleEnabled}
+        onToggleRepeatOne={toggleRepeatOne}
+        onToggleShuffle={toggleShuffle}
+        currentTime={currentTime}
+        duration={duration}
+        volume={volume}
+        onSeek={seekTrack}
+        onVolumeChange={changeVolume}
       />
     </div>
   );

@@ -49,7 +49,7 @@ export default function Header({
   theme: Theme;
   onToggleTheme: () => void;
   musicEnabled: boolean;
-  onOpenPlaylist,
+  onOpenPlaylist: () => void;
 }) {
 
   const { pathname } = useLocation();
