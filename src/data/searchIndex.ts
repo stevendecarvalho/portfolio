@@ -1,5 +1,7 @@
 export type SearchKind = "page" | "article" | "film" | "event" | "person" | "other";
 
+import accueil from "../assets/images/previews/home.jpg";
+
 export type SearchEntry = {
   id: string;
   title: string;
@@ -15,9 +17,8 @@ export const searchIndex: SearchEntry[] = [
     id: "accueil",
     title: "Accueil",
     href: "/",
-    img: "/assets/menu/festival.jpg",
+    img: accueil,
     kind: "page",
-    subtitle: "Page d'accueil",
     keywords: ["home"],
   },
 ];

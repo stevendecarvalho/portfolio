@@ -30,6 +30,7 @@ import benefitsPreviewLight from "../assets/images/home/steven-de-carvalho-benef
 import logoLight from "../assets/logo-light.svg";
 
 const TESTIMONIALS_PER_VIEW = 3;
+const MOBILE_TESTIMONIAL_BREAKPOINT = 1000;
 const TESTIMONIAL_PREVIEW_LENGTH = 180;
 const PROJECTS_CAROUSEL_DURATION_MS = 24000;
 const PROJECTS_CAROUSEL_HOVER_RATE = 0.5;
@@ -113,6 +114,10 @@ export default function Home() {
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<
     number | null
   >(null);
+  const [testimonialSearch, setTestimonialSearch] = useState("");
+  const [isMobileTestimonials, setIsMobileTestimonials] = useState(
+    () => window.innerWidth <= MOBILE_TESTIMONIAL_BREAKPOINT,
+  );
   const benefitsRef = useRef<HTMLElement | null>(null);
   const benefitCardRefs = useRef<Array<HTMLElement | null>>([]);
   const projectsCarouselRef = useRef<HTMLDivElement | null>(null);
@@ -153,17 +158,41 @@ export default function Home() {
     [theme],
   );
 
+  const testimonialsPerView = isMobileTestimonials ? 1 : TESTIMONIALS_PER_VIEW;
+
   const displayedTestimonials = useMemo(
     () =>
       Array.from(
-        { length: Math.min(TESTIMONIALS_PER_VIEW, testimonials.length) },
+        { length: Math.min(testimonialsPerView, testimonials.length) },
         (_, i) => {
           const currentIndex = (testimonialIndex + i) % testimonials.length;
           return { ...testimonials[currentIndex], index: currentIndex };
         },
       ),
-    [testimonialIndex],
+    [testimonialIndex, testimonialsPerView],
   );
+
+  const filteredTestimonials = useMemo(() => {
+    const normalizedSearch = testimonialSearch.trim().toLowerCase();
+    const source = testimonials.map((testimonial, index) => ({ ...testimonial, index }));
+
+    if (!normalizedSearch) return source;
+
+    return source.filter((testimonial) =>
+      `${testimonial.name} ${testimonial.role}`.toLowerCase().includes(normalizedSearch),
+    );
+  }, [testimonialSearch]);
+
+  useEffect(() => {
+    const onResize = () => {
+      setIsMobileTestimonials(window.innerWidth <= MOBILE_TESTIMONIAL_BREAKPOINT);
+    };
+
+    onResize();
+    window.addEventListener("resize", onResize);
+
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     const onThemeUpdate = () => {
@@ -743,7 +772,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-[45px] pb-[45px]">
+            <div className={`grid gap-8 pt-[45px] pb-[45px] ${isMobileTestimonials ? "grid-cols-1" : "grid-cols-1 md:grid-cols-3"}`}>
               {displayedTestimonials.map((t) => {
                 const normalizedText = normalizeTestimonialText(t.text);
                 const preview = getPreview(normalizedText);
@@ -762,7 +791,7 @@ export default function Home() {
                       <button
                         type="button"
                         className="testimonial-read-more"
-                        onClick={() => setActiveTestimonialTab(t.index)}
+                        onClick={() => { setTestimonialSearch(""); setActiveTestimonialTab(t.index); }}
                       >
                         Lire la suite
                       </button>
@@ -798,7 +827,7 @@ export default function Home() {
                 <button
                   type="button"
                   className="testimonial-modal-close"
-                  onClick={() => setActiveTestimonialTab(null)}
+                  onClick={() => { setTestimonialSearch(""); setActiveTestimonialTab(null); }}
                   aria-label="Fermer la fenêtre des témoignages"
                 >
                   <X className="w-5 h-5" />
@@ -809,20 +838,37 @@ export default function Home() {
                 </h3>
 
                 <div className="testimonial-modal-tabs" role="tablist" aria-label="Choisir un témoignage">
-                  {testimonials.map((t, i) => (
+                  <input
+                    type="search"
+                    className="testimonial-modal-search"
+                    value={testimonialSearch}
+                    onChange={(event) => setTestimonialSearch(event.target.value)}
+                    placeholder="Rechercher un nom ou une entreprise..."
+                    aria-label="Rechercher un témoignage"
+                  />
+
+                  <p className="testimonial-modal-search-count">
+                    {filteredTestimonials.length} résultat(s)
+                  </p>
+
+                  {filteredTestimonials.map((t) => (
                     <button
                       key={`${t.name}-tab`}
                       type="button"
                       role="tab"
-                      aria-selected={activeTestimonialTab === i}
-                      aria-controls={`testimonial-panel-${i}`}
-                      id={`testimonial-tab-${i}`}
-                      className={`testimonial-modal-tab ${activeTestimonialTab === i ? "is-active" : ""}`}
-                      onClick={() => setActiveTestimonialTab(i)}
+                      aria-selected={activeTestimonialTab === t.index}
+                      aria-controls={`testimonial-panel-${t.index}`}
+                      id={`testimonial-tab-${t.index}`}
+                      className={`testimonial-modal-tab ${activeTestimonialTab === t.index ? "is-active" : ""}`}
+                      onClick={() => setActiveTestimonialTab(t.index)}
                     >
                       {t.name}
                     </button>
                   ))}
+
+                  {filteredTestimonials.length === 0 && (
+                    <p className="testimonial-modal-empty">Aucun témoignage ne correspond à votre recherche.</p>
+                  )}
                 </div>
 
                 {testimonials.map((t, i) => (
@@ -847,7 +893,7 @@ export default function Home() {
               <button
                 type="button"
                 className="testimonial-modal-backdrop-hitbox"
-                onClick={() => setActiveTestimonialTab(null)}
+                onClick={() => { setTestimonialSearch(""); setActiveTestimonialTab(null); }}
                 aria-label="Fermer les témoignages"
               />
             </div>

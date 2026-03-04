@@ -235,6 +235,10 @@ section.earth-video-banner {
 }
 
 @media (max-width: 1000px) {
+    section.client-logos-section .md\:grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+
     div.sectionIntroUniverse-text p,
     div.sectionIntroUniverse-text a {
         font-size: 15px;
@@ -743,6 +747,8 @@ button.testimonial-nav-button:hover {
 
 article.testimonial-card {
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 div.testimonial-avatar-wrap {
@@ -767,10 +773,12 @@ p.testimonial-cite {
     font-size: 14px;
     line-height: 22px;
     white-space: pre-line;
+    flex-grow: 1;
 }
 
 button.testimonial-read-more {
-    margin-top: 12px;
+    margin-top: auto;
+    padding-top: 12px;
     font-size: 0.95rem;
     color: #22d3ee;
     text-decoration: underline;
@@ -815,6 +823,30 @@ div.testimonial-modal-tabs {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    max-height: 200px;
+    overflow: auto;
+    align-content: flex-start;
+    padding-right: 4px;
+}
+
+input.testimonial-modal-search {
+    width: min(360px, 100%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 10px 12px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+p.testimonial-modal-search-count {
+    width: 100%;
+    margin: 2px 0 6px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.88rem;
+}
+
+p.testimonial-modal-empty {
+    color: rgba(255, 255, 255, 0.72);
+    margin-top: 10px;
 }
 
 button.testimonial-modal-tab {
@@ -886,6 +918,18 @@ html[data-theme="light"] button.testimonial-modal-tab.is-active {
     color: #9a4a12;
     background: rgba(255, 181, 78, 0.22);
 }
+
+html[data-theme="light"] input.testimonial-modal-search {
+    border-color: rgba(150, 86, 32, 0.35);
+    background: rgba(255, 255, 255, 0.75);
+    color: #4f2d16;
+}
+
+html[data-theme="light"] p.testimonial-modal-search-count,
+html[data-theme="light"] p.testimonial-modal-empty {
+    color: rgba(90, 51, 20, 0.75);
+}
+
 section.home-trusted-showcase {
     padding: 30px 0 75px;
     background: linear-gradient(180deg, rgba(1, 8, 26, 0.96) 0%, rgba(2, 11, 34, 0.98) 50%, rgba(1, 8, 26, 0.96) 100%);

@@ -33,7 +33,9 @@ self.addEventListener("fetch", (event) => {
         const cached = await cache.match(request);
         const network = fetch(request)
           .then((response) => {
-            cache.put(request, response.clone());
+            if (response.ok && response.status !== 206 && response.type !== "opaque") {
+              cache.put(request, response.clone());
+            }
             return response;
           })
           .catch(() => cached);

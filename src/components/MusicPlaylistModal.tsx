@@ -147,6 +147,9 @@ export default function MusicPlaylistModal({
             max={duration || 0}
             step={0.1}
             value={progressValue}
+            style={{
+              background: `linear-gradient(to right, #1ec8ff 0%, #1ec8ff ${duration > 0 ? (progressValue / duration) * 100 : 0}%, rgba(255, 255, 255, 0.3) ${duration > 0 ? (progressValue / duration) * 100 : 0}%, rgba(255, 255, 255, 0.3) 100%)`,
+            }}
             onChange={(event) => onSeek(Number(event.target.value))}
             aria-label="Progression de la musique"
           />
@@ -161,6 +164,9 @@ export default function MusicPlaylistModal({
             max={1}
             step={0.01}
             value={volume}
+            style={{
+              background: `linear-gradient(to right, #1ec8ff 0%, #1ec8ff ${volume * 100}%, rgba(255, 255, 255, 0.3) ${volume * 100}%, rgba(255, 255, 255, 0.3) 100%)`,
+            }}
             onChange={(event) => onVolumeChange(Number(event.target.value))}
             aria-label="Volume"
           />
