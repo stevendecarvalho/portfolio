@@ -63,13 +63,17 @@ function getInitialConsent() {
 export default function CookieBanner() {
   const [visible, setVisible] = useState(() => getInitialConsent().visible);
   const [showPrefs, setShowPrefs] = useState(false);
-  const [prefs, setPrefs] = useState<CookiePrefs>(() => getInitialConsent().prefs);
-  const [openedSections, setOpenedSections] = useState<Record<string, boolean>>({
-    essential: true,
-    functional: false,
-    statistics: false,
-    marketing: false,
-  });
+  const [prefs, setPrefs] = useState<CookiePrefs>(
+    () => getInitialConsent().prefs,
+  );
+  const [openedSections, setOpenedSections] = useState<Record<string, boolean>>(
+    {
+      essential: true,
+      functional: false,
+      statistics: false,
+      marketing: false,
+    },
+  );
 
   useEffect(() => {
     const openBanner = () => {
@@ -87,7 +91,11 @@ export default function CookieBanner() {
   };
 
   const summary = useMemo(() => {
-    const enabled = [prefs.functional, prefs.statistics, prefs.marketing].filter(Boolean).length;
+    const enabled = [
+      prefs.functional,
+      prefs.statistics,
+      prefs.marketing,
+    ].filter(Boolean).length;
     if (enabled === 0) return "Préférences minimales";
     if (enabled === 3) return "Tout accepté";
     return `${enabled}/3 catégories activées`;
@@ -96,76 +104,130 @@ export default function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <aside className="cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion du consentement">
-      <div className="cookie-banner-header">
-        <h3>Gestion du consentement</h3>
-        <button type="button" className="cookie-close" aria-label="Fermer" onClick={() => setVisible(false)}>
-          <X className="w-5 h-5" />
-        </button>
-      </div>
-      <p>
-        Chez stevendecarvalho.com, nous utilisons des informations non sensibles de votre appareil pour améliorer la
-        sécurité du site, utiliser vos préférences de navigation et vous permettre une meilleure expérience de ce
-        portfolio. Vous pouvez accepter ou refuser ces différentes opérations.
-      </p>
-
-      <button type="button" className="cookie-link" onClick={() => setShowPrefs((v) => !v)}>
-        {showPrefs ? "Masquer les préférences" : "Gérer les préférences"}
-      </button>
-
-      {showPrefs && (
-        <div className="cookie-preferences">
-          {categories.map((category) => {
-            const isEssential = category.key === "essential";
-            const opened = openedSections[category.key];
-
-            return (
-              <div key={category.key} className="cookie-category">
-                <button
-                  type="button"
-                  className="cookie-category-head"
-                  onClick={() => setOpenedSections((prev) => ({ ...prev, [category.key]: !prev[category.key] }))}
-                >
-                  <span>{category.title}</span>
-                  <div className="cookie-category-controls">
-                    {isEssential ? (
-                      <span className="cookie-always-on">Toujours activé</span>
-                    ) : (
-                      <input
-                        type="checkbox"
-                        checked={prefs[category.key]}
-                        onChange={(e) => setPrefs((p) => ({ ...p, [category.key]: e.target.checked }))}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    )}
-                    {opened ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                  </div>
-                </button>
-                {opened && <p className="cookie-category-desc">{category.description}</p>}
-              </div>
-            );
-          })}
+    <>
+      <div className="cookie-banner-overlay" aria-hidden="true" />
+      <aside
+        className="cookie-banner"
+        role="dialog"
+        aria-live="polite"
+        aria-label="Gestion du consentement"
+      >
+        <div className="cookie-banner-header">
+          <h3>Gestion du consentement</h3>
+          <button
+            type="button"
+            className="cookie-close"
+            aria-label="Fermer"
+            onClick={() => setVisible(false)}
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-      )}
+        <p>
+          Chez stevendecarvalho.com, nous utilisons des informations non
+          sensibles de votre appareil pour améliorer la sécurité du site,
+          utiliser vos préférences de navigation et vous permettre une meilleure
+          expérience de ce portfolio. Vous pouvez accepter ou refuser ces
+          différentes opérations.
+        </p>
 
-      <p className="cookie-summary">{summary}</p>
-
-      <div className="cookie-actions">
         <button
           type="button"
-          className="cookie-btn cookie-btn-accept"
-          onClick={() => savePrefs({ ...defaultPrefs, functional: true, statistics: true, marketing: true })}
+          className="cookie-link"
+          onClick={() => setShowPrefs((v) => !v)}
         >
-          Tout accepter
+          {showPrefs ? "Masquer les préférences" : "Gérer les préférences"}
         </button>
-        <button type="button" className="cookie-btn cookie-btn-refuse" onClick={() => savePrefs(defaultPrefs)}>
-          Tout refuser
-        </button>
-        <button type="button" className="cookie-btn cookie-btn-save" onClick={() => savePrefs(prefs)}>
-          Enregistrer vos préférences
-        </button>
-      </div>
-    </aside>
+
+        {showPrefs && (
+          <div className="cookie-preferences">
+            {categories.map((category) => {
+              const isEssential = category.key === "essential";
+              const opened = openedSections[category.key];
+
+              return (
+                <div key={category.key} className="cookie-category">
+                  <button
+                    type="button"
+                    className="cookie-category-head"
+                    onClick={() =>
+                      setOpenedSections((prev) => ({
+                        ...prev,
+                        [category.key]: !prev[category.key],
+                      }))
+                    }
+                  >
+                    <span>{category.title}</span>
+                    <div className="cookie-category-controls">
+                      {isEssential ? (
+                        <span className="cookie-always-on">
+                          Toujours activé
+                        </span>
+                      ) : (
+                        <input
+                          type="checkbox"
+                          checked={prefs[category.key]}
+                          onChange={(e) =>
+                            setPrefs((p) => ({
+                              ...p,
+                              [category.key]: e.target.checked,
+                            }))
+                          }
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      )}
+                      {opened ? (
+                        <ChevronUp className="w-5 h-5" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5" />
+                      )}
+                    </div>
+                  </button>
+                  {opened && (
+                    <p className="cookie-category-desc">
+                      {category.description}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <p className="cookie-summary">{summary}</p>
+
+        <div className="cookie-actions">
+          <button
+            type="button"
+            className="cookie-btn cookie-btn-accept"
+            onClick={() =>
+              savePrefs({
+                ...defaultPrefs,
+                functional: true,
+                statistics: true,
+                marketing: true,
+              })
+            }
+          >
+            Tout accepter
+          </button>
+          <button
+            type="button"
+            className="cookie-btn cookie-btn-refuse"
+            onClick={() => savePrefs(defaultPrefs)}
+          >
+            Tout refuser
+          </button>
+          <button
+            type="button"
+            className="cookie-btn cookie-btn-save"
+            onClick={() => savePrefs(prefs)}
+          >
+            Enregistrer vos préférences
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }
 

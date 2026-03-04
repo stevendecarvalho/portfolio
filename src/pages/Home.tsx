@@ -1,6 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Rocket, Sparkles, TrendingUp, X, Zap, Palette, MessageCircleMore, Lightbulb } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Rocket,
+  Sparkles,
+  TrendingUp,
+  X,
+  Zap,
+  Palette,
+  MessageCircleMore,
+  Lightbulb,
+} from "lucide-react";
 import {
   aboutSlidesByTheme,
   bannerVideosByTheme,
@@ -25,7 +36,8 @@ const clientBenefits = [
   {
     step: "Étape 1",
     title: "Immersion stratégique",
-    description: "Avant de commencer votre projet, nous plongeons dans votre univers. On échange autour de votre activité, votre positionnement, votre concurrence et votre vision à long terme. Nous posons ainsi les bases d’un site ou d'un support qui serviront réellement vos ambitions.",
+    description:
+      "Avant de commencer votre projet, nous plongeons dans votre univers. On échange autour de votre activité, votre positionnement, votre concurrence et votre vision à long terme. Nous posons ainsi les bases d’un site ou d'un support qui serviront réellement vos ambitions.",
     tags: ["Stratégie", "Objectifs"],
     icon: Rocket,
   },
