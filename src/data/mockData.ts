@@ -308,7 +308,7 @@ export const testimonials = [
     avatar: alexandre_izzi,
     name: "Alexandre IZZI",
     role: "CEO - IZZI FIT ACADEMY",
-    text: "Steven a su traduire avec une précision exceptionnelle l’essence de la IZZI FIT ACADEMY. Il ne s’est pas contenté de créer un simple site : il a bâti une véritable identité de marque, puissante, élégante et alignée avec les valeurs de notre accompagnement haut de gamme. \n\n Sa vision stratégique et son sens du détail ont été déterminants pour renforcer notre positionnement premium. Chaque élément – de notre nom d’entreprise au logo en passant par l’arborescence du site – tout a été pensé pour offrir une expérience fluide, cohérente et inspirante à nos prospects.<br/>Steven est bien plus qu’un créatif : c’est un partenaire de confiance, capable de capter l’ADN d’un projet et de le sublimer. Je recommande son travail les yeux fermés.",
+    text: "Steven a su traduire avec une précision exceptionnelle l’essence de la IZZI FIT ACADEMY. Il ne s’est pas contenté de créer un simple site : il a bâti une véritable identité de marque, puissante, élégante et alignée avec les valeurs de notre accompagnement haut de gamme. \n\n Sa vision stratégique et son sens du détail ont été déterminants pour renforcer notre positionnement premium. Chaque élément – de notre nom d’entreprise au logo en passant par l’arborescence du site – tout a été pensé pour offrir une expérience fluide, cohérente et inspirante à nos prospects.\n\nSteven est bien plus qu’un créatif : c’est un partenaire de confiance, capable de capter l’ADN d’un projet et de le sublimer. Je recommande son travail les yeux fermés.",
     rating: 5,
   },
   {

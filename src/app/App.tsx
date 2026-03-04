@@ -201,7 +201,7 @@ export default function App() {
     if (musicEnabled) {
       audio.play().catch(() => {});
     }
-  }, [activeTrack, musicEnabled]);
+  }, [activeTrack]);
 
   useEffect(() => {
     const audio = audioRef.current;

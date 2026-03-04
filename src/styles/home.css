@@ -795,6 +795,17 @@ div.testimonial-modal-overlay {
     justify-content: center;
 }
 
+div.testimonial-modal-shell {
+    position: relative;
+    z-index: 1;
+    width: min(980px, calc(100% - 30px));
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 52px;
+    align-items: center;
+    row-gap: 18px;
+    column-gap: 8px;
+}
+
 button.testimonial-modal-backdrop-hitbox {
     position: absolute;
     inset: 0;
@@ -804,9 +815,8 @@ button.testimonial-modal-backdrop-hitbox {
 
 div.testimonial-modal {
     position: relative;
-    z-index: 1;
-    width: min(880px, calc(100% - 30px));
     max-height: 85vh;
+    width: 100%;
     overflow: auto;
     background: #020712;
     border: 1px solid rgba(34, 211, 238, 0.35);
@@ -820,32 +830,100 @@ button.testimonial-modal-close {
     color: rgba(255, 255, 255, 0.85);
 }
 
-div.testimonial-modal-tabs {
-    display: grid;
-    gap: 8px;
-    margin-bottom: 12px;
+section.testimonial-modal-content {
+    min-height: 240px;
 }
 
-label.testimonial-modal-select-label {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.75);
-}
-
-input.testimonial-modal-select {
-    width: min(380px, 100%);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    padding: 10px 12px;
+button.testimonial-modal-arrow {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(34, 211, 238, 0.45);
+    border-radius: 9999px;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(2, 18, 41, 0.92);
+    transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-p.testimonial-modal-empty {
-    color: rgba(255, 255, 255, 0.72);
-    margin-top: 4px;
+button.testimonial-modal-arrow:hover {
+    background: rgba(13, 45, 80, 0.95);
+    border-color: rgba(34, 211, 238, 0.8);
+}
+
+button.testimonial-modal-arrow-left {
+    grid-column: 1;
+    justify-self: center;
+}
+
+button.testimonial-modal-arrow-right {
+    grid-column: 3;
+    justify-self: center;
+}
+
+div.testimonial-modal {
+    grid-column: 2;
+}
+
+div.testimonial-modal-dots {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+button.testimonial-modal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: transparent;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+button.testimonial-modal-dot.is-active {
+    background: rgba(34, 211, 238, 0.95);
+    border-color: rgba(34, 211, 238, 0.95);
+    transform: scale(1.15);
+}
+
+@media (max-width: 820px) {
+    div.testimonial-modal-shell {
+        width: min(880px, calc(100% - 20px));
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 14px;
+    }
+
+    button.testimonial-modal-arrow-left,
+    button.testimonial-modal-arrow-right,
+    div.testimonial-modal {
+        grid-column: 1;
+    }
+
+    button.testimonial-modal-arrow-left,
+    button.testimonial-modal-arrow-right {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+    }
+
+    button.testimonial-modal-arrow-left {
+        left: -6px;
+    }
+
+    button.testimonial-modal-arrow-right {
+        right: -6px;
+    }
 }
 
 p.testimonial-modal-text {
     white-space: pre-line;
+    max-height: 230px;
+    overflow: auto;
+    padding-right: 30px;
 }
 
 html[data-theme="light"] .shooting-stars {
@@ -890,15 +968,24 @@ html[data-theme="light"] button.testimonial-modal-close {
     color: rgba(79, 45, 22, 0.85);
 }
 
-html[data-theme="light"] input.testimonial-modal-select {
-    border-color: rgba(150, 86, 32, 0.35);
-    background: rgba(255, 255, 255, 0.75);
-    color: #4f2d16;
+html[data-theme="light"] button.testimonial-modal-arrow {
+    border-color: rgba(180, 95, 26, 0.45);
+    color: #7a3f17;
+    background: rgba(255, 255, 255, 0.85);
 }
 
-html[data-theme="light"] label.testimonial-modal-select-label,
-html[data-theme="light"] p.testimonial-modal-empty {
-    color: rgba(90, 51, 20, 0.75);
+html[data-theme="light"] button.testimonial-modal-arrow:hover {
+    border-color: rgba(180, 95, 26, 0.7);
+    background: rgba(255, 237, 206, 0.95);
+}
+
+html[data-theme="light"] button.testimonial-modal-dot {
+    border-color: rgba(150, 86, 32, 0.45);
+}
+
+html[data-theme="light"] button.testimonial-modal-dot.is-active {
+    background: rgba(180, 95, 26, 0.9);
+    border-color: rgba(180, 95, 26, 0.9);
 }
 
 section.home-trusted-showcase {

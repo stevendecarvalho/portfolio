@@ -114,7 +114,6 @@ export default function Home() {
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<
     number | null
   >(null);
-  const [testimonialSearch, setTestimonialSearch] = useState("");
   const [isMobileTestimonials, setIsMobileTestimonials] = useState(
     () => window.innerWidth <= MOBILE_TESTIMONIAL_BREAKPOINT,
   );
@@ -170,22 +169,6 @@ export default function Home() {
         },
       ),
     [testimonialIndex, testimonialsPerView],
-  );
-
-  const filteredTestimonials = useMemo(() => {
-    const normalizedSearch = testimonialSearch.trim().toLowerCase();
-    const source = testimonials.map((testimonial, index) => ({ ...testimonial, index }));
-
-    if (!normalizedSearch) return source;
-
-    return source.filter((testimonial) =>
-      `${testimonial.name} ${testimonial.role}`.toLowerCase().includes(normalizedSearch),
-    );
-  }, [testimonialSearch]);
-
-  const sortedTestimonials = useMemo(
-    () => testimonials.map((testimonial, index) => ({ ...testimonial, index })).sort((a, b) => a.name.localeCompare(b.name, "fr", { sensitivity: "base" })),
-    [],
   );
 
   useEffect(() => {
@@ -329,6 +312,22 @@ export default function Home() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setActiveTestimonialTab(null);
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        setActiveTestimonialTab((current) => {
+          if (current === null) return current;
+          return (current - 1 + testimonials.length) % testimonials.length;
+        });
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        setActiveTestimonialTab((current) => {
+          if (current === null) return current;
+          return (current + 1) % testimonials.length;
+        });
       }
     };
 
@@ -380,6 +379,22 @@ export default function Home() {
   const benefitsPreview = isLight ? benefitsPreviewLight : benefitsPreviewDark;
   const activeBenefit = clientBenefits[benefitSlideIndex];
   const ActiveBenefitIcon = activeBenefit.icon;
+  const activeModalTestimonial =
+    activeTestimonialTab !== null ? testimonials[activeTestimonialTab] : null;
+
+  const goToPreviousTestimonial = () => {
+    setActiveTestimonialTab((current) => {
+      if (current === null) return current;
+      return (current - 1 + testimonials.length) % testimonials.length;
+    });
+  };
+
+  const goToNextTestimonial = () => {
+    setActiveTestimonialTab((current) => {
+      if (current === null) return current;
+      return (current + 1) % testimonials.length;
+    });
+  };
 
   return (
     <div className="home-page min-h-screen relative">
@@ -796,7 +811,7 @@ export default function Home() {
                       <button
                         type="button"
                         className="testimonial-read-more"
-                        onClick={() => { setTestimonialSearch(""); setActiveTestimonialTab(t.index); }}
+                        onClick={() => setActiveTestimonialTab(t.index)}
                       >
                         Lire la suite
                       </button>
@@ -828,75 +843,69 @@ export default function Home() {
 
           {activeTestimonialTab !== null && (
             <div className="testimonial-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="testimonial-modal-title">
-              <div className="testimonial-modal">
+              <div className="testimonial-modal-shell">
                 <button
                   type="button"
-                  className="testimonial-modal-close"
-                  onClick={() => { setTestimonialSearch(""); setActiveTestimonialTab(null); }}
-                  aria-label="Fermer la fenêtre des témoignages"
+                  className="testimonial-modal-arrow testimonial-modal-arrow-left"
+                  onClick={goToPreviousTestimonial}
+                  aria-label="Voir le témoignage précédent"
                 >
-                  <X className="w-5 h-5" />
+                  <ArrowLeft className="w-5 h-5" />
                 </button>
 
-                <h3 id="testimonial-modal-title" className="testimonial-modal-title text-white text-2xl font-bold font-orbitron mb-4">
-                  Tous les témoignages
-                </h3>
-
-                <div className="testimonial-modal-tabs" aria-label="Choisir un témoignage">
-                  <label className="testimonial-modal-select-label" htmlFor="testimonial-select-input">
-                    Choisir un témoignage
-                  </label>
-                  <input
-                    id="testimonial-select-input"
-                    className="testimonial-modal-select"
-                    list="testimonial-select-options"
-                    value={testimonialSearch}
-                    placeholder="Sélectionnez ou tapez un nom..."
-                    onChange={(event) => {
-                      const nextValue = event.target.value;
-                      setTestimonialSearch(nextValue);
-                      const selected = sortedTestimonials.find((t) => t.name.toLowerCase() === nextValue.trim().toLowerCase());
-                      if (selected) {
-                        setActiveTestimonialTab(selected.index);
-                      }
-                    }}
-                    onFocus={() => {
-                      const currentName = testimonials[activeTestimonialTab]?.name;
-                      if (currentName) {
-                        setTestimonialSearch(currentName);
-                      }
-                    }}
-                  />
-                  <datalist id="testimonial-select-options">
-                    {sortedTestimonials.map((t) => (
-                      <option key={`${t.name}-option`} value={t.name} />
-                    ))}
-                  </datalist>
-
-                  {filteredTestimonials.length === 0 && <p className="testimonial-modal-empty">Aucun témoignage ne correspond à votre recherche.</p>}
-                </div>
-
-                {testimonials.map((t, i) => (
-                  <section
-                    key={`${t.name}-panel`}
-                    id={`testimonial-panel-${i}`}
-                    className={activeTestimonialTab === i ? "block" : "hidden"}
+                <div className="testimonial-modal">
+                  <button
+                    type="button"
+                    className="testimonial-modal-close"
+                    onClick={() => setActiveTestimonialTab(null)}
+                    aria-label="Fermer la fenêtre des témoignages"
                   >
-                    <div className="flex items-center gap-4 mt-6 mb-5">
-                      <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
-                      <div>
-                        <h4 className="testimonial-modal-name text-white text-lg font-semibold">{t.name}</h4>
-                        <p className="testimonial-modal-role text-white/70 text-sm">{t.role}</p>
+                    <X className="w-5 h-5" />
+                  </button>
+                  
+                  <h3 id="testimonial-modal-title" className="testimonial-modal-title text-white text-2xl font-bold font-orbitron mb-4">
+                    Tous les témoignages
+                  </h3>
+
+                  {activeModalTestimonial && (
+                    <section className="testimonial-modal-content">
+                      <div className="flex items-center gap-4 mt-6 mb-5">
+                        <img src={activeModalTestimonial.avatar} alt={`Portrait de ${activeModalTestimonial.name}`} className="testimonial-avatar" loading="lazy" />
+                        <div>
+                          <h4 className="testimonial-modal-name text-white text-lg font-semibold">{activeModalTestimonial.name}</h4>
+                          <p className="testimonial-modal-role text-white/70 text-sm">{activeModalTestimonial.role}</p>
+                        </div>
                       </div>
-                    </div>
-                    <p className="testimonial-modal-text text-white/85 leading-relaxed">{normalizeTestimonialText(t.text)}</p>
-                  </section>
-                ))}
+                      <p className="testimonial-modal-text text-white/85 leading-relaxed">{normalizeTestimonialText(activeModalTestimonial.text)}</p>
+                    </section>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  className="testimonial-modal-arrow testimonial-modal-arrow-right"
+                  onClick={goToNextTestimonial}
+                  aria-label="Voir le témoignage suivant"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+
+                <div className="testimonial-modal-dots" aria-label="Navigation des témoignages">
+                  {testimonials.map((t, i) => (
+                    <button
+                      key={`${t.name}-dot`}
+                      type="button"
+                      className={activeTestimonialTab === i ? "testimonial-modal-dot is-active" : "testimonial-modal-dot"}
+                      onClick={() => setActiveTestimonialTab(i)}
+                      aria-label={`Voir le témoignage de ${t.name}`}
+                      aria-current={activeTestimonialTab === i ? "true" : undefined}
+                    />
+                  ))}
+                </div>
               </div>
               <button
                 type="button"
                 className="testimonial-modal-backdrop-hitbox"
-                onClick={() => { setTestimonialSearch(""); setActiveTestimonialTab(null); }}
+                onClick={() => setActiveTestimonialTab(null)}
                 aria-label="Fermer les témoignages"
               />
             </div>
