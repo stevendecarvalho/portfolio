@@ -669,7 +669,7 @@ export default function Home() {
 
               <aside className="benefits-sticky-column" aria-label="Aperçu visuel des réalisations">
                 <div className="benefits-preview-frame">
-                  <img src={benefitsPreview} alt="Aperçu des projets clients" loading="lazy" />
+                  <img src={benefitsPreview} alt="Aperçu des projets clients" width={1200} height={800} loading="lazy" />
                 </div>
               </aside>
             </div>
@@ -685,6 +685,7 @@ export default function Home() {
             loop
             muted
             playsInline
+            preload="none"
             aria-hidden="true"
           />
           <div className="universe-video-banner__overlay absolute inset-0" />
@@ -709,7 +710,7 @@ export default function Home() {
           </div>
 
           <span className="vaisseau-spatial vaisseau-spatial--banner z-20 pointer-events-none" aria-hidden="true">
-            <img key="Vaisseau spatial" src={vaisseauSpatial} alt="Vaisseau spatial" className="object-contain" />
+            <img key="Vaisseau spatial" src={vaisseauSpatial} alt="Vaisseau spatial" width={512} height={512} className="object-contain" />
           </span>
 
           <div className="section-shell relative z-10">
@@ -746,6 +747,8 @@ export default function Home() {
                       <img
                         src={projectCard.logo}
                         alt={`Logo ${projectCard.title}`}
+                        width={160}
+                        height={64}
                         loading="lazy"
                       />
                       <div className="project-device-heading">
@@ -829,7 +832,7 @@ export default function Home() {
                       <img src={t.avatar} alt={`Portrait de ${t.name}`} className="testimonial-avatar" loading="lazy" />
                     </div>
 
-                    <h4 className="testimonial-name text-white font-semibold text-lg mt-4">{t.name}</h4>
+                    <h3 className="testimonial-name text-white font-semibold text-lg mt-4">{t.name}</h3>
                     <p className="testimonial-role text-white/60 text-sm">{t.role}</p>
                     <p className="testimonial-cite text-white/75 leading-relaxed">{preview}</p>
 
@@ -947,6 +950,7 @@ export default function Home() {
             loop
             muted
             playsInline
+            preload="none"
             aria-hidden="true"
           />
           <div className="universe-video-banner__overlay absolute inset-0" />
@@ -995,6 +999,7 @@ export default function Home() {
                     type="button"
                     className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-400 hover:text-cosmic-black"
                     onClick={() => setAboutIndex((aboutIndex - 1 + aboutSlides.length) % aboutSlides.length)}
+                    aria-label="Voir la photo précédente"
                   >
                     <ArrowLeft className="w-4 h-4" />
                   </button>
@@ -1002,6 +1007,7 @@ export default function Home() {
                     type="button"
                     className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-white/20 bg-cosmic-black/70 text-white flex items-center justify-center transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-400 hover:text-cosmic-black"
                     onClick={() => setAboutIndex((aboutIndex + 1) % aboutSlides.length)}
+                    aria-label="Voir la photo suivante"
                   >
                     <ArrowRight className="w-4 h-4" />
                   </button>

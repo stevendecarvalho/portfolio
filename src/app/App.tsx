@@ -13,6 +13,7 @@ import music_Comedown_img from "../assets/audio/music_Comedown_img.jpg";
 import music_Comedown from "../assets/audio/music_Comedown.mp3";
 import music_WhatItSoundsLike_Sagelune_img from "../assets/audio/music_WhatItSoundsLike_Sagelune_img.jpg";
 import music_WhatItSoundsLike_Sagelune from "../assets/audio/music_WhatItSoundsLike_Sagelune.mp3";
+import heroSlide001 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
 
 export type Theme = "dark" | "light";
 
@@ -138,10 +139,7 @@ export default function App() {
   
   const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
   
-  const assetsToPreload = useMemo(
-    () => ["../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg"],
-    []
-  );
+  const assetsToPreload = useMemo(() => [heroSlide001], []);
 
   const playableTrackIndexes = useMemo(() => {
     if (!favoritesOnly) return musicTracks.map((_, index) => index);

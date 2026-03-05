@@ -117,7 +117,7 @@ export default function CookieBanner() {
         <div className="cookie-banner-header">
           <a href="/" className="flex items-center space-x-2 group">
             <div className="relative">
-              <img src={logo} alt="Logo" className="cookieLogo relative h-auto w-[100px]" />
+              <img src={logo} alt="Logo" width={100} height={28} className="cookieLogo relative h-auto w-[100px]" />
             </div>
           </a>
           <h3>Gestion du consentement</h3>

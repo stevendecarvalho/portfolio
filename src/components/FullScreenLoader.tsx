@@ -28,7 +28,7 @@ export default function FullScreenLoader({ progress }: { progress: number }) {
           {/* Logo + glow */}
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-cyan-400/40 blur-2xl opacity-70" />
-            <img src={logo} alt="Logo" className="relative mx-auto h-16 w-auto" />
+            <img src={logo} alt="Logo" width={256} height={64} className="relative mx-auto h-16 w-auto" />
           </div>
 
           <p className="mt-6 text-white/70 font-orbitron tracking-wide">

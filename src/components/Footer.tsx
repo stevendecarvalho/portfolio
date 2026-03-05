@@ -27,7 +27,7 @@ export default function Footer() {
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2 group">
               <div className="relative">
-                <img src={logo} alt="Logo" className="relative h-auto w-[150px]" />
+                <img src={logo} alt="Logo" width={150} height={40} className="relative h-auto w-[150px]" />
               </div>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed">
@@ -50,7 +50,7 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-white font-orbitron">Liens Rapides</h4>
+            <h3 className="text-lg font-semibold text-white font-orbitron">Liens Rapides</h3>
             <ul className="space-y-2">
               {quickLinks.map((l) => (
                 <li key={l.href}>
@@ -66,7 +66,7 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-white font-orbitron">Mes services</h4>
+            <h3 className="text-lg font-semibold text-white font-orbitron">Mes services</h3>
             <ul className="space-y-2">
               {/* <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/services">Expertises</Link></li>
               <li><Link className="text-white/70 hover:text-cyan-400 transition-colors text-sm" to="/projets">Mes projets</Link></li>
@@ -76,7 +76,7 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-white font-orbitron">Contact</h4>
+            <h3 className="text-lg font-semibold text-white font-orbitron">Contact</h3>
             <ul className="space-y-3">
               <li className="flex items-start space-x-3 text-sm">
                 <Mail className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />

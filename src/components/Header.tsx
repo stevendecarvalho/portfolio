@@ -331,7 +331,7 @@ export default function Header({
           <Link to="/" className="flex shrink-0 items-center space-x-2 group">
             <div className="relative">
               <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-50 transition-opacity bg-cyan-400" />
-              <img src={activeLogo} alt="Logo" className="relative h-8 w-auto" />
+              <img src={activeLogo} alt="Logo" width={128} height={32} className="relative h-8 w-auto" />
             </div>
           </Link>
 
@@ -710,7 +710,7 @@ export default function Header({
         <div className="relative z-10 h-full w-full" onClick={(e) => e.stopPropagation()}>
           <div className="h-20 pl-[30px] pr-[30px] flex items-center justify-between border-b border-cyan-400/20">
             <div className="flex items-center gap-3">
-              <img src={mobileOverlayLogo} alt="Logo" className="h-10 w-auto" />
+              <img src={mobileOverlayLogo} alt="Logo" width={160} height={40} className="h-10 w-auto" />
             </div>
 
             <div className="flex items-center gap-3">
