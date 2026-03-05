@@ -15,6 +15,7 @@ import music_Comedown from "../assets/audio/music_Comedown.mp3";
 import music_WhatItSoundsLike_Sagelune_img from "../assets/audio/music_WhatItSoundsLike_Sagelune_img.jpg";
 import music_WhatItSoundsLike_Sagelune from "../assets/audio/music_WhatItSoundsLike_Sagelune.mp3";
 import heroSlide001 from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
+import sunTransition from "../assets/images/home/sun-transition.png";
 
 export type Theme = "dark" | "light";
 
@@ -110,6 +111,7 @@ function writePreferencesCookie(preferences: UserPreferences) {
 export default function App() {
   const location = useLocation();
   const previousPathRef = useRef(location.pathname);
+  const [displayedLocation, setDisplayedLocation] = useState(location);
   const initialPreferences = readPreferencesCookie();
 
   const [theme, setTheme] = useState<Theme>(() =>
@@ -178,11 +180,16 @@ export default function App() {
 
     if (previousPathRef.current !== location.pathname) {
       setRouteTransitionActive(true);
-      const timeout = window.setTimeout(() => setRouteTransitionActive(false), 950);
+      const switchTimeout = window.setTimeout(() => setDisplayedLocation(location), 500);
+      const finishTimeout = window.setTimeout(() => setRouteTransitionActive(false), 950);
       previousPathRef.current = location.pathname;
-      return () => window.clearTimeout(timeout);
+
+      return () => {
+        window.clearTimeout(switchTimeout);
+        window.clearTimeout(finishTimeout);
+      };
     }
-  }, [location.pathname]);
+  }, [location]);
   
   useEffect(() => {
     const audio = new Audio(musicTracks[activeTrack]?.src ?? musicTracks[0].src);
@@ -502,7 +509,7 @@ export default function App() {
 
       <div className={`route-cosmic-loader ${routeTransitionActive ? "is-active" : ""}`} aria-hidden="true">
         <img
-          src="/assets/images/home/sun-transition.png"
+          src={sunTransition}
           alt=""
           className="route-cosmic-loader-sun"
           onError={(event) => {
@@ -526,9 +533,9 @@ export default function App() {
         />
 
         <main className="min-h-screen relative">
-          <div key={`warp-${location.pathname}`} className="route-warp-overlay is-active" aria-hidden="true" />
-          <div key={location.pathname} className="route-space-enter">
-            <AppRoutes location={location} />
+          <div key={`warp-${displayedLocation.pathname}`} className="route-warp-overlay is-active" aria-hidden="true" />
+          <div key={displayedLocation.pathname} className="route-space-enter">
+            <AppRoutes location={displayedLocation} />
           </div>
         </main>
 

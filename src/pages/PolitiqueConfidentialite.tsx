@@ -4,12 +4,34 @@ import privacyLight from "../assets/images/home/steven-de-carvalho-visual-creato
 
 const sections = [
   {
+    title: "Responsable du traitement",
+    content: (
+      <>
+        <p>
+          Les données personnelles collectées sur ce site sont traitées par :
+        </p>
+        <p>
+          <strong>Steven DE CARVALHO</strong><br/>
+          Entrepreneur individuel – Direction artistique et création digitale<br/>
+          Email : <a href="mailto:contact@stevendecarvalho.com">contact@stevendecarvalho.com</a>
+        </p>
+      </>
+    ),
+  },
+  {
     title: "Données collectées",
     content: (
       <>
         <p>
-          Nous collectons uniquement les données strictement nécessaires au fonctionnement du site et à la gestion des demandes
-          de contact (par exemple : email, message, informations techniques de navigation).
+          Selon votre utilisation du site, les données suivantes peuvent être collectées :
+        </p>
+        <ul className="list-disc pl-6">
+          <li>Informations transmises via les formulaires de contact (nom, email, message).</li>
+          <li>Données techniques de navigation (adresse IP, navigateur, appareil).</li>
+          <li>Données statistiques anonymisées liées à la fréquentation du site.</li>
+        </ul>
+        <p>
+          Ces données sont collectées uniquement lorsque cela est nécessaire au fonctionnement du site ou avec votre consentement lorsque la réglementation l’exige.
         </p>
       </>
     ),
@@ -18,11 +40,17 @@ const sections = [
     title: "Finalités du traitement",
     content: (
       <>
-        <ul className="list-disc space-y-2 pl-6">
-          <li>Répondre aux messages envoyés via les canaux de contact.</li>
+        <p>
+          Les données collectées peuvent être utilisées pour :
+        </p>
+        <ul className="list-disc pl-6">
+          <li>Répondre aux demandes envoyées via les formulaires de contact.</li>
           <li>Assurer le bon fonctionnement et la sécurité du site.</li>
-          <li>Mesurer l’audience de manière agrégée, lorsque cela est autorisé.</li>
+          <li>Analyser la fréquentation du site afin d’améliorer l’expérience utilisateur.</li>
         </ul>
+        <p>
+          Les données ne sont jamais vendues ni utilisées à des fins commerciales sans consentement.
+        </p>
       </>
     ),
   },
@@ -31,9 +59,12 @@ const sections = [
     content: (
       <>
         <p>
-          Les données sont conservées pendant une durée proportionnée à la finalité poursuivie et conformément aux obligations
-          légales applicables.
+          Les données sont conservées pour une durée proportionnée à la finalité du traitement :
         </p>
+        <ul className="list-disc pl-6">
+          <li>Données de contact : 3 ans maximum.</li>
+          <li>Statistiques de navigation : 13 mois maximum.</li>
+        </ul>
       </>
     ),
   },
@@ -42,9 +73,26 @@ const sections = [
     content: (
       <>
         <p>
-          Les données personnelles ne sont ni vendues ni cédées à des tiers à des fins commerciales. Elles peuvent être transmises
-          à des sous-traitants techniques uniquement lorsque cela est nécessaire au fonctionnement du site.
+          Les données personnelles ne sont pas vendues ni cédées à des tiers.
         </p>
+        <p>
+          Elles peuvent être transmises uniquement à des prestataires techniques nécessaires au fonctionnement du site (hébergement, outils d’analyse), dans le respect de la réglementation applicable.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "Sécurité des données",
+    content: (
+      <>
+        <p>
+          Des mesures techniques et organisationnelles sont mises en œuvre pour protéger les données personnelles :
+        </p>
+        <ul className="list-disc pl-6">
+          <li>Connexion sécurisée HTTPS.</li>
+          <li>Accès limité aux données.</li>
+          <li>Hébergement sur des infrastructures sécurisées situées dans l’Union européenne.</li>
+        </ul>
       </>
     ),
   },
@@ -53,10 +101,23 @@ const sections = [
     content: (
       <>
         <p>
-          Conformément à la réglementation, vous disposez de droits d’accès, de rectification, d’effacement, de limitation,
-          d’opposition et de portabilité de vos données, selon les conditions prévues par la loi.
+          Conformément à la réglementation, vous disposez des droits suivants :
         </p>
-        <p>Pour exercer vos droits : <strong>contact@stevendecarvalho.com</strong>.</p>
+        <ul className="list-disc pl-6">
+          <li>Droit d’accès à vos données.</li>
+          <li>Droit de rectification.</li>
+          <li>Droit d’effacement.</li>
+          <li>Droit d’opposition.</li>
+          <li>Droit de limitation du traitement.</li>
+          <li>Droit à la portabilité des données.</li>
+        </ul>
+        <p>
+          Pour exercer vos droits :<br/>
+          <a href="mailto:contact@stevendecarvalho.com">contact@stevendecarvalho.com</a>
+        </p>
+        <p>
+          Une réponse vous sera apportée dans un délai maximum de <strong>30 jours</strong>.
+        </p>
       </>
     ),
   },
@@ -66,8 +127,8 @@ export default function PolitiqueConfidentialite() {
   return (
     <LegalPageLayout
       title="Politique de confidentialité"
-      intro="Cette politique explique quelles données peuvent être traitées lors de votre navigation et comment elles sont protégées."
-      updatedAt="15 mars 2026"
+      intro="Cette politique de confidentialité explique comment stevendecarvalho.com collecte, utilise et protège les données personnelles des utilisateurs conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés."
+      updatedAt="5 mars 2026"
       sections={sections}
       titlebarBackground={{ dark: privacyDark, light: privacyLight }}
     />

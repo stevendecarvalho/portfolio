@@ -54,7 +54,7 @@ export default function LegalPageLayout({ title, intro, sections, updatedAt, tit
           className="legal-titlebar-bg"
         />
         <div className="legal-titlebar-overlay" />
-        <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="legal-titlebar-content relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <h1 className="font-orbitron text-3xl font-bold tracking-wide text-cyan-300 sm:text-4xl">{title}</h1>
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function LegalPageLayout({ title, intro, sections, updatedAt, tit
         <div className="space-y-8">
           {sections.map((section) => (
             <section key={section.title} className="legal-card rounded-none border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-              <h2 className="mb-3 text-lg font-semibold text-cyan-300 sm:text-xl">{section.title}</h2>
+              <h2 className="mb-3 text-lg font-bold text-cyan-300 sm:text-xl">{section.title}</h2>
               <div className="space-y-3 text-sm leading-relaxed text-white/85 sm:text-base">{section.content}</div>
             </section>
           ))}

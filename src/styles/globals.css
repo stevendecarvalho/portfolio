@@ -797,13 +797,35 @@ html[data-theme="light"] .legal-page strong {
   color: rgb(15 23 42 / 88%);
 }
 
+.legal-card a {
+  color:#67e8f9;
+  font-weight: 700;
+}
+
+.legal-card a:hover {
+  text-decoration: underline;
+}
+
+html[data-theme="light"] .legal-card a {
+  color: #0b3a75;
+}
+
 html[data-theme="light"] .legal-card {
   border-color: rgb(13 27 42 / 15%);
   background-color: rgb(255 255 255 / 82%);
 }
 
 .legal-titlebar {
-  min-height: 300px;
+  height: 380px;
+  padding-top: 80px;
+}
+
+.legal-titlebar-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .legal-titlebar-bg {
@@ -891,18 +913,18 @@ html[data-theme="light"] .legal-card {
 }
 
 .route-cosmic-loader.is-active {
-  background: rgb(4 25 60 / 76%);
+  background: rgba(1, 7, 19, 0.85);
   animation: route-cosmic-loader-fade 0.95s ease-out both;
 }
 
 html[data-theme="light"] .route-cosmic-loader.is-active {
-  background: rgb(255 255 255 / 86%);
+  background: rgba(1, 23, 56, 0.85)
 }
 
 .route-cosmic-loader-sun {
   position: absolute;
-  width: 78px;
-  height: 78px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   opacity: 0;
   filter: drop-shadow(0 0 16px rgb(70 180 255 / 55%));
@@ -926,6 +948,10 @@ html[data-theme="light"] .route-cosmic-loader.is-active {
 .route-cosmic-loader-rings .path {
   stroke: #3ea6ff;
   stroke-width: 3;
+}
+
+html[data-theme="light"] .route-cosmic-loader-rings .path {
+  stroke: #ffffff;
 }
 
 .route-cosmic-loader-rings .spinner {
