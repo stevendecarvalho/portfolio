@@ -300,7 +300,17 @@ import serviceCinemaLight from "../assets/images/home/realisations-creation-cont
 
 import alexandre_izzi from "../assets/testimonials/temoignages-alexandre-izzi.jpg";
 import sebastien_vaugeois from "../assets/testimonials/sebastien-vaugeois.jpeg";
+import delphine_loubiere_caramelle from "../assets/testimonials/delphine-loubiere-caramelle.png";
+import mehdi_choonee from "../assets/testimonials/mehdi-choonee.jpg";
+import emma_martins from "../assets/testimonials/ema-martins.png";
+import tristan_taupin from "../assets/testimonials/tristan-taupin.jpg";
+import philippe_colzy from "../assets/testimonials/phillipe-colzy.jpg";
 import laurie_lesseigne from "../assets/testimonials/Laurie-Lesseigne.jpg";
+import annemarie_simon from "../assets/testimonials/anne-marie-simon.png";
+import nicolas_tarot from "../assets/testimonials/nicolas-tarot.png";
+import mai_tran from "../assets/testimonials/mai-tran.png";
+import metodi_rokanov from "../assets/testimonials/metodi-rokanov.png";
+import sylvain_dieudonne from "../assets/testimonials/sylvain-dieudonne.png";
 
 export const testimonials = [
   {
@@ -320,11 +330,91 @@ export const testimonials = [
     rating: 5,
   },
   {
+    initials: "DLC",
+    avatar: delphine_loubiere_caramelle,
+    name: "Delphine LOUBIÈRE CARAMELLE",
+    role: "Professeure de danse - ASLC Danse",
+    text: "Steven a su réaliser un site internet à notre image, et a un sens et un regard créatif et artistique aiguisé. Il cerne très vite ce dont on a besoin. Très professionnel et appliqué dans tous ce qu’il réalise.\n\nNous sommes ravis de notre collaboration avec Steven qui apporte un renouveau technologique et artistique à notre association.",
+    rating: 5,
+  },
+  {
+    initials: "MC",
+    avatar: mehdi_choonee,
+    name: "Mehdi Choonee",
+    role: "E-merchandiser - Autodistribution",
+    text: "Steven est avant tout une personne bienveillante, à l’écoute et qui donne le meilleur de soi-même dans tout ce qu’il entreprend. Il sait faire preuve de recul et place son bien-être et celui de ses proches personnellement comme professionnellement. Avant tout motivé, autonome, méticuleux et qui a ce sens du détail que peu de personnes peuvent avoir.\n\nEn résumé, c’est une personne ambitieuse, bienveillante, et sérieuse !",
+    rating: 5,
+  },
+  {
+    initials: "EM",
+    avatar: emma_martins,
+    name: "Emma MARTINS",
+    role: "Photographe - Entrepreneuse",
+    text: "Steven est une personne passionnée, déterminée et généreux dans tout ce qu’il entreprend. Je suis persuadée que sa détermination l’amènera loin !\n\nBravo pour tout ce que tu as déjà entrepris et hâte de voir les projets à venir… :)",
+    rating: 5,
+  },
+  {
+    initials: "TT",
+    avatar: tristan_taupin,
+    name: "Tristan TAUPIN",
+    role: "Chef Gérant - API Restauration",
+    text: "Steven est un collaborateur très agréable, à l’écoute et il a l’esprit d’équipe. Il s’est investi dans les missions qui lui ont été données.\n\nSteven est très réactif, rapide et trouve toujours des solutions. Il s’est très bien adapté à l’équipe.\n\nJe recommande Steven pour qu’il intègre une équipe à la même hauteur de ses compétences ! Je suis très content d’avoir travaillé avec quelqu’un comme lui dans l’équipe ! Je le recommande vivement !",
+    rating: 5,
+  },
+  {
+    initials: "PC",
+    avatar: philippe_colzy,
+    name: "Philippe COLZY",
+    role: "Consultant Digital - Need Data SAS",
+    text: "Steven a su faire preuve de beaucoup de professionnalisme et de détermination à travers notre projet partagé : Pablo avec Bouygues Construction.\n\nDes sujets complexes sur des nouvelles technologies digitaux auquel Steven a su mesurer facilement les enjeux et s’habituer aux différents modes et processus de développement.\n\nUn jeune homme serviable et très sérieux dans tout ce qu’il entreprend. Je ne lui souhaite que de la réussite dans ces prochains projets.",
+    rating: 5,
+  },
+  {
     initials: "LL",
     avatar: laurie_lesseigne,
     name: "Laurie LESSEIGNE",
     role: "Assistante DA - Agence RJS",
     text: "Steven est quelqu’un de déterminé, toujours prêt à relever les défis qui lui sont confiés. Il est particulièrement minutieux et veille toujours aux moindres détails. \n\n S’il est avant tout autonome, il fait également preuve d’un très grand esprit d’équipe. Sa présence est précieuse, tant par sa personnalité que par sa motivation. Je suis heureuse d’avoir pu collaborer avec Steven au sein de l’agence RJS. Je le recommande vivement !",
+    rating: 5,
+  },
+  {
+    initials: "AMS",
+    avatar: annemarie_simon,
+    name: "Anne-Marie SIMON",
+    role: "Chef de Projets - Agence Porte 7",
+    text: "Un collaborateur précieux. Toujours prêt à relever les challenges ou apporter des solutions sur des sujets complexes.\n\nSteven est une valeur sûre : il aime aller au bout des projets, les optimiser et ne lâche jamais rien. Une constance inébranlable… et une personnalité rare, étonnante tant par sa générosité que par la qualité de son relationnel ou son esprit d’équipe.\n\nUn vrai professionnel et un talent qui s’ignore !",
+    rating: 5,
+  },
+  {
+    initials: "NT",
+    avatar: nicolas_tarot,
+    name: "Nicolas TAROT",
+    role: "Instituteur - Éducation Nationale",
+    text: "Steven est quelqu’un de fiable avec une grande assiduité et un grand sérieux ! Il prend le temps de comprendre le problème, d’y réfléchir et de voir les solutions. Il n’hésite pas à conseiller les personnes en informatique pour corriger leurs mauvaises habitudes.\n\nSeul défaut, son côté perfectionniste !",
+    rating: 5,
+  },
+  {
+    initials: "MT",
+    avatar: mai_tran,
+    name: "Maï TRAN",
+    role: "Chef de Projets SI - CNSA",
+    text: "Personne responsable, chaleureuse et très sincère dans ses propos, Steven a su tirer les différentes opportunités que la CNSA pouvait lui saisir en respectant toutes les contraintes professionnelles qui lui était demandé.\n\nJ’ai été agréablement surprise par son sens du détail, sa soif d’apprentissage et son sens de l’adaptation.\n\nJe recommande très fortement cette généreuse personnalité qui égaie nos journées par son charisme.",
+    rating: 5,
+  },
+  {
+    initials: "MK",
+    avatar: metodi_rokanov,
+    name: "Métodi ROKANOV",
+    role: "Chef de Projets SI - CNSA",
+    text: "Steven s’est pleinement investi dans les différentes missions qui lui ont été confiées, ne manquant pas par ailleurs de faire preuve d’initiatives et d’une détermination sans failles pour atteindre ses objectifs.\n\nConsciencieux, disponible et réactif, Steven a apporté satisfaction pleine et entière à la CNSA.",
+    rating: 5,
+  },
+  {
+    initials: "SD",
+    avatar: sylvain_dieudonne,
+    name: "Sylvain Dieudonné",
+    role: "CEO & Co-Founder - Serjee & Sydelium Consulting",
+    text: "Steven a intégré notre jeune start-up et il a rapidement été à l’aise et a su s’adapter très rapidement à son nouvel environnement de travail. Travaillant parfaitement en autonomie en accomplissant ses missions avec précisions.\n\nImaginatif et curieux, il s’approprie ses tâches et essaie toujours de trouver des solutions. Je le recommande vivement !",
     rating: 5,
   },
 ];

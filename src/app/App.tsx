@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import AppRoutes from "./routes";
 import FullScreenLoader from "../components/FullScreenLoader";
 import ToTopButton from "../components/ToTopButton.tsx";
-import CookieBanner, { OPEN_COOKIE_EVENT } from "../components/CookieBanner.tsx";
+import CookieBanner, { COOKIE_KEY, OPEN_COOKIE_EVENT } from "../components/CookieBanner.tsx";
 import MusicPlaylistModal from "../components/MusicPlaylistModal.tsx";
 
 import music_RidingThruYourCity_img from "../assets/audio/music_RidingThruYourCity_img.jpg";
@@ -65,8 +65,21 @@ function sanitizeFavoriteTracks(indices: number[]) {
   return Array.from(new Set(indices.map(clampTrackIndex)));
 }
 
+function hasFunctionalConsent() {
+  if (typeof window === "undefined") return false;
+
+  try {
+    const savedConsent = window.localStorage.getItem(COOKIE_KEY);
+    if (!savedConsent) return false;
+    const parsed = JSON.parse(savedConsent) as { functional?: boolean };
+    return Boolean(parsed?.functional);
+  } catch {
+    return false;
+  }
+}
+
 function readPreferencesCookie(): Partial<UserPreferences> {
-  if (typeof document === "undefined") return {};
+  if (typeof document === "undefined" || !hasFunctionalConsent()) return {};
   const match = document.cookie
     .split("; ")
     .find((entry) => entry.startsWith(`${PREFERENCES_COOKIE}=`));
@@ -83,7 +96,12 @@ function readPreferencesCookie(): Partial<UserPreferences> {
 }
 
 function writePreferencesCookie(preferences: UserPreferences) {
-  if (typeof document === "undefined") return;
+  if (typeof document === "undefined" || !hasFunctionalConsent()) {
+    if (typeof document !== "undefined") {
+      document.cookie = `${PREFERENCES_COOKIE}=; Max-Age=0; Path=/; SameSite=Lax`;
+    }
+    return;
+  }
   document.cookie = `${PREFERENCES_COOKIE}=${encodeURIComponent(JSON.stringify(preferences))}; Max-Age=${60 * 60 * 24 * 365}; Path=/; SameSite=Lax`;
 }
 

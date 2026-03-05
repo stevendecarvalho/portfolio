@@ -34,6 +34,8 @@ const MOBILE_TESTIMONIAL_BREAKPOINT = 1000;
 const TESTIMONIAL_PREVIEW_LENGTH = 180;
 const PROJECTS_CAROUSEL_DURATION_MS = 24000;
 const PROJECTS_CAROUSEL_HOVER_RATE = 0.5;
+const PROJECTS_CAROUSEL_TOUCH_RATE = 1.8;
+const PROJECTS_CAROUSEL_WHEEL_RATE = 2.2;
 const PROJECTS_CAROUSEL_RATE_LERP = 0.08;
 
 const clientBenefits = [
@@ -270,6 +272,7 @@ export default function Home() {
     let currentPlaybackRate = 1;
     let targetPlaybackRate = 1;
     let frameId: number | null = null;
+    let wheelTimeoutId: number | null = null;
 
     const tick = () => {
       currentPlaybackRate += (targetPlaybackRate - currentPlaybackRate) * PROJECTS_CAROUSEL_RATE_LERP;
@@ -292,15 +295,38 @@ export default function Home() {
 
     const onMouseEnter = () => updatePlaybackRate(PROJECTS_CAROUSEL_HOVER_RATE);
     const onMouseLeave = () => updatePlaybackRate(1);
+    const onTouchStart = () => updatePlaybackRate(PROJECTS_CAROUSEL_TOUCH_RATE);
+    const onTouchEnd = () => updatePlaybackRate(1);
+    const onWheel = () => {
+      if (wheelTimeoutId !== null) {
+        window.clearTimeout(wheelTimeoutId);
+      }
+      updatePlaybackRate(PROJECTS_CAROUSEL_WHEEL_RATE);
+      wheelTimeoutId = window.setTimeout(() => {
+        updatePlaybackRate(1);
+        wheelTimeoutId = null;
+      }, 220);
+    };
 
     container.addEventListener("mouseenter", onMouseEnter);
     container.addEventListener("mouseleave", onMouseLeave);
+    container.addEventListener("touchstart", onTouchStart, { passive: true });
+    container.addEventListener("touchend", onTouchEnd, { passive: true });
+    container.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    container.addEventListener("wheel", onWheel, { passive: true });
 
     return () => {
       container.removeEventListener("mouseenter", onMouseEnter);
       container.removeEventListener("mouseleave", onMouseLeave);
+      container.removeEventListener("touchstart", onTouchStart);
+      container.removeEventListener("touchend", onTouchEnd);
+      container.removeEventListener("touchcancel", onTouchEnd);
+      container.removeEventListener("wheel", onWheel);
       if (frameId !== null) {
         window.cancelAnimationFrame(frameId);
+      }
+      if (wheelTimeoutId !== null) {
+        window.clearTimeout(wheelTimeoutId);
       }
       animation.cancel();
     };
@@ -406,7 +432,7 @@ export default function Home() {
 
       <div className="relative z-10">
       {/* HERO */}
-        <section className="home-hero relative min-h-screen flex items-center justify-center overflow-hidden cosmic-bg">
+        <section className="home-hero relative min-h-[100dvh] md:min-h-screen flex items-center justify-center overflow-hidden cosmic-bg">
           <div className="absolute inset-0">
             {images.map((url, i) => (
               <div

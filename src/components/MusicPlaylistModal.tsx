@@ -141,7 +141,10 @@ export default function MusicPlaylistModal({
                         </span>
                       )}
                     </button>
-                    <strong>{track.title}</strong>
+                    <span className="music-title-texts">
+                      <strong>{track.title}</strong>
+                      <small>{track.artist}</small>
+                    </span>
                   </span>
                   <span className="music-artist">{track.artist}</span>
                   <span className="music-duration">{track.duree}</span>
@@ -200,6 +203,7 @@ export default function MusicPlaylistModal({
               background: `linear-gradient(to right, #1ec8ff 0%, #1ec8ff ${duration > 0 ? (progressValue / duration) * 100 : 0}%, rgba(255, 255, 255, 0.3) ${duration > 0 ? (progressValue / duration) * 100 : 0}%, rgba(255, 255, 255, 0.3) 100%)`,
             }}
             onChange={(event) => onSeek(Number(event.target.value))}
+            onInput={(event) => onSeek(Number((event.target as HTMLInputElement).value))}
             aria-label="Progression de la musique"
           />
           <span>{formatTime(duration)}</span>
@@ -217,6 +221,7 @@ export default function MusicPlaylistModal({
               background: `linear-gradient(to right, #1ec8ff 0%, #1ec8ff ${volume * 100}%, rgba(255, 255, 255, 0.3) ${volume * 100}%, rgba(255, 255, 255, 0.3) 100%)`,
             }}
             onChange={(event) => onVolumeChange(Number(event.target.value))}
+            onInput={(event) => onVolumeChange(Number((event.target as HTMLInputElement).value))}
             aria-label="Volume"
           />
         </div>

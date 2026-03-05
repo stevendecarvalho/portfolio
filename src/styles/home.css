@@ -1,3 +1,9 @@
+@supports (-webkit-touch-callout: none) {
+    section.home-hero {
+        min-height: -webkit-fill-available;
+    }
+}
+
 h1.title-hero-home {
     font-family: Orbitron, Arial, sans-serif;
     color: white;
@@ -765,6 +771,13 @@ img.testimonial-avatar {
     border: 2px solid rgba(34, 211, 238, 0.75);
 }
 
+@media (max-width: 500px) {
+    img.testimonial-avatar {
+        width: 75px;
+        height: 75px;
+    }
+}
+
 p.testimonial-role {
     margin-bottom: 15px;
 }
@@ -821,6 +834,13 @@ div.testimonial-modal {
     background: #020712;
     border: 1px solid rgba(34, 211, 238, 0.35);
     padding: 24px;
+}
+
+@media (max-width: 820px) {
+    div.testimonial-modal {
+        width: calc(100% - 100px);
+        margin: auto;
+    }
 }
 
 button.testimonial-modal-close {
@@ -917,6 +937,26 @@ button.testimonial-modal-dot.is-active {
     button.testimonial-modal-arrow-right {
         right: -6px;
     }
+}
+
+@media (max-width: 500px) {
+    div.testimonial-modal {
+        width: 100%;
+    }
+
+    button.testimonial-modal-arrow-left, button.testimonial-modal-arrow-right {
+        display: none;
+    }
+
+    p.testimonial-modal-text {
+        font-size: 14px;
+        line-height: 22px;
+    }
+}
+
+h3#testimonial-modal-title {
+    border-bottom: 1px solid #0d4f5f;
+    padding-bottom: 15px;
 }
 
 p.testimonial-modal-text {
@@ -1513,9 +1553,41 @@ html[data-theme="light"] .benefit-icon {
 }
 
 .project-device-screen {
-    height: 240px;
     height: 280px;
     position: relative;
+}
+
+@media (max-width: 500px) {
+    .project-device-screen {
+        height: 200px;
+    }
+
+    .project-device-category {
+        font-size: 8px;
+    }
+
+    .project-device-content {
+        padding: 20px;
+    }
+
+    .project-device-content img {
+        height: 25px;
+    }
+
+    .project-device-content h3 {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .project-badge-new {
+        font-size: 10px;
+    }
+
+    .project-device-content p,
+    .project-device-tags span {
+        font-size: 14px;
+        line-height: 22px;
+    }
 }
 
 .project-device-screen::after {

@@ -89,6 +89,7 @@ export default function CookieBanner() {
     setPrefs(next);
     localStorage.setItem(COOKIE_KEY, JSON.stringify(next));
     setVisible(false);
+    window.location.reload();
   };
 
   const summary = useMemo(() => {
@@ -116,7 +117,7 @@ export default function CookieBanner() {
         <div className="cookie-banner-header">
           <a href="/" className="flex items-center space-x-2 group">
             <div className="relative">
-              <img src={logo} alt="Logo" className="relative h-auto w-[100px]" />
+              <img src={logo} alt="Logo" className="cookieLogo relative h-auto w-[100px]" />
             </div>
           </a>
           <h3>Gestion du consentement</h3>
@@ -237,4 +238,4 @@ export default function CookieBanner() {
   );
 }
 
-export { OPEN_COOKIE_EVENT };
+export { COOKIE_KEY, OPEN_COOKIE_EVENT };
