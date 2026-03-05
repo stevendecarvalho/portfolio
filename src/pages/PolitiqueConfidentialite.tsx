@@ -1,4 +1,6 @@
 import LegalPageLayout from "./LegalPageLayout";
+import privacyDark from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-003.jpg";
+import privacyLight from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-003.jpg";
 
 const sections = [
   {
@@ -67,6 +69,7 @@ export default function PolitiqueConfidentialite() {
       intro="Cette politique explique quelles données peuvent être traitées lors de votre navigation et comment elles sont protégées."
       updatedAt="15 mars 2026"
       sections={sections}
+      titlebarBackground={{ dark: privacyDark, light: privacyLight }}
     />
   );
 }

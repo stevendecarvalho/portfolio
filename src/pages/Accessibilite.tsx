@@ -1,4 +1,6 @@
 import LegalPageLayout from "./LegalPageLayout";
+import accessDark from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-002.jpg";
+import accessLight from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-002.jpg";
 
 const sections = [
   {
@@ -62,6 +64,7 @@ export default function Accessibilite() {
       intro="Cette page présente nos engagements en matière d’accessibilité numérique et les moyens de signaler toute difficulté rencontrée lors de la navigation."
       updatedAt="15 mars 2026"
       sections={sections}
+      titlebarBackground={{ dark: accessDark, light: accessLight }}
     />
   );
 }

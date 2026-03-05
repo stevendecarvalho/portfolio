@@ -15,6 +15,10 @@ type LegalPageLayoutProps = {
   intro: string;
   sections: Section[];
   updatedAt: string;
+  titlebarBackground?: {
+    dark: string;
+    light: string;
+  };
 };
 
 const legalPages = [
@@ -25,7 +29,7 @@ const legalPages = [
   { label: "CGU", href: "/cgu" },
 ];
 
-export default function LegalPageLayout({ title, intro, sections, updatedAt }: LegalPageLayoutProps) {
+export default function LegalPageLayout({ title, intro, sections, updatedAt, titlebarBackground }: LegalPageLayoutProps) {
   const [theme, setTheme] = useState<"dark" | "light">(() =>
     document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark",
   );
@@ -44,7 +48,7 @@ export default function LegalPageLayout({ title, intro, sections, updatedAt }: L
     <main className="legal-page relative min-h-screen overflow-hidden bg-cosmic-black text-white">
       <div className="legal-titlebar relative border-b border-white/10">
         <img
-          src={theme === "light" ? heroLight : heroDark}
+          src={theme === "light" ? (titlebarBackground?.light ?? heroLight) : (titlebarBackground?.dark ?? heroDark)}
           alt=""
           aria-hidden="true"
           className="legal-titlebar-bg"
@@ -52,8 +56,6 @@ export default function LegalPageLayout({ title, intro, sections, updatedAt }: L
         <div className="legal-titlebar-overlay" />
         <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <h1 className="font-orbitron text-3xl font-bold tracking-wide text-cyan-300 sm:text-4xl">{title}</h1>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/80 sm:text-base">{intro}</p>
-          <p className="mt-4 text-xs text-white/60">Dernière mise à jour : {updatedAt}</p>
         </div>
       </div>
 
@@ -83,6 +85,11 @@ export default function LegalPageLayout({ title, intro, sections, updatedAt }: L
               </Link>
             ))}
           </nav>
+
+          <div className="mt-6 border-t border-white/10 pt-6">
+            <p className="max-w-3xl text-sm leading-relaxed text-white/80 sm:text-base">{intro}</p>
+            <p className="mt-4 text-xs text-white/60">Dernière mise à jour : {updatedAt}</p>
+          </div>
         </section>
 
         <div className="space-y-8">

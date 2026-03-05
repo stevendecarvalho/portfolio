@@ -822,7 +822,7 @@ html[data-theme="light"] .legal-card {
 
 .legal-shooting-stars {
   position: absolute;
-  inset: 0;
+  inset: 300px 0 0;
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
@@ -878,6 +878,109 @@ html[data-theme="light"] .legal-card {
 
 .route-space-enter {
   animation: route-space-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.route-cosmic-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+}
+
+.route-cosmic-loader.is-active {
+  background: rgb(4 25 60 / 76%);
+  animation: route-cosmic-loader-fade 0.95s ease-out both;
+}
+
+html[data-theme="light"] .route-cosmic-loader.is-active {
+  background: rgb(255 255 255 / 86%);
+}
+
+.route-cosmic-loader-sun {
+  position: absolute;
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  opacity: 0;
+  filter: drop-shadow(0 0 16px rgb(70 180 255 / 55%));
+}
+
+.route-cosmic-loader.is-active .route-cosmic-loader-sun {
+  animation: route-loader-sun 0.9s ease-out;
+}
+
+.route-cosmic-loader-rings {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  opacity: 0;
+}
+
+.route-cosmic-loader.is-active .route-cosmic-loader-rings {
+  animation: route-loader-rings 0.9s ease-out;
+}
+
+.route-cosmic-loader-rings .path {
+  stroke: #3ea6ff;
+  stroke-width: 3;
+}
+
+.route-cosmic-loader-rings .spinner {
+  animation: route-loader-spin 0.9s linear;
+}
+
+.route-cosmic-loader-rings .spinner .path {
+  stroke-dasharray: 176;
+  stroke-dashoffset: 176;
+  animation: route-loader-dash 0.9s ease-in-out;
+}
+
+.route-cosmic-loader-rings .ring .path {
+  stroke: rgb(62 166 255 / 42%);
+  stroke-width: 5;
+  stroke-dasharray: 1100;
+  stroke-dashoffset: 1100;
+}
+
+.route-cosmic-loader.is-active .route-cosmic-loader-rings .ring-1 .path { animation: route-loader-ring 0.55s ease-out 0.1s both; }
+.route-cosmic-loader.is-active .route-cosmic-loader-rings .ring-2 .path { animation: route-loader-ring 0.6s ease-out 0.15s both; }
+.route-cosmic-loader.is-active .route-cosmic-loader-rings .ring-3 .path { animation: route-loader-ring 0.7s ease-out 0.2s both; }
+
+@keyframes route-cosmic-loader-fade {
+  0%, 18% { opacity: 0; }
+  28%, 75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes route-loader-rings {
+  0% { opacity: 0; transform: scale(0.5); }
+  25%, 70% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.25); }
+}
+
+@keyframes route-loader-sun {
+  0% { opacity: 0; transform: scale(0.75); }
+  28%, 70% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.1); }
+}
+
+@keyframes route-loader-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(320deg); }
+}
+
+@keyframes route-loader-dash {
+  0% { stroke-dashoffset: 176; }
+  65% { stroke-dashoffset: 34; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes route-loader-ring {
+  from { stroke-dashoffset: 1100; }
+  to { stroke-dashoffset: 0; }
 }
 
 @keyframes route-space-enter {

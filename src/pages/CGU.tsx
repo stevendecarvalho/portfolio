@@ -1,4 +1,6 @@
 import LegalPageLayout from "./LegalPageLayout";
+import cguDark from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography.jpg";
+import cguLight from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-biography-light.jpg";
 
 const sections = [
   {
@@ -66,6 +68,7 @@ export default function CGU() {
       intro="En accédant à ce site, vous acceptez les présentes conditions d’utilisation. Merci de les lire attentivement."
       updatedAt="15 mars 2026"
       sections={sections}
+      titlebarBackground={{ dark: cguDark, light: cguLight }}
     />
   );
 }

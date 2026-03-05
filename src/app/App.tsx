@@ -109,6 +109,7 @@ function writePreferencesCookie(preferences: UserPreferences) {
 
 export default function App() {
   const location = useLocation();
+  const previousPathRef = useRef(location.pathname);
   const initialPreferences = readPreferencesCookie();
 
   const [theme, setTheme] = useState<Theme>(() =>
@@ -118,6 +119,7 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loaderVisible, setLoaderVisible] = useState(true);
+  const [routeTransitionActive, setRouteTransitionActive] = useState(false);
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [musicEnabled, setMusicEnabled] = useState<boolean>(
@@ -170,6 +172,17 @@ export default function App() {
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+    if (previousPathRef.current !== location.pathname) {
+      setRouteTransitionActive(true);
+      const timeout = window.setTimeout(() => setRouteTransitionActive(false), 950);
+      previousPathRef.current = location.pathname;
+      return () => window.clearTimeout(timeout);
+    }
+  }, [location.pathname]);
   
   useEffect(() => {
     const audio = new Audio(musicTracks[activeTrack]?.src ?? musicTracks[0].src);
@@ -486,6 +499,23 @@ export default function App() {
           <FullScreenLoader progress={progress} />
         </div>
       )}
+
+      <div className={`route-cosmic-loader ${routeTransitionActive ? "is-active" : ""}`} aria-hidden="true">
+        <img
+          src="/assets/images/home/sun-transition.png"
+          alt=""
+          className="route-cosmic-loader-sun"
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+          }}
+        />
+        <svg className="route-cosmic-loader-rings" viewBox="0 0 100 100" overflow="visible">
+          <g className="spinner"><circle className="path" cx="50" cy="50" r="28" fill="none" /></g>
+          <g className="ring ring-1"><circle className="path" cx="50" cy="50" r="74" fill="none" /></g>
+          <g className="ring ring-2"><circle className="path" cx="50" cy="50" r="120" fill="none" /></g>
+          <g className="ring ring-3"><circle className="path" cx="50" cy="50" r="170" fill="none" /></g>
+        </svg>
+      </div>
 
       <div className={["transition-opacity duration-500", ready ? "opacity-100" : "opacity-0"].join(" ")}>
         <Header

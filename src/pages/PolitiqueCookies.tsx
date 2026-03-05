@@ -1,4 +1,6 @@
 import LegalPageLayout from "./LegalPageLayout";
+import cookiesDark from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-002.jpg";
+import cookiesLight from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-004.jpg";
 
 const sections = [
   {
@@ -55,6 +57,7 @@ export default function PolitiqueCookies() {
       intro="Cette page vous informe sur l’utilisation des cookies et autres traceurs, ainsi que sur vos choix en matière de consentement."
       updatedAt="15 mars 2026"
       sections={sections}
+      titlebarBackground={{ dark: cookiesDark, light: cookiesLight }}
     />
   );
 }

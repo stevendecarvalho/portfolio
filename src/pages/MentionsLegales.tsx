@@ -1,4 +1,6 @@
 import LegalPageLayout from "./LegalPageLayout";
+import mentionsDark from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
+import mentionsLight from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-001.jpg";
 
 const sections = [
   {
@@ -60,6 +62,7 @@ export default function MentionsLegales() {
       intro="Conformément à la réglementation en vigueur, vous trouverez ci-dessous les informations légales concernant l’édition et l’exploitation de ce site."
       updatedAt="15 mars 2026"
       sections={sections}
+      titlebarBackground={{ dark: mentionsDark, light: mentionsLight }}
     />
   );
 }
