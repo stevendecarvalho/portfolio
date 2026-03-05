@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import AppRoutes from "./routes";
@@ -107,6 +108,7 @@ function writePreferencesCookie(preferences: UserPreferences) {
 }
 
 export default function App() {
+  const location = useLocation();
   const initialPreferences = readPreferencesCookie();
 
   const [theme, setTheme] = useState<Theme>(() =>
@@ -493,8 +495,11 @@ export default function App() {
           onOpenPlaylist={() => setPlaylistOpen(true)}
         />
 
-        <main className="min-h-screen">
-          <AppRoutes />
+        <main className="min-h-screen relative">
+          <div key={`warp-${location.pathname}`} className="route-warp-overlay is-active" aria-hidden="true" />
+          <div key={location.pathname} className="route-space-enter">
+            <AppRoutes location={location} />
+          </div>
         </main>
 
         <Footer />

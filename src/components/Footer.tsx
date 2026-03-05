@@ -97,10 +97,12 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-white/60 text-sm">© 2017 - {new Date().getFullYear()} Steven DE CARVALHO. Tous droits réservés.</p>
-            <div className="flex space-x-6 text-sm">
-              {/* <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/mentions-legales">Mentions légales</Link>
-              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/confidentialite">Confidentialité</Link>
-              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/cookies">Cookies</Link> */}
+            <div className="flex flex-wrap justify-center gap-4 text-sm md:justify-end">
+              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/mentions-legales">Mentions légales</Link>
+              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/accessibilite">Accessibilité</Link>
+              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/politique-confidentialite">Confidentialité</Link>
+              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/politique-cookies">Cookies</Link>
+              <Link className="text-white/60 hover:text-cyan-400 transition-colors" to="/cgu">CGU</Link>
             </div>
           </div>
         </div>
