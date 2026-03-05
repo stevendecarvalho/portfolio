@@ -1,5 +1,5 @@
-const STATIC_CACHE = "portfolio-static-v1";
-const ASSET_CACHE = "portfolio-assets-v1";
+const STATIC_CACHE = "portfolio-static-v2";
+const ASSET_CACHE = "portfolio-assets-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -25,12 +25,18 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
 
-  const isStaticAsset = /\.(?:js|css|png|jpg|jpeg|webp|svg|mp4|mp3|woff2?)$/i.test(new URL(request.url).pathname);
+  const url = new URL(request.url);
+  const isSameOrigin = url.origin === self.location.origin;
+
+  if (!isSameOrigin) return;
+
+  const isStaticAsset = /\.(?:js|css|png|jpg|jpeg|webp|svg|mp4|mp3|woff2?)$/i.test(url.pathname);
 
   if (isStaticAsset) {
     event.respondWith(
       caches.open(ASSET_CACHE).then(async (cache) => {
         const cached = await cache.match(request);
+
         const network = fetch(request)
           .then((response) => {
             if (response.ok && response.status !== 206 && response.type !== "opaque") {
@@ -46,10 +52,12 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    fetch(request).catch(async () => {
-      const cache = await caches.open(STATIC_CACHE);
-      return cache.match("/index.html");
-    })
-  );
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request).catch(async () => {
+        const cache = await caches.open(STATIC_CACHE);
+        return cache.match("/index.html");
+      })
+    );
+  }
 });
