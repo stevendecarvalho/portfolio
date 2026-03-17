@@ -15,6 +15,7 @@ type LegalPageLayoutProps = {
   intro: string;
   sections: Section[];
   updatedAt: string;
+  seoDescription?: string;
   titlebarBackground?: {
     dark: string;
     light: string;
@@ -29,7 +30,7 @@ const legalPages = [
   { label: "CGU", href: "/cgu" },
 ];
 
-export default function LegalPageLayout({ title, intro, sections, updatedAt, titlebarBackground }: LegalPageLayoutProps) {
+export default function LegalPageLayout({ title, intro, sections, updatedAt, seoDescription, titlebarBackground }: LegalPageLayoutProps) {
   const [theme, setTheme] = useState<"dark" | "light">(() =>
     document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark",
   );
@@ -43,6 +44,30 @@ export default function LegalPageLayout({ title, intro, sections, updatedAt, tit
     observer.observe(html, { attributes: true, attributeFilter: ["data-theme"] });
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const previousTitle = document.title;
+    const nextTitle = `${title} | Steven DE CARVALHO`;
+    document.title = nextTitle;
+
+    const descriptionValue = seoDescription ?? intro;
+    const updateMeta = (name: string, content: string) => {
+      let element = document.head.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute("name", name);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("content", content);
+    };
+
+    updateMeta("description", descriptionValue);
+    updateMeta("robots", "index,follow");
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [intro, seoDescription, title]);
 
   return (
     <main className="legal-page relative min-h-screen overflow-hidden bg-cosmic-black text-white">

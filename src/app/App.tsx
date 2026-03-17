@@ -176,6 +176,26 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
+    const pathToBodyId: Record<string, string> = {
+      "/": "home",
+      "/mentions-legales": "mentions-legales",
+      "/accessibilite": "accessibilite",
+      "/politique-confidentialite": "politique-confidentialite",
+      "/politique-cookies": "politique-cookies",
+      "/cgu": "cgu",
+    };
+
+    const nextId = pathToBodyId[location.pathname] ?? "page";
+    document.body.id = nextId;
+
+    return () => {
+      if (document.body.id === nextId) {
+        document.body.removeAttribute("id");
+      }
+    };
+  }, [location.pathname]);
+
+  useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 
     if (previousPathRef.current !== location.pathname) {

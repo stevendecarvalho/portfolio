@@ -1,7 +1,12 @@
 @supports (-webkit-touch-callout: none) {
-    section.home-hero {
+    section.home-hero.home-hero--viewport {
         min-height: -webkit-fill-available;
     }
+}
+
+section.home-hero.home-hero--viewport {
+    min-height: 100svh;
+    min-height: 100dvh;
 }
 
 h1.title-hero-home {
@@ -894,6 +899,10 @@ div.testimonial-modal-dots {
     gap: 10px;
 }
 
+div.testimonial-modal-mobile-controls {
+    display: none;
+}
+
 button.testimonial-modal-dot {
     width: 10px;
     height: 10px;
@@ -946,6 +955,25 @@ button.testimonial-modal-dot.is-active {
 
     button.testimonial-modal-arrow-left, button.testimonial-modal-arrow-right {
         display: none;
+    }
+
+    div.testimonial-modal-dots {
+        display: none;
+    }
+
+    div.testimonial-modal-mobile-controls {
+        grid-column: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    div.testimonial-modal-mobile-controls span {
+        color: rgba(255, 255, 255, 0.82);
+        font-weight: 600;
+        min-width: 72px;
+        text-align: center;
     }
 
     p.testimonial-modal-text {
@@ -1038,6 +1066,10 @@ html[data-theme="light"] button.testimonial-modal-dot {
 html[data-theme="light"] button.testimonial-modal-dot.is-active {
     background: rgba(32, 87, 150, 0.9);
     border-color: rgba(32, 87, 150, 0.9);
+}
+
+html[data-theme="light"] div.testimonial-modal-mobile-controls span {
+    color: #0d1b2a;
 }
 
 section.home-trusted-showcase {
@@ -1484,6 +1516,12 @@ html[data-theme="light"] .benefit-icon {
     justify-content: center;
     align-items: center;
     gap: 14px;
+}
+
+div.benefits-scroll-column--mobile,
+div.testimonial-modal-shell,
+section.client-logos-section div.grid.gap-8.pt-\[45px\].pb-\[45px\] {
+    touch-action: pan-y;
 }
 
 .benefits-mobile-controls span {

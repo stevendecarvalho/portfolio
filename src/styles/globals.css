@@ -309,6 +309,12 @@ html[data-theme="light"] .mouse-follower {
   transform: translateY(0) scale(1);
 }
 
+body.testimonial-modal-open .floating-actions {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .to-top-button,
 .cookie-manager-button {
   width: 58px;
@@ -785,6 +791,10 @@ button.music-cover-wrap {
     width: 18px;
     height: 18px;
   }
+
+  .music-volume-wrap {
+    display: none;
+  }
 }
 
 @media (max-width: 650px) {
@@ -1084,4 +1094,12 @@ html[data-theme="light"] .legal-titlebar-overlay {
 html[data-theme="light"] .legal-shooting-stars span {
   background: #0f172a;
   box-shadow: 0 0 5px rgba(15, 23, 42, 0.45);
+}
+
+html[data-theme="light"] body#mentions-legales span.px-2.text-white\/45,
+html[data-theme="light"] body#accessibilite span.px-2.text-white\/45,
+html[data-theme="light"] body#politique-confidentialite span.px-2.text-white\/45,
+html[data-theme="light"] body#politique-cookies span.px-2.text-white\/45,
+html[data-theme="light"] body#cgu span.px-2.text-white\/45 {
+  color: rgb(15 23 42 / 88%);
 }

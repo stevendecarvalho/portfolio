@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type TouchEvent as ReactTouchEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
@@ -37,6 +37,7 @@ const PROJECTS_CAROUSEL_HOVER_RATE = 0.5;
 const PROJECTS_CAROUSEL_TOUCH_RATE = 1.8;
 const PROJECTS_CAROUSEL_WHEEL_RATE = 2.2;
 const PROJECTS_CAROUSEL_RATE_LERP = 0.08;
+const SWIPE_THRESHOLD_PX = 45;
 
 const clientBenefits = [
   {
@@ -125,6 +126,9 @@ export default function Home() {
   const projectsCarouselTrackRef = useRef<HTMLDivElement | null>(null);
   const [benefitSlideIndex, setBenefitSlideIndex] = useState(0);
   const [activeBenefitIndexDesktop, setActiveBenefitIndexDesktop] = useState(0);
+  const testimonialsTouchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const testimonialsModalTouchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const benefitsTouchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const projectCards = useMemo(
     () => [
@@ -295,8 +299,45 @@ export default function Home() {
 
     const onMouseEnter = () => updatePlaybackRate(PROJECTS_CAROUSEL_HOVER_RATE);
     const onMouseLeave = () => updatePlaybackRate(1);
-    const onTouchStart = () => updatePlaybackRate(PROJECTS_CAROUSEL_TOUCH_RATE);
-    const onTouchEnd = () => updatePlaybackRate(1);
+    let isTouchDragging = false;
+    let touchX = 0;
+    let touchY = 0;
+
+    const onTouchStart = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      isTouchDragging = true;
+      touchX = touch.clientX;
+      touchY = touch.clientY;
+      updatePlaybackRate(PROJECTS_CAROUSEL_TOUCH_RATE);
+      animation.pause();
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (!isTouchDragging) return;
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      const deltaX = touch.clientX - touchX;
+      const deltaY = touch.clientY - touchY;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        event.preventDefault();
+        const currentTime = Number(animation.currentTime ?? 0);
+        animation.currentTime = Math.max(0, currentTime - deltaX * 16);
+      }
+
+      touchX = touch.clientX;
+      touchY = touch.clientY;
+    };
+
+    const onTouchEnd = () => {
+      isTouchDragging = false;
+      updatePlaybackRate(1);
+      animation.play();
+    };
+
     const onWheel = () => {
       if (wheelTimeoutId !== null) {
         window.clearTimeout(wheelTimeoutId);
@@ -310,6 +351,7 @@ export default function Home() {
 
     container.addEventListener("mouseenter", onMouseEnter);
     container.addEventListener("mouseleave", onMouseLeave);
+    container.addEventListener("touchmove", onTouchMove, { passive: false });
     container.addEventListener("touchstart", onTouchStart, { passive: true });
     container.addEventListener("touchend", onTouchEnd, { passive: true });
     container.addEventListener("touchcancel", onTouchEnd, { passive: true });
@@ -318,6 +360,7 @@ export default function Home() {
     return () => {
       container.removeEventListener("mouseenter", onMouseEnter);
       container.removeEventListener("mouseleave", onMouseLeave);
+      container.removeEventListener("touchmove", onTouchMove);
       container.removeEventListener("touchstart", onTouchStart);
       container.removeEventListener("touchend", onTouchEnd);
       container.removeEventListener("touchcancel", onTouchEnd);
@@ -364,6 +407,13 @@ export default function Home() {
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeTestimonialTab]);
+
+  useEffect(() => {
+    document.body.classList.toggle("testimonial-modal-open", activeTestimonialTab !== null);
+    return () => {
+      document.body.classList.remove("testimonial-modal-open");
     };
   }, [activeTestimonialTab]);
 
@@ -422,6 +472,31 @@ export default function Home() {
     });
   };
 
+  const handleSwipe = (
+    touchStart: { x: number; y: number } | null,
+    onNext: () => void,
+    onPrev: () => void,
+    event: ReactTouchEvent<HTMLDivElement>,
+  ) => {
+    if (!touchStart) return;
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD_PX || Math.abs(deltaX) <= Math.abs(deltaY)) {
+      return;
+    }
+
+    if (deltaX < 0) {
+      onNext();
+      return;
+    }
+
+    onPrev();
+  };
+
   return (
     <div className="home-page min-h-screen relative">
       <div className="shooting-stars" aria-hidden="true">
@@ -431,8 +506,8 @@ export default function Home() {
       </div>
 
       <div className="relative z-10">
-      {/* HERO */}
-        <section className="home-hero relative min-h-[100dvh] md:min-h-screen flex items-center justify-center overflow-hidden cosmic-bg">
+      {/* HERO */}        
+        <section className="home-hero home-hero--viewport relative md:min-h-screen flex items-center justify-center overflow-hidden cosmic-bg">
           <div className="absolute inset-0">
             {images.map((url, i) => (
               <div
@@ -620,7 +695,22 @@ export default function Home() {
                 })}
               </div>
 
-              <div className="benefits-scroll-column benefits-scroll-column--mobile">
+              <div
+                className="benefits-scroll-column benefits-scroll-column--mobile"
+                onTouchStart={(event) => {
+                  const touch = event.touches[0];
+                  benefitsTouchStartRef.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
+                }}
+                onTouchEnd={(event) => {
+                  handleSwipe(
+                    benefitsTouchStartRef.current,
+                    () => setBenefitSlideIndex((benefitSlideIndex + 1) % clientBenefits.length),
+                    () => setBenefitSlideIndex((benefitSlideIndex - 1 + clientBenefits.length) % clientBenefits.length),
+                    event,
+                  );
+                  benefitsTouchStartRef.current = null;
+                }}
+              >
                 <article key={activeBenefit.title} className="benefit-card">
                   <div className="backdrop-blur-[10px]">
                     <div className="benefit-card-top">
@@ -821,7 +911,22 @@ export default function Home() {
               </div>
             </div>
 
-            <div className={`grid gap-8 pt-[45px] pb-[45px] ${isMobileTestimonials ? "grid-cols-1" : "grid-cols-1 md:grid-cols-3"}`}>
+            <div
+              className={`grid gap-8 pt-[45px] pb-[45px] ${isMobileTestimonials ? "grid-cols-1" : "grid-cols-1 md:grid-cols-3"}`}
+              onTouchStart={(event) => {
+                const touch = event.touches[0];
+                testimonialsTouchStartRef.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
+              }}
+              onTouchEnd={(event) => {
+                handleSwipe(
+                  testimonialsTouchStartRef.current,
+                  () => setTestimonialIndex((testimonialIndex + 1) % testimonials.length),
+                  () => setTestimonialIndex((testimonialIndex - 1 + testimonials.length) % testimonials.length),
+                  event,
+                );
+                testimonialsTouchStartRef.current = null;
+              }}
+            >
               {displayedTestimonials.map((t) => {
                 const normalizedText = normalizeTestimonialText(t.text);
                 const preview = getPreview(normalizedText);
@@ -872,7 +977,22 @@ export default function Home() {
 
           {activeTestimonialTab !== null && (
             <div className="testimonial-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="testimonial-modal-title">
-              <div className="testimonial-modal-shell">
+              <div
+                className="testimonial-modal-shell"
+                onTouchStart={(event) => {
+                  const touch = event.touches[0];
+                  testimonialsModalTouchStartRef.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
+                }}
+                onTouchEnd={(event) => {
+                  handleSwipe(
+                    testimonialsModalTouchStartRef.current,
+                    goToNextTestimonial,
+                    goToPreviousTestimonial,
+                    event,
+                  );
+                  testimonialsModalTouchStartRef.current = null;
+                }}
+              >
                 <button
                   type="button"
                   className="testimonial-modal-arrow testimonial-modal-arrow-left"
@@ -929,6 +1049,26 @@ export default function Home() {
                       aria-current={activeTestimonialTab === i ? "true" : undefined}
                     />
                   ))}
+                </div>
+
+                <div className="testimonial-modal-mobile-controls" aria-label="Navigation mobile des témoignages">
+                  <button
+                    type="button"
+                    className="testimonial-nav-button"
+                    onClick={goToPreviousTestimonial}
+                    aria-label="Voir le témoignage précédent"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
+                  <span>{(activeTestimonialTab ?? 0) + 1} / {testimonials.length}</span>
+                  <button
+                    type="button"
+                    className="testimonial-nav-button"
+                    onClick={goToNextTestimonial}
+                    aria-label="Voir le témoignage suivant"
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
                 </div>
               </div>
               <button
