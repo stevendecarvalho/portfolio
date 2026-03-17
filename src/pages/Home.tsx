@@ -1060,7 +1060,7 @@ export default function Home() {
         </section>
 
         {/* CTA */}
-        <section className="py-20 cosmic-bg relative overflow-hidden">
+        <section className="py-20 cosmic-bg cta relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
           </div>

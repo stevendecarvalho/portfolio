@@ -1,6 +1,6 @@
 import LegalPageLayout from "./LegalPageLayout";
-import mentionsDark from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-001.jpg";
-import mentionsLight from "../assets/images/home/steven-de-carvalho-visual-creator-paris-home-slide-light-001.jpg";
+import mentionsDark from "../assets/images/legals/steven-de-carvalho-visual-creator-paris-mentions-legales-slide-dark-001.jpg";
+import mentionsLight from "../assets/images/legals/steven-de-carvalho-visual-creator-paris-mentions-legales-slide-light-001.jpg";
 
 const sections = [
   {
